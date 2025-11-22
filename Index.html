@@ -371,20 +371,23 @@
     .hero-visual {
       position: relative;
       min-height: 260px;
-      display: grid;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
+    /* Oval frame */
     .stack-orbit {
-      position: absolute;
-      inset: -5%;
+      position: relative;
+      width: 320px;
+      height: 220px;
       filter: drop-shadow(0 22px 60px rgba(15, 23, 42, 1));
     }
 
     .stack-orbit::before {
       content: "";
       position: absolute;
-      inset: 18%;
+      inset: 0;
       border-radius: 999px;
       border: 1px dashed rgba(148, 163, 184, 0.5);
       opacity: 0.4;
@@ -392,9 +395,8 @@
 
     .stack-orbit-glow {
       position: absolute;
-      width: 250px;
-      height: 250px;
-      border-radius: 999px;
+      inset: 12%;
+      border-radius: inherit;
       background:
         radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.4), transparent 60%),
         radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.45), transparent 60%);
@@ -405,6 +407,8 @@
 
     .stack-card {
       position: absolute;
+      top: 50%;
+      left: 50%;
       width: 260px;
       max-width: 90%;
       padding: 16px 18px;
@@ -437,12 +441,12 @@
     }
 
     .stack-card-main {
-      z-index: 1;
-      transform: translateY(0) rotate(-1deg);
+      z-index: 3;
+      transform: translate(-50%, -50%) rotate(-1deg);
     }
 
     .stack-card-main:hover {
-      transform: translateY(-4px) scale(1.015) rotate(-0.3deg);
+      transform: translate(-50%, -54%) scale(1.015) rotate(-0.3deg);
       border-color: rgba(56, 189, 248, 0.9);
       box-shadow:
         0 18px 45px rgba(8, 47, 73, 1),
@@ -450,15 +454,15 @@
     }
 
     .stack-card-secondary {
-      z-index: 0;
-      transform: translate(18px, 26px) rotate(4deg);
+      z-index: 2;
       opacity: 0.85;
+      transform: translate(calc(-50% + 18px), calc(-50% + 26px)) rotate(4deg);
     }
 
     .stack-card-tertiary {
-      z-index: 0;
-      transform: translate(-16px, -26px) rotate(-6deg);
+      z-index: 1;
       opacity: 0.7;
+      transform: translate(calc(-50% - 16px), calc(-50% - 26px)) rotate(-6deg);
     }
 
     .stack-card-header {
@@ -560,6 +564,41 @@
 
     .stack-timeline-desc {
       color: #9ca3af;
+    }
+
+    /* Rotate button */
+    .stack-rotate-btn {
+      position: absolute;
+      bottom: -6px;
+      right: -6px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at 0 0, #38bdf8, #0ea5e9);
+      box-shadow:
+        0 10px 24px rgba(15, 23, 42, 0.95),
+        0 0 0 1px rgba(59, 130, 246, 0.7);
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      color: #020617;
+      cursor: pointer;
+      transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+    }
+
+    .stack-rotate-btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 14px 30px rgba(8, 47, 73, 1),
+        0 0 0 1px rgba(56, 189, 248, 0.9);
+    }
+
+    .stack-rotate-btn:active {
+      transform: translateY(0);
+      box-shadow:
+        0 8px 18px rgba(8, 47, 73, 0.9),
+        0 0 0 1px rgba(56, 189, 248, 0.8);
     }
 
     /* SECTION WRAPPERS */
@@ -1066,6 +1105,16 @@
             </div>
           </article>
         </div>
+
+        <button
+          type="button"
+          class="stack-rotate-btn"
+          id="stackRotateBtn"
+          aria-label="Rotate cards"
+          title="Rotate cards"
+        >
+          ⟳
+        </button>
       </div>
     </section>
 
@@ -1319,7 +1368,6 @@
               <span class="card-badge">Week 1</span>
             </div>
             <div class="card-body">
-              <!-- TODO: Replace this with your own reflection or creative piece -->
               Short reflection on how I entered the course, my starting
               expectations, and what I want my portfolio to look like by the end
               of the semester.
@@ -1343,7 +1391,6 @@
               <span class="card-badge">Week 2</span>
             </div>
             <div class="card-body">
-              <!-- TODO: Describe your chosen creative or essay output -->
               I chose the creative version and wrote a piece that connected the
               topic to my own experience as a student learning technology.
             </div>
@@ -1366,7 +1413,6 @@
               <span class="card-badge">Week 3</span>
             </div>
             <div class="card-body">
-              <!-- TODO: Summarize the actual reflection you wrote -->
               A reflection on how I balance time, procrastination, and sudden
               waves of productivity, especially around coding tasks.
             </div>
@@ -1389,7 +1435,6 @@
               <span class="card-badge">Week 4</span>
             </div>
             <div class="card-body">
-              <!-- TODO: Replace with actual group work description -->
               A short documentation of our group activity, my role in it, and
               how we divided tasks among members.
             </div>
@@ -1412,7 +1457,6 @@
               <span class="card-badge">Week 5</span>
             </div>
             <div class="card-body">
-              <!-- TODO: Describe your midterm related work -->
               A summary of my midterm review strategies, plus any reviewer or
               study aid I created and how it helped.
             </div>
@@ -1435,7 +1479,6 @@
               <span class="card-badge">Week 6</span>
             </div>
             <div class="card-body">
-              <!-- TODO: Add your own check in -->
               A short status update on how many outputs I have added to this
               site and what is still pending.
             </div>
@@ -1641,34 +1684,33 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    // Optional: Slight parallax on hero stack when moving mouse
-    const heroVisual = document.querySelector(".hero-visual");
-    const stackCards = document.querySelectorAll(".stack-card");
-    if (heroVisual && stackCards.length) {
-      heroVisual.addEventListener("mousemove", (e) => {
-        const rect = heroVisual.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
+    // Click-to-rotate stack cards
+    const stackCards = Array.from(document.querySelectorAll(".stack-card"));
+    const rotateBtn = document.getElementById("stackRotateBtn");
+    const roleClasses = ["stack-card-main", "stack-card-secondary", "stack-card-tertiary"];
 
-        stackCards.forEach((card, index) => {
-          const depth = index + 1;
-          const translateX = x * depth * 6;
-          const translateY = y * depth * 6;
-          card.style.transform =
-            "translate(" +
-            translateX +
-            "px, " +
-            translateY +
-            "px) rotate(" +
-            (index === 0 ? -1 : index === 1 ? 4 : -6) +
-            "deg)";
+    if (stackCards.length === 3 && rotateBtn) {
+      let currentFrontIndex = 0; // which card is currently the front one
+
+      function applyStackRoles() {
+        stackCards.forEach((card, idx) => {
+          // remove all role classes first
+          roleClasses.forEach((role) => card.classList.remove(role));
+
+          // determine which role this card should get
+          const roleIndex =
+            (idx - currentFrontIndex + roleClasses.length) % roleClasses.length;
+          card.classList.add(roleClasses[roleIndex]);
         });
-      });
+      }
 
-      heroVisual.addEventListener("mouseleave", () => {
-        stackCards[0].style.transform = "translateY(0) rotate(-1deg)";
-        stackCards[1].style.transform = "translate(18px, 26px) rotate(4deg)";
-        stackCards[2].style.transform = "translate(-16px, -26px) rotate(-6deg)";
+      // initial state
+      applyStackRoles();
+
+      // rotate one step on left click
+      rotateBtn.addEventListener("click", () => {
+        currentFrontIndex = (currentFrontIndex + 1) % roleClasses.length;
+        applyStackRoles();
       });
     }
   </script>
