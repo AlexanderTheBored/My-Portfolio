@@ -1,1 +1,1676 @@
 // My Home Page
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rovel Floriane S. Lumapas | Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #020617;
+      --card-bg: #020617;
+      --card-elevated: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --accent-strong: rgba(56, 189, 248, 0.75);
+      --accent-2: #a855f7;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --chip-bg: rgba(15, 23, 42, 0.9);
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.8);
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --radius-pill: 999px;
+      --transition-fast: 160ms ease-out;
+      --transition-med: 220ms ease-out;
+      --nav-height: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1e293b 0, transparent 55%),
+        radial-gradient(circle at bottom right, #0f172a 0, transparent 55%),
+        linear-gradient(to bottom, #020617 0, #000 60%, #020617 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f2937;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #374151;
+    }
+
+    .page-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 16px 64px;
+    }
+
+    /* NAVBAR */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.96),
+        rgba(15, 23, 42, 0.86),
+        transparent
+      );
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      height: var(--nav-height);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 0 0, #38bdf8, transparent 55%),
+        radial-gradient(circle at 100% 100%, #a855f7, transparent 55%),
+        #020617;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+      display: grid;
+      place-items: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e5e7eb;
+    }
+
+    .nav-title {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .nav-title-main {
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .nav-title-sub {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.83rem;
+    }
+
+    .nav-links a {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: #9ca3af;
+      transition: background var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        transform 120ms ease-out;
+    }
+
+    .nav-links a:hover {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.5);
+      transform: translateY(-1px);
+      color: #e5e7eb;
+    }
+
+    .nav-pill {
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      background: radial-gradient(circle at 0 0, #0f172a, #020617);
+      box-shadow: 0 7px 18px rgba(15, 23, 42, 0.9);
+    }
+
+    .nav-pill span {
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+
+    .nav-pill small {
+      color: #9ca3af;
+    }
+
+    /* HERO */
+    main {
+      margin-top: 18px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: linear-gradient(
+        to right,
+        rgba(15, 23, 42, 0.9),
+        rgba(15, 23, 42, 0.6)
+      );
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.9);
+      margin-bottom: 12px;
+    }
+
+    .hero-tag-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #38bdf8, #0ea5e9);
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+      color: #0b1120;
+      font-weight: 700;
+    }
+
+    .hero-tag-text {
+      font-size: 0.76rem;
+      color: #9ca3af;
+    }
+
+    .hero-tag-handle {
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 4vw, 2.8rem);
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(120deg, #38bdf8, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      max-width: 480px;
+      margin-bottom: 18px;
+    }
+
+    .hero-subtitle strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .chip {
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: var(--chip-bg);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 0.75rem;
+      color: #9ca3af;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #22c55e, #16a34a);
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.22);
+    }
+
+    .chip-ghost {
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 8px 16px;
+      font-size: 0.86rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background var(--transition-med),
+        transform var(--transition-med),
+        box-shadow var(--transition-med),
+        border-color var(--transition-med),
+        color var(--transition-med);
+      background: transparent;
+      color: #e5e7eb;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at 0 0, #38bdf8, #0284c7);
+      box-shadow:
+        0 10px 30px rgba(8, 47, 73, 0.8),
+        0 0 0 1px rgba(59, 130, 246, 0.3);
+      color: #0b1120;
+      font-weight: 600;
+    }
+
+    .btn-primary span {
+      font-size: 1.1rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 16px 40px rgba(8, 47, 73, 0.9),
+        0 0 0 1px rgba(56, 189, 248, 0.6);
+    }
+
+    .btn-ghost {
+      border-color: rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.85);
+      color: #e5e7eb;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.95);
+    }
+
+    .hero-note {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    .hero-note strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    /* HERO VISUAL CARD STACK */
+    .hero-visual {
+      position: relative;
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+    }
+
+    .stack-orbit {
+      position: absolute;
+      inset: -5%;
+      filter: drop-shadow(0 22px 60px rgba(15, 23, 42, 1));
+    }
+
+    .stack-orbit::before {
+      content: "";
+      position: absolute;
+      inset: 18%;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      opacity: 0.4;
+    }
+
+    .stack-orbit-glow {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.4), transparent 60%),
+        radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.45), transparent 60%);
+      mix-blend-mode: screen;
+      opacity: 0.85;
+      filter: blur(2px);
+    }
+
+    .stack-card {
+      position: absolute;
+      width: 260px;
+      max-width: 90%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 0 0, #0f172a, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      transform-origin: center;
+      transition: transform 220ms ease-out, box-shadow 220ms ease-out,
+        border-color 220ms ease-out;
+    }
+
+    .stack-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background-image: linear-gradient(
+        120deg,
+        transparent 0,
+        rgba(148, 163, 184, 0.1) 40%,
+        rgba(148, 163, 184, 0.3) 50%,
+        rgba(148, 163, 184, 0.1) 60%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      animation: shimmer 3.2s infinite;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .stack-card-main {
+      z-index: 1;
+      transform: translateY(0) rotate(-1deg);
+    }
+
+    .stack-card-main:hover {
+      transform: translateY(-4px) scale(1.015) rotate(-0.3deg);
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow:
+        0 18px 45px rgba(8, 47, 73, 1),
+        0 0 0 1px rgba(56, 189, 248, 0.7);
+    }
+
+    .stack-card-secondary {
+      z-index: 0;
+      transform: translate(18px, 26px) rotate(4deg);
+      opacity: 0.85;
+    }
+
+    .stack-card-tertiary {
+      z-index: 0;
+      transform: translate(-16px, -26px) rotate(-6deg);
+      opacity: 0.7;
+    }
+
+    .stack-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .stack-card-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+    }
+
+    .stack-card-status {
+      font-size: 0.7rem;
+      color: #a855f7;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stack-card-status-badge {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #a855f7, #22c55e);
+    }
+
+    .stack-card-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .stack-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .stack-metric-label {
+      font-size: 0.7rem;
+      color: #6b7280;
+    }
+
+    .stack-metric-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .stack-metric-tag {
+      font-size: 0.65rem;
+      color: #9ca3af;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stack-pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #38bdf8, #22c55e);
+    }
+
+    .stack-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 0.73rem;
+      color: #9ca3af;
+    }
+
+    .stack-timeline-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stack-timeline-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: radial-gradient(circle at 0 0, #38bdf8, #0ea5e9);
+    }
+
+    .stack-timeline-label {
+      color: #e5e7eb;
+    }
+
+    .stack-timeline-desc {
+      color: #9ca3af;
+    }
+
+    /* SECTION WRAPPERS */
+    .section {
+      margin-bottom: 26px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .section-pill {
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #6b7280;
+    }
+
+    /* CARD GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-1 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-visual {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .nav-links {
+        display: none;
+      }
+      .nav-inner {
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.9rem;
+      }
+      .nav-pill {
+        font-size: 0.76rem;
+      }
+    }
+
+    /* GENERIC CARD */
+    .card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at 0 0, #020617, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 14px 14px 12px;
+      overflow: hidden;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.9);
+      transition: transform var(--transition-med),
+        box-shadow var(--transition-med),
+        border-color var(--transition-med),
+        background var(--transition-med);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background-image: linear-gradient(
+        120deg,
+        transparent 0,
+        rgba(148, 163, 184, 0.12) 40%,
+        rgba(148, 163, 184, 0.36) 50%,
+        rgba(148, 163, 184, 0.16) 60%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      animation: shimmer 3.8s infinite;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow:
+        0 18px 44px rgba(15, 23, 42, 1),
+        0 0 0 1px rgba(56, 189, 248, 0.5);
+      background: radial-gradient(circle at 0 0, #0f172a, #020617);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .card-subtitle {
+      font-size: 0.76rem;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+
+    .card-badge {
+      font-size: 0.7rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #9ca3af;
+      background: rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .card-body {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+
+    .card-list {
+      list-style: none;
+      font-size: 0.78rem;
+      color: #9ca3af;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .card-list li::before {
+      content: "•";
+      margin-right: 6px;
+      color: #38bdf8;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #9ca3af;
+    }
+
+    .tag-pill {
+      background: rgba(8, 47, 73, 0.85);
+      border-color: rgba(56, 189, 248, 0.8);
+      color: #bae6fd;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      color: #6b7280;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    .card-link span {
+      font-size: 0.85rem;
+    }
+
+    .card-pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.7rem;
+    }
+
+    /* TIMELINE CARD */
+    .timeline {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px 10px;
+      align-items: baseline;
+    }
+
+    .timeline-label {
+      font-size: 0.74rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .timeline-value {
+      color: #e5e7eb;
+    }
+
+    /* REVEAL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px) scale(0.985);
+      transition: opacity 450ms ease-out, transform 450ms ease-out;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* BACK TO TOP */
+    .back-to-top {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.65);
+      background: radial-gradient(circle at 0 0, #38bdf8, #0ea5e9);
+      display: grid;
+      place-items: center;
+      color: #020617;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow:
+        0 14px 30px rgba(15, 23, 42, 0.95),
+        0 0 0 1px rgba(59, 130, 246, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 200ms ease-out, transform 200ms ease-out,
+        box-shadow 200ms ease-out, transform 200ms ease-out;
+      z-index: 40;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      box-shadow:
+        0 18px 38px rgba(8, 47, 73, 1),
+        0 0 0 1px rgba(56, 189, 248, 0.8);
+      transform: translateY(-2px);
+    }
+
+    /* KEYFRAMES */
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="nav-logo">
+          <span>RL</span>
+        </div>
+        <div class="nav-title">
+          <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
+          <div class="nav-title-sub">BSIT Student • University of San Carlos</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#weekly">Weekly Outputs</a>
+        <a href="#skills">Skills</a>
+      </div>
+
+      <div class="nav-pill">
+        <span>Student Portfolio</span>
+        <small>@AlexanderTheBored</small>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div>
+        <div class="hero-tag">
+          <div class="hero-tag-icon">★</div>
+          <div class="hero-tag-text">
+            <span class="hero-tag-handle">@AlexanderTheBored</span>
+            &nbsp;|&nbsp; Turning class requirements into finished projects
+          </div>
+        </div>
+
+        <h1>
+          Hi, I’m <span>Rovel Floriane S. Lumapas</span>
+        </h1>
+        <p class="hero-subtitle">
+          First year <strong>BSIT student</strong> specializing in taking
+          chaotic deadlines, broken ideas, and half written drafts
+          and turning them into
+          <strong>clean, working experiences</strong> on screen.
+        </p>
+
+        <div class="hero-meta">
+          <div class="chip">
+            <span class="chip-dot"></span>
+            Live from Cebu • Always in dev mode
+          </div>
+          <div class="chip chip-ghost">
+            Focus: HTML, CSS, JavaScript, C, basic ML, and way too many drafts
+          </div>
+        </div>
+
+        <div class="hero-cta-row">
+          <button class="btn btn-primary" data-scroll-to="#projects">
+            <span>▸</span> View Featured Work
+          </button>
+          <button class="btn btn-ghost" data-scroll-to="#weekly">
+            Weekly Outputs
+          </button>
+        </div>
+
+        <p class="hero-note">
+          <strong>Note:</strong> This portfolio is built in raw HTML, CSS, and
+          JavaScript. No frameworks, just student brain and caffeine.
+        </p>
+      </div>
+
+      <!-- HERO VISUAL CARD STACK -->
+      <div class="hero-visual">
+        <div class="stack-orbit">
+          <div class="stack-orbit-glow"></div>
+
+          <article class="stack-card stack-card-tertiary">
+            <div class="stack-card-header">
+              <div class="stack-card-title">Snapshot</div>
+              <div class="stack-card-status">
+                <span class="stack-card-status-badge"></span>
+                v1.0 Online
+              </div>
+            </div>
+            <div class="stack-card-grid">
+              <div class="stack-metrics">
+                <div>
+                  <div class="stack-metric-label">Semester</div>
+                  <div class="stack-metric-value">AY 2025</div>
+                </div>
+                <div class="stack-metric-tag">
+                  <span class="stack-pill-dot"></span>
+                  CIS1104 • HCI • GE-PC
+                </div>
+              </div>
+              <div class="stack-timeline">
+                <div class="stack-timeline-item">
+                  <span class="stack-timeline-dot"></span>
+                  <div>
+                    <div class="stack-timeline-label">Mode</div>
+                    <div class="stack-timeline-desc">
+                      Creative + Essay outputs in one hub
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="stack-card stack-card-secondary">
+            <div class="stack-card-header">
+              <div class="stack-card-title">Progress</div>
+              <div class="stack-card-status">
+                <span class="stack-card-status-badge"></span>
+                Tracking
+              </div>
+            </div>
+            <div class="stack-card-grid">
+              <div class="stack-metrics">
+                <div>
+                  <div class="stack-metric-label">Sub-outputs</div>
+                  <div class="stack-metric-value">0 / ?</div>
+                </div>
+                <div class="stack-metric-tag">
+                  <span class="stack-pill-dot"></span>
+                  Auto updates as I add more
+                </div>
+              </div>
+              <div class="stack-timeline">
+                <div class="stack-timeline-item">
+                  <span class="stack-timeline-dot"></span>
+                  <div>
+                    <div class="stack-timeline-label">Goal</div>
+                    <div class="stack-timeline-desc">
+                      One clean card per requirement
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="stack-card stack-card-main">
+            <div class="stack-card-header">
+              <div class="stack-card-title">Current Focus</div>
+              <div class="stack-card-status">
+                <span class="stack-card-status-badge"></span>
+                Portfolio Build
+              </div>
+            </div>
+            <div class="stack-card-grid">
+              <div class="stack-metrics">
+                <div>
+                  <div class="stack-metric-label">This page</div>
+                  <div class="stack-metric-value">HTML • CSS • JS</div>
+                </div>
+                <div class="stack-metric-tag">
+                  <span class="stack-pill-dot"></span>
+                  Card based layout with shimmer animations
+                </div>
+              </div>
+              <div class="stack-timeline">
+                <div class="stack-timeline-item">
+                  <span class="stack-timeline-dot"></span>
+                  <div>
+                    <div class="stack-timeline-label">Up next</div>
+                    <div class="stack-timeline-desc">
+                      Fill in weekly outputs and upload to Canvas as PDF
+                    </div>
+                  </div>
+                </div>
+                <div class="stack-timeline-item">
+                  <span class="stack-timeline-dot"></span>
+                  <div>
+                    <div class="stack-timeline-label">Long term</div>
+                    <div class="stack-timeline-desc">
+                      Connect to future projects like MangaView and hackathon
+                      builds
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="section-header">
+        <h2 class="section-title">About</h2>
+        <div class="section-pill">Block B1 • BSIT • University of San Carlos</div>
+      </div>
+
+      <div class="grid grid-2">
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Who I Am</h3>
+                <p class="card-subtitle">Student, builder, and chronic overthinker</p>
+              </div>
+              <span class="card-badge">
+                Profile
+              </span>
+            </div>
+            <div class="card-body">
+              I am a first year BSIT student who lives inside group chats, Google
+              Docs, and VS Code. I enjoy turning instructions into working
+              outputs and giving every requirement a bit of personality.
+            </div>
+            <ul class="card-list">
+              <li>Comfortable in HTML, CSS, C, and basic Python</li>
+              <li>Can switch between creative writing and technical work</li>
+              <li>Usually the one centralizing files and fixing formatting</li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">Student dev</span>
+              <span class="tag">Class representative energy</span>
+              <span class="tag">Night owl</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">How This Portfolio Works</h3>
+                <p class="card-subtitle">One requirement = one card</p>
+              </div>
+              <span class="card-badge">
+                System
+              </span>
+            </div>
+            <div class="card-body">
+              This site is structured to match how teachers check work. Hero on
+              top, then sections for <strong>featured projects</strong>,
+              <strong>weekly outputs</strong>, and <strong>skills</strong>.
+            </div>
+            <ul class="card-list">
+              <li>
+                Each sub output from the Google Doc becomes a card under
+                Weekly Outputs
+              </li>
+              <li>
+                Major creative pieces and websites are highlighted under
+                Featured Projects
+              </li>
+              <li>
+                The layout is print friendly for PDF export, but still animated
+                on the web
+              </li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">Teacher friendly</span>
+              <span class="tag">Organized</span>
+              <span class="tag">Expandable for future semesters</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="section-header">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="section-pill">Web based work that feels like me</div>
+      </div>
+
+      <div class="grid">
+        <!-- PROJECT CARD 1 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">MangaView (Concept)</h3>
+                <p class="card-subtitle">Personal manga library web app</p>
+              </div>
+              <span class="card-badge">
+                Web
+              </span>
+            </div>
+            <div class="card-body">
+              A card based interface that treats each manga like a collectible.
+              Focus on clean tiles, hover states, and a layout that feels like a
+              bookshelf but behaves like a dashboard.
+            </div>
+            <ul class="card-list">
+              <li>Dark themed interface with soft neon accents</li>
+              <li>Card grid with title, status, and chapter counts</li>
+              <li>Designed to scale with JSON based metadata</li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">HTML</span>
+              <span class="tag tag-pill">CSS</span>
+              <span class="tag">Card design</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-pill">
+                Status: In progress, being reshaped for class safe demo
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT CARD 2 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Networking Information Page</h3>
+                <p class="card-subtitle">
+                  Educational site turning notes into a visual reference
+                </p>
+              </div>
+              <span class="card-badge">
+                School
+              </span>
+            </div>
+            <div class="card-body">
+              A simple, structured page for networking fundamentals where each
+              topic is a card. Clear headings, consistent icons, and enough
+              whitespace to keep information readable.
+            </div>
+            <ul class="card-list">
+              <li>Responsive layout for phone and laptop checking</li>
+              <li>Card based sections for OSI, TCP, and basic concepts</li>
+              <li>Built to be easy to expand in future semesters</li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">HTML</span>
+              <span class="tag tag-pill">CSS</span>
+              <span class="tag">Educational</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-pill">
+                Role: Design, structure, and implementation
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT CARD 3 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Creative Writing & HCI Collabs</h3>
+                <p class="card-subtitle">
+                  Bringing story brain into interface design
+                </p>
+              </div>
+              <span class="card-badge">
+                Mixed
+              </span>
+            </div>
+            <div class="card-body">
+              As a former creative writing org president, I carry narrative
+              structure into UI decisions. Every card on this site is treated as
+              a mini story with a clear beginning, middle, and end.
+            </div>
+            <ul class="card-list">
+              <li>Uses hierarchy and pacing to guide reading order</li>
+              <li>Pairs text density with visual breathing room</li>
+              <li>Balances academic tone with personal voice</li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">Storytelling</span>
+              <span class="tag">UX writing</span>
+              <span class="tag">HCI</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-pill">
+                Output type: Essays, reflections, and interface drafts
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- WEEKLY OUTPUTS -->
+    <section class="section" id="weekly">
+      <div class="section-header">
+        <h2 class="section-title">Weekly Outputs</h2>
+        <div class="section-pill">
+          Each card below is a placeholder for a sub output from the Google Doc
+        </div>
+      </div>
+
+      <!-- TIP TEXT -->
+      <div class="grid grid-1">
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">How to use this section</h3>
+                <p class="card-subtitle">
+                  Replace the placeholder text with your actual outputs
+                </p>
+              </div>
+              <span class="card-badge">Guide</span>
+            </div>
+            <div class="card-body">
+              For each requirement in the Google Doc (creative or essay version),
+              create or edit a card below. You can duplicate a card structure
+              and fill it with your:
+            </div>
+            <ul class="card-list">
+              <li>Title of the task or sub output</li>
+              <li>Short description of what you did</li>
+              <li>Bullet points for key learning or reflection</li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">Editable</span>
+              <span class="tag">Teacher view friendly</span>
+              <span class="tag">Centralized</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- GRID OF WEEK CARDS -->
+      <div class="grid grid-2">
+        <!-- WEEK 1 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Week 1 • Orientation & Expectations</h3>
+                <p class="card-subtitle">First contact with the course</p>
+              </div>
+              <span class="card-badge">Week 1</span>
+            </div>
+            <div class="card-body">
+              <!-- TODO: Replace this with your own reflection or creative piece -->
+              Short reflection on how I entered the course, my starting
+              expectations, and what I want my portfolio to look like by the end
+              of the semester.
+            </div>
+            <ul class="card-list">
+              <li>Initial feelings about the subject</li>
+              <li>What I am excited or nervous about</li>
+              <li>How I plan to manage requirements</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- WEEK 2 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Week 2 • First Creative Output</h3>
+                <p class="card-subtitle">Translating concepts into a story</p>
+              </div>
+              <span class="card-badge">Week 2</span>
+            </div>
+            <div class="card-body">
+              <!-- TODO: Describe your chosen creative or essay output -->
+              I chose the creative version and wrote a piece that connected the
+              topic to my own experience as a student learning technology.
+            </div>
+            <ul class="card-list">
+              <li>Main idea or thesis of the output</li>
+              <li>Key scenes or arguments</li>
+              <li>What I learned while writing it</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- WEEK 3 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Week 3 • Reflection Task</h3>
+                <p class="card-subtitle">Looking at my habits honestly</p>
+              </div>
+              <span class="card-badge">Week 3</span>
+            </div>
+            <div class="card-body">
+              <!-- TODO: Summarize the actual reflection you wrote -->
+              A reflection on how I balance time, procrastination, and sudden
+              waves of productivity, especially around coding tasks.
+            </div>
+            <ul class="card-list">
+              <li>One habit I am proud of</li>
+              <li>One habit I want to change</li>
+              <li>Concrete step I will try next week</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- WEEK 4 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Week 4 • Group Activity</h3>
+                <p class="card-subtitle">Working in teams and surviving chats</p>
+              </div>
+              <span class="card-badge">Week 4</span>
+            </div>
+            <div class="card-body">
+              <!-- TODO: Replace with actual group work description -->
+              A short documentation of our group activity, my role in it, and
+              how we divided tasks among members.
+            </div>
+            <ul class="card-list">
+              <li>Group number and members</li>
+              <li>Main output we produced</li>
+              <li>How collaboration went and what could improve</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- WEEK 5 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Week 5 • Midterm Preparation</h3>
+                <p class="card-subtitle">Converting notes into understanding</p>
+              </div>
+              <span class="card-badge">Week 5</span>
+            </div>
+            <div class="card-body">
+              <!-- TODO: Describe your midterm related work -->
+              A summary of my midterm review strategies, plus any reviewer or
+              study aid I created and how it helped.
+            </div>
+            <ul class="card-list">
+              <li>Topics I focused on the most</li>
+              <li>How I tested myself</li>
+              <li>What I will keep or change for finals</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- WEEK 6 -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Week 6 • Portfolio Progress Check</h3>
+                <p class="card-subtitle">Bringing everything into one page</p>
+              </div>
+              <span class="card-badge">Week 6</span>
+            </div>
+            <div class="card-body">
+              <!-- TODO: Add your own check in -->
+              A short status update on how many outputs I have added to this
+              site and what is still pending.
+            </div>
+            <ul class="card-list">
+              <li>What is complete</li>
+              <li>What still needs to be added</li>
+              <li>One thing I am proud of so far</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="section-header">
+        <h2 class="section-title">Skills & Tools</h2>
+        <div class="section-pill">What I am currently using to stay afloat</div>
+      </div>
+
+      <div class="grid grid-3">
+        <!-- TECHNICAL SKILLS -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Technical Skills</h3>
+                <p class="card-subtitle">Languages and tools</p>
+              </div>
+              <span class="card-badge">Tech</span>
+            </div>
+            <ul class="card-list">
+              <li>HTML & CSS for structured, responsive layouts</li>
+              <li>Basic JavaScript for interactivity and animations</li>
+              <li>C programming for foundational logic and problem solving</li>
+              <li>Beginner Python and machine learning fundamentals</li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">HTML</span>
+              <span class="tag tag-pill">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">C</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- COLLAB SKILLS -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Collaboration & Organization</h3>
+                <p class="card-subtitle">Class rep instincts</p>
+              </div>
+              <span class="card-badge">Soft</span>
+            </div>
+            <ul class="card-list">
+              <li>Helps coordinate group tasks and announcements</li>
+              <li>Keeps track of files, folders, and submission formats</li>
+              <li>Comfortable talking to teachers for clarifications</li>
+              <li>Balances multiple subject requirements in parallel</li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">Communication</span>
+              <span class="tag">Time management (work in progress)</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CREATIVE SKILLS -->
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Creative & Writing</h3>
+                <p class="card-subtitle">Words plus layout</p>
+              </div>
+              <span class="card-badge">Creative</span>
+            </div>
+            <ul class="card-list">
+              <li>Experience leading a creative writing organization</li>
+              <li>Comfortable writing essays, reflections, and narratives</li>
+              <li>Can adjust tone for academic, casual, or technical work</li>
+              <li>Uses story thinking to design flows and layouts</li>
+            </ul>
+            <div class="card-tags">
+              <span class="tag tag-pill">Writing</span>
+              <span class="tag">Story structure</span>
+              <span class="tag">HCI perspective</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="section">
+      <div class="grid grid-2">
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Contact & Details</h3>
+                <p class="card-subtitle">
+                  For teachers, future group mates, or future me
+                </p>
+              </div>
+              <span class="card-badge">Footer</span>
+            </div>
+            <div class="card-body">
+              You can reach me through our official class channels. This
+              portfolio exists mainly for subject requirements, but I am also
+              treating it as the starting point of my real online presence as a
+              developer and creator.
+            </div>
+            <ul class="card-list">
+              <li>Location: Cebu, Philippines</li>
+              <li>Program: BS Information Technology</li>
+              <li>School: University of San Carlos, Talamban Campus</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Next Steps</h3>
+                <p class="card-subtitle">
+                  Things I want to add after this submission
+                </p>
+              </div>
+              <span class="card-badge">Future</span>
+            </div>
+            <div class="card-body">
+              This portfolio is version one. After the grading period, I want to:
+            </div>
+            <ul class="card-list">
+              <li>Add more actual project demos and screenshots</li>
+              <li>Connect GitHub repos and live previews</li>
+              <li>Create a separate section for hackathon experiences</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </footer>
+  </main>
+
+  <!-- BACK TO TOP BUTTON -->
+  <button class="back-to-top" aria-label="Back to top" title="Back to top">
+    ↑
+  </button>
+
+  <script>
+    // Smooth scroll for buttons with data-scroll-to
+    document.querySelectorAll("[data-scroll-to]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const target = document.querySelector(btn.getAttribute("data-scroll-to"));
+        if (!target) return;
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    // Reveal on scroll using IntersectionObserver
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (!prefersReducedMotion && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("show");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+        }
+      );
+
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    } else {
+      // If motion is reduced or IntersectionObserver not supported, show everything
+      document.querySelectorAll(".reveal").forEach((el) =>
+        el.classList.add("show")
+      );
+    }
+
+    // Back to top button visibility
+    const backToTop = document.querySelector(".back-to-top");
+    function toggleBackToTop() {
+      if (window.scrollY > 300) {
+        backToTop.classList.add("visible");
+      } else {
+        backToTop.classList.remove("visible");
+      }
+    }
+    window.addEventListener("scroll", toggleBackToTop);
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Optional: Slight parallax on hero stack when moving mouse
+    const heroVisual = document.querySelector(".hero-visual");
+    const stackCards = document.querySelectorAll(".stack-card");
+    if (heroVisual && stackCards.length) {
+      heroVisual.addEventListener("mousemove", (e) => {
+        const rect = heroVisual.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        stackCards.forEach((card, index) => {
+          const depth = index + 1;
+          const translateX = x * depth * 6;
+          const translateY = y * depth * 6;
+          card.style.transform =
+            "translate(" +
+            translateX +
+            "px, " +
+            translateY +
+            "px) rotate(" +
+            (index === 0 ? -1 : index === 1 ? 4 : -6) +
+            "deg)";
+        });
+      });
+
+      heroVisual.addEventListener("mouseleave", () => {
+        stackCards[0].style.transform = "translateY(0) rotate(-1deg)";
+        stackCards[1].style.transform = "translate(18px, 26px) rotate(4deg)";
+        stackCards[2].style.transform = "translate(-16px, -26px) rotate(-6deg)";
+      });
+    }
+  </script>
+</body>
+</html>
