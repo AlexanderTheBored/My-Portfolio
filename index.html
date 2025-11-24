@@ -8,47 +8,48 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="nav">
-    <div class="nav-inner">
-      <div class="nav-left">
-        <div class="nav-logo">
-          <span>RL</span>
-        </div>
-        <div class="nav-title">
-          <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
-          <div class="nav-title-sub">BSIT Student • University of San Carlos</div>
-        </div>
+<header class="nav">
+  <div class="nav-inner">
+    <!-- LEFT: logo, name, subtitle -->
+    <div class="nav-left">
+      <div class="nav-logo">
+        <span>RL</span>
       </div>
-
-      <!-- Center: main navigation links (unchanged behavior) -->
-      <nav class="nav-links">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#weekly">Weekly Outputs</a>
-        <a href="#skills">Skills</a>
-      </nav>
-
-      <!-- Right: pill + notes sidebar burger -->
-      <div class="nav-right">
-        <div class="nav-pill">
-          <span>Student Portfolio</span>
-          <small>@AlexanderTheBored</small>
-        </div>
-
-        <!-- Burger that opens the notes sidebar -->
-        <label
-          class="burger"
-          id="notesBurger"
-          aria-label="Open lesson notes"
-          aria-expanded="false"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </label>
+      <div class="nav-title">
+        <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
+        <div class="nav-title-sub">BSIT Student • University of San Carlos</div>
       </div>
     </div>
-   </header>
+
+    <!-- CENTER: nav links -->
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#weekly">Weekly Outputs</a>
+      <a href="#skills">Skills</a>
+    </nav>
+
+    <!-- RIGHT: pill + burger -->
+    <div class="nav-right">
+      <div class="nav-pill">
+        <span>Student Portfolio</span>
+        <small>@AlexanderTheBored</small>
+      </div>
+
+      <label
+        class="burger"
+        id="notesBurger"
+        aria-label="Open lesson notes"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+    </div>
+  </div>
+</header>
+
 
   <!-- LESSON NOTES SIDEBAR -->
   <div class="notes-sidebar-overlay" id="notesOverlay"></div>
@@ -96,10 +97,10 @@
         </div>
 
         <h1>
-          Hi, I’m <span>Rovel Floriane S. Lumapas</span>
+          Hi, I’m <span>Rovel Lumapas</span>
         </h1>
         <p class="hero-subtitle">
-          First year <strong>BSIT student</strong> specializing in taking
+          A first year <strong>BSIT student</strong> specializing in taking
           chaotic deadlines, broken ideas, and half written drafts
           and turning them into
           <strong>clean, working experiences</strong> on screen.
