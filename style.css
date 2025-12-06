@@ -356,8 +356,11 @@ main {
   height: 7px;
   border-radius: 999px;
   background: radial-gradient(circle at 0 0, #22c55e, #16a34a);
-  box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.22);
+  box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
+  /* make it blink / pulse like a light */
+  animation: statusBlink 1.2s ease-in-out infinite;
 }
+
 
 .chip-ghost {
   background: rgba(15, 23, 42, 0.7);
@@ -437,6 +440,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  perspective: 1200px;
 }
 
 /* Oval frame */
@@ -445,6 +449,8 @@ main {
   width: 320px;
   height: 220px;
   filter: drop-shadow(0 22px 60px rgba(15, 23, 42, 1));
+  transform-style: preserve-3d;
+  transition: transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .stack-orbit::before {
@@ -483,7 +489,54 @@ main {
   transform-origin: center;
   transition: transform 220ms ease-out, box-shadow 220ms ease-out,
     border-color 220ms ease-out;
+     backface-visibility: hidden;
 }
+
+/* ===================== FLIP CARD VARIANT ===================== */
+
+/* Fix flip card auto-resizing */
+.card-flip {
+  perspective: 1400px;
+  cursor: pointer;
+  display: block;
+}
+
+.card-flip-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 260ms ease-out;
+}
+
+/* FRONT + BACK faces now flow naturally */
+.card-face {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  width: 100%;
+  /* Allow height to grow with content */
+  position: relative;
+  padding: 0;
+}
+
+/* Back face rotated but still in natural height flow */
+.card-face-back {
+  transform: rotateY(180deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Growing height wrapper */
+.card-flip-inner > .card-face-front,
+.card-flip-inner > .card-face-back {
+  min-height: 100%;
+}
+
+.card-flip.is-flipped .card-flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* ===================== END FLIP CARD VARIANT ===================== */
 
 .stack-card::before {
   content: "";
@@ -1086,6 +1139,25 @@ main {
     transform: translateX(100%);
   }
 }
+
+@keyframes statusBlink {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    opacity: 0.25;
+    transform: scale(0.9);
+    box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+  }
+}
+
 
 /* ===================== SCROLL REVEAL ANIMATIONS ===================== */
 

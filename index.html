@@ -344,39 +344,103 @@
 
       <div class="grid">
         <!-- PROJECT CARD 1 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">MangaView (Concept)</h3>
-                <p class="card-subtitle">Personal manga library web app</p>
-              </div>
-              <span class="card-badge">
-                Web
-              </span>
-            </div>
-            <div class="card-body">
-              A card based interface that treats each manga like a collectible.
-              Focus on clean tiles, hover states, and a layout that feels like a
-              bookshelf but behaves like a dashboard.
-            </div>
-            <ul class="card-list">
-              <li>Dark themed interface with soft neon accents</li>
-              <li>Card grid with title, status, and chapter counts</li>
-              <li>Designed to scale with JSON based metadata</li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">HTML</span>
-              <span class="tag tag-pill">CSS</span>
-              <span class="tag">Card design</span>
-            </div>
-            <div class="card-footer">
-              <div class="card-pill">
-                Status: In progress, being reshaped for class safe demo
-              </div>
-            </div>
+<!-- PROJECT CARD 1: MANGAVIEW -->
+<article
+  class="card card-flip reveal"
+  data-card-flip
+  tabindex="0"
+  aria-label="MangaView project card. Press to flip for more details."
+>
+  <div class="card-flip-inner">
+    <!-- FRONT FACE -->
+    <div class="card-face card-face-front">
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">MangaView</h3>
+            <p class="card-subtitle">
+              Local-first manga library with JSON driven cards
+            </p>
           </div>
-        </article>
+          <span class="card-badge">
+            Web
+          </span>
+        </div>
+        <div class="card-body">
+          A personal manga library that treats every series like a collectible.
+          The frontend reads JSON metadata and renders a grid of cards that
+          show cover, title, status, and chapter count, so the shelf feels
+          like a dashboard instead of a folder list.
+        </div>
+        <ul class="card-list">
+          <li>Dark themed layout with soft neon highlights</li>
+          <li>Each manga is a card with status and chapter progress</li>
+          <li>Metadata comes from JSON files instead of hardcoded HTML</li>
+        </ul>
+        <div class="card-tags">
+          <span class="tag tag-pill">HTML</span>
+          <span class="tag tag-pill">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">JSON</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-pill">
+            Click or tap to flip for how it works and the GitHub link
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACK FACE -->
+    <div class="card-face card-face-back">
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">How MangaView Works</h3>
+            <p class="card-subtitle">
+              CLI downloader + JSON metadata + card based UI
+            </p>
+          </div>
+          <span class="card-badge">
+            Under active refactor
+          </span>
+        </div>
+        <div class="card-body">
+          MangaView is split into two parts: scripts that pull manga data,
+          and a static web UI that reads that data and turns it into cards.
+        </div>
+        <ul class="card-list">
+          <li>
+            Uses helper scripts to download chapters from MangaDex and save
+            them into a local <code>assets/manga/</code> structure
+          </li>
+          <li>
+            Each series has JSON metadata for title, cover, status, and
+            chapters, which the UI uses as the single source of truth
+          </li>
+          <li>
+            Frontend is a simple card grid that can later grow into a full
+            reader with filters, tags, and reading progress
+          </li>
+        </ul>
+        <div class="card-footer">
+          <a
+            class="card-link"
+            href="https://github.com/AlexanderTheBored/MangaView"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>↗</span> View on GitHub
+          </a>
+          <div class="card-pill">
+            Status: In progress, refactoring for class safe demo
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
 
         <!-- PROJECT CARD 2 -->
         <article class="card reveal">

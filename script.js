@@ -60,14 +60,17 @@ backToTop.addEventListener("click", () => {
 
 const stackCards = Array.from(document.querySelectorAll(".stack-card"));
 const rotateBtn = document.getElementById("stackRotateBtn");
+const stackOrbit = document.querySelector(".stack-orbit");
+
 const roleClasses = [
   "stack-card-main",
   "stack-card-secondary",
   "stack-card-tertiary",
 ];
 
-if (stackCards.length === 3 && rotateBtn) {
+if (stackCards.length === 3 && rotateBtn && stackOrbit) {
   let currentFrontIndex = 0; // which card is currently the front one
+  let currentRotation = 0;   // total Y rotation of the stack
 
   function applyStackRoles() {
     stackCards.forEach((card, idx) => {
@@ -84,12 +87,17 @@ if (stackCards.length === 3 && rotateBtn) {
   // initial state
   applyStackRoles();
 
-  // rotate one step on left click
   rotateBtn.addEventListener("click", () => {
+    // 1) update which card is front
     currentFrontIndex = (currentFrontIndex + 1) % roleClasses.length;
     applyStackRoles();
+
+    // 2) rotate the stack 180deg around Y for a 3D flip
+    currentRotation += 180;
+    stackOrbit.style.transform = `rotateY(${currentRotation}deg)`;
   });
 }
+
 
 // ===================== LESSON NOTES SIDEBAR TOGGLER =====================
 
@@ -126,3 +134,22 @@ if (notesBurger && notesSidebar && notesOverlay) {
     }
   });
 }
+
+// ===================== PROJECT FLIP CARDS =====================
+
+document.querySelectorAll("[data-card-flip]").forEach((card) => {
+  function toggleFlip() {
+    card.classList.toggle("is-flipped");
+  }
+
+  card.addEventListener("click", toggleFlip);
+
+  // Keyboard support (Enter / Space)
+  card.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleFlip();
+    }
+  });
+});
+// ===================== END OF SCRIPT.JS =====================
