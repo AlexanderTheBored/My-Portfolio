@@ -1,0 +1,258 @@
+<div class="section-header">
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="section-pill">Web based work that feels like me</div>
+</div>
+
+<div class="projects-shell">
+  <!-- TAB ROW -->
+  <div class="grid project-tabs">
+    <!-- PROJECT TAB 1: MANGAVIEW -->
+    <article
+      class="card project-tab reveal"
+      data-project="mangaview"
+      aria-pressed="false"
+    >
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">MangaView</h3>
+            <p class="card-subtitle">
+              Local-first manga library with JSON driven cards
+            </p>
+          </div>
+          <span class="card-badge">Web</span>
+        </div>
+        <div class="card-body">
+          A personal manga library that treats every series like a collectible.
+          The frontend reads JSON metadata and renders a grid of cards that show
+          cover, title, status, and chapter count.
+        </div>
+        <ul class="card-list">
+          <li>Dark themed layout with soft neon highlights</li>
+          <li>Cards for each series with chapter progress</li>
+          <li>Metadata comes from JSON files instead of hardcoded HTML</li>
+        </ul>
+        <div class="card-tags">
+          <span class="tag tag-pill">HTML</span>
+          <span class="tag tag-pill">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">JSON</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-pill">
+            Click to open full details below
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT TAB 2 -->
+    <article
+      class="card project-tab reveal"
+      data-project="networking"
+      aria-pressed="false"
+    >
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Networking Information Page</h3>
+            <p class="card-subtitle">
+              Educational site turning notes into a visual reference
+            </p>
+          </div>
+          <span class="card-badge">School</span>
+        </div>
+        <div class="card-body">
+          A structured page for networking fundamentals where each topic is a
+          clean, readable card with consistent headings and spacing.
+        </div>
+        <ul class="card-list">
+          <li>Responsive layout for phone and laptop checking</li>
+          <li>Card based sections for OSI, TCP, and basic concepts</li>
+          <li>Built to be easy to expand in future semesters</li>
+        </ul>
+        <div class="card-tags">
+          <span class="tag tag-pill">HTML</span>
+          <span class="tag tag-pill">CSS</span>
+          <span class="tag">Educational</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-pill">
+            Click to open full details below
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT TAB 3 -->
+    <article
+      class="card project-tab reveal"
+      data-project="creative"
+      aria-pressed="false"
+    >
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Creative Writing & HCI Collabs</h3>
+            <p class="card-subtitle">
+              Bringing story brain into interface design
+            </p>
+          </div>
+          <span class="card-badge">Mixed</span>
+        </div>
+        <div class="card-body">
+          Using narrative structure to shape interfaces so each card reads like
+          a small, complete story instead of random bullet points.
+        </div>
+        <ul class="card-list">
+          <li>Uses hierarchy and pacing to guide reading order</li>
+          <li>Pairs text density with visual breathing room</li>
+          <li>Balances academic tone with personal voice</li>
+        </ul>
+        <div class="card-tags">
+          <span class="tag tag-pill">Storytelling</span>
+          <span class="tag">UX writing</span>
+          <span class="tag">HCI</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-pill">
+            Click to open full details below
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- DETAIL PANEL (ALL HIDDEN UNTIL CLICK) -->
+  <section class="project-details">
+    <!-- DETAIL: MANGAVIEW -->
+    <article
+      class="card project-detail"
+      data-project-detail="mangaview"
+    >
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">MangaView • Details</h3>
+            <p class="card-subtitle">
+              CLI downloader + JSON metadata + card based UI
+            </p>
+          </div>
+          <span class="card-badge">Under active refactor</span>
+        </div>
+        <div class="card-body">
+          MangaView is split into two parts: scripts that pull manga data, and a
+          static web UI that reads that data and turns it into cards.
+        </div>
+        <ul class="card-list">
+          <li>
+            Helper scripts download chapters from MangaDex into a local
+            <code>assets/manga/</code> structure.
+          </li>
+          <li>
+            Each series has JSON metadata (title, cover, status, chapter count)
+            that the UI treats as a single source of truth.
+          </li>
+          <li>
+            The frontend is a simple card grid that can later grow into a full
+            reader with filters, tags, and reading progress.
+          </li>
+        </ul>
+        <div class="card-footer">
+          <a
+            class="card-link"
+            href="https://github.com/AlexanderTheBored/MangaView"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>↗</span> View on GitHub
+          </a>
+          <div class="card-pill">
+            Status: In progress, refactoring for class safe demo
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DETAIL: NETWORKING PAGE -->
+    <article
+      class="card project-detail"
+      data-project-detail="networking"
+    >
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Networking Information Page • Details</h3>
+            <p class="card-subtitle">
+              Turning reviewer notes into a reference site
+            </p>
+          </div>
+          <span class="card-badge">School</span>
+        </div>
+        <div class="card-body">
+          This project takes handwritten and Google Doc notes on networking and
+          reshapes them into a clean, navigable site.
+        </div>
+        <ul class="card-list">
+          <li>
+            Sections for OSI model, TCP/IP, basic concepts, each in its own
+            card.
+          </li>
+          <li>
+            Designed to be readable on both laptops (for class checking) and
+            phones (for reviewing on the way to school).
+          </li>
+          <li>
+            Can be reused and extended in future networking subjects by adding
+            more cards.
+          </li>
+        </ul>
+        <div class="card-footer">
+          <div class="card-pill">
+            Role: Design, structure, copy, and implementation
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DETAIL: CREATIVE / HCI -->
+    <article
+      class="card project-detail"
+      data-project-detail="creative"
+    >
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Creative Writing & HCI Collabs • Details</h3>
+            <p class="card-subtitle">
+              Using story structure as a UX tool
+            </p>
+          </div>
+          <span class="card-badge">Mixed</span>
+        </div>
+        <div class="card-body">
+          This isn’t one single website but a pattern: using writing skills to
+          shape how interfaces communicate.
+        </div>
+        <ul class="card-list">
+          <li>
+            Treats each section like a scene: setup, development, and payoff.
+          </li>
+          <li>
+            Uses tone and hierarchy to make academic text feel more readable.
+          </li>
+          <li>
+            Shows up in essays, HCI deliverables, and the overall design of this
+            portfolio.
+          </li>
+        </ul>
+        <div class="card-footer">
+          <div class="card-pill">
+            Output type: Essays, reflections, interface drafts, and future case
+            studies
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</div>

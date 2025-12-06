@@ -1,4 +1,97 @@
-// Smooth scroll for buttons with data-scroll-to
+// ===================== PROJECT TABS INITIALIZER =====================
+
+function initProjectTabs(root = document) {
+  const projectTabs = root.querySelectorAll(".project-tab");
+  const projectDetails = root.querySelectorAll(".project-detail");
+
+  if (!projectTabs.length || !projectDetails.length) return;
+
+  let currentActiveId = null;
+
+  function setActive(id) {
+    currentActiveId = id;
+
+    projectTabs.forEach((tab) => {
+      const isActive = tab.dataset.project === id;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
+    projectDetails.forEach((detail) => {
+      const isActive = detail.dataset.projectDetail === id;
+      detail.classList.toggle("is-active", isActive);
+    });
+  }
+
+  function clearActive() {
+    currentActiveId = null;
+
+    projectTabs.forEach((tab) => {
+      tab.classList.remove("is-active");
+      tab.setAttribute("aria-pressed", "false");
+    });
+
+    projectDetails.forEach((detail) => {
+      detail.classList.remove("is-active");
+    });
+  }
+
+  projectTabs.forEach((tab) => {
+    const id = tab.dataset.project;
+    tab.setAttribute("role", "button");
+    tab.setAttribute("tabindex", "0");
+
+    function handleToggle() {
+      if (currentActiveId === id) {
+        // clicking the same tab again -> hide details
+        clearActive();
+      } else {
+        // clicking a different tab -> show its details
+        setActive(id);
+      }
+    }
+
+    tab.addEventListener("click", handleToggle);
+
+    tab.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggle();
+      }
+    });
+  });
+
+  // no default active tab
+}
+
+// ===================== HTML PARTIAL INCLUDES =====================
+
+document.querySelectorAll("[data-include]").forEach((placeholder) => {
+  const file = placeholder.getAttribute("data-include");
+  if (!file) return;
+
+  fetch(file)
+    .then((resp) => resp.text())
+    .then((html) => {
+      placeholder.innerHTML = html;
+
+      // Reveal animation
+      placeholder.querySelectorAll(".reveal").forEach((el) =>
+        el.classList.add("show")
+      );
+
+      // If this partial contains projects, wire up its tabs
+      initProjectTabs(placeholder);
+    })
+    .catch((err) => {
+      console.error("Include failed for", file, err);
+      placeholder.innerHTML =
+        "<p style='color:#f97316;font-size:0.8rem;'>Failed to load section.</p>";
+    });
+});
+
+// ===================== Smooth scroll for buttons with data-scroll-to =====================
+
 document.querySelectorAll("[data-scroll-to]").forEach(function (btn) {
   btn.addEventListener("click", function () {
     const target = document.querySelector(btn.getAttribute("data-scroll-to"));
@@ -24,7 +117,7 @@ if (!prefersReducedMotion && "IntersectionObserver" in window) {
       });
     },
     {
-      threshold: 0.15, // start when ~15% is visible
+      threshold: 0.15,
     }
   );
 
@@ -32,7 +125,6 @@ if (!prefersReducedMotion && "IntersectionObserver" in window) {
     revealObserver.observe(el);
   });
 } else {
-  // If motion is reduced or IntersectionObserver not supported, show everything
   document.querySelectorAll(".reveal").forEach((el) =>
     el.classList.add("show")
   );
@@ -56,11 +148,10 @@ backToTop.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// ===================== CLICK-TO-ROTATE STACK CARDS =====================
+// ===================== CLICK-TO-ROTATE STACK CARDS (HERO) =====================
 
 const stackCards = Array.from(document.querySelectorAll(".stack-card"));
 const rotateBtn = document.getElementById("stackRotateBtn");
-const stackOrbit = document.querySelector(".stack-orbit");
 
 const roleClasses = [
   "stack-card-main",
@@ -68,36 +159,25 @@ const roleClasses = [
   "stack-card-tertiary",
 ];
 
-if (stackCards.length === 3 && rotateBtn && stackOrbit) {
-  let currentFrontIndex = 0; // which card is currently the front one
-  let currentRotation = 0;   // total Y rotation of the stack
+if (stackCards.length === 3 && rotateBtn) {
+  let currentFrontIndex = 0;
 
   function applyStackRoles() {
     stackCards.forEach((card, idx) => {
-      // remove all role classes first
       roleClasses.forEach((role) => card.classList.remove(role));
-
-      // determine which role this card should get
       const roleIndex =
         (idx - currentFrontIndex + roleClasses.length) % roleClasses.length;
       card.classList.add(roleClasses[roleIndex]);
     });
   }
 
-  // initial state
   applyStackRoles();
 
   rotateBtn.addEventListener("click", () => {
-    // 1) update which card is front
     currentFrontIndex = (currentFrontIndex + 1) % roleClasses.length;
     applyStackRoles();
-
-    // 2) rotate the stack 180deg around Y for a 3D flip
-    currentRotation += 180;
-    stackOrbit.style.transform = `rotateY(${currentRotation}deg)`;
   });
 }
-
 
 // ===================== LESSON NOTES SIDEBAR TOGGLER =====================
 
@@ -127,7 +207,6 @@ if (notesBurger && notesSidebar && notesOverlay) {
 
   notesOverlay.addEventListener("click", () => setNotesOpen(false));
 
-  // Close on Escape key
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       setNotesOpen(false);
@@ -135,21 +214,4 @@ if (notesBurger && notesSidebar && notesOverlay) {
   });
 }
 
-// ===================== PROJECT FLIP CARDS =====================
-
-document.querySelectorAll("[data-card-flip]").forEach((card) => {
-  function toggleFlip() {
-    card.classList.toggle("is-flipped");
-  }
-
-  card.addEventListener("click", toggleFlip);
-
-  // Keyboard support (Enter / Space)
-  card.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      toggleFlip();
-    }
-  });
-});
 // ===================== END OF SCRIPT.JS =====================

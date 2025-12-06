@@ -494,13 +494,16 @@ main {
 
 /* ===================== FLIP CARD VARIANT ===================== */
 
-/* Fix flip card auto-resizing */
+/* Outer card already has .card styles.
+   This just adds flip behavior. */
 .card-flip {
   perspective: 1400px;
   cursor: pointer;
+  position: relative;
   display: block;
 }
 
+/* Wrapper that actually rotates */
 .card-flip-inner {
   position: relative;
   width: 100%;
@@ -508,30 +511,28 @@ main {
   transition: transform 260ms ease-out;
 }
 
-/* FRONT + BACK faces now flow naturally */
+/* Front + back share the same box */
 .card-face {
   backface-visibility: hidden;
   transform-style: preserve-3d;
   width: 100%;
-  /* Allow height to grow with content */
+}
+
+/* Front stays in normal flow
+   so it decides the height of the card */
+.card-face-front {
   position: relative;
-  padding: 0;
 }
 
-/* Back face rotated but still in natural height flow */
+/* Back is pinned on top of the front,
+   stretching to the same width/height */
 .card-face-back {
-  transform: rotateY(180deg);
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  transform: rotateY(180deg);
 }
 
-/* Growing height wrapper */
-.card-flip-inner > .card-face-front,
-.card-flip-inner > .card-face-back {
-  min-height: 100%;
-}
-
+/* Flip the inner wrapper to show the back */
 .card-flip.is-flipped .card-flip-inner {
   transform: rotateY(180deg);
 }
@@ -1208,4 +1209,93 @@ main {
 }
 
 
+/* ===== Featured Projects as folder tabs ===== */
 
+.projects-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.project-tabs {
+  /* already uses .grid spacing, just ensure cursor + behavior */
+}
+
+.project-tab {
+  cursor: pointer;
+  transition:
+    transform 0.25s var(--ease-out, ease),
+    box-shadow 0.25s var(--ease-out, ease),
+    border-color 0.25s var(--ease-out, ease);
+}
+
+.project-tab.is-active {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+  border-color: rgba(96, 165, 250, 0.8);
+}
+
+.project-details {
+  margin-top: 0.5rem;
+}
+
+.project-detail {
+  display: none;
+}
+
+.project-detail.is-active {
+  display: block;
+}
+
+
+/* ===== End Featured Projects as folder tabs ===== */
+
+/* NAVIGATION BAR */
+
+.notes-link,
+.notes-link-inline {
+  color: inherit;
+  text-decoration: none;
+}
+
+.notes-link:hover,
+.notes-link-inline:hover {
+  text-decoration: underline;
+}
+
+/* ===== Lesson links in notes sidebar (subtle glow) ===== */
+
+.notes-link {
+  color: var(--text-main);
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  transition:
+    color 0.18s ease-out,
+    text-shadow 0.18s ease-out;
+}
+
+.notes-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 0;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.35); /* softer glow */
+  opacity: 0;
+  transition:
+    width 0.22s ease-out,
+    opacity 0.22s ease-out;
+}
+
+.notes-link:hover {
+  color: var(--accent);
+  text-shadow: 0 0 4px rgba(56, 189, 248, 0.45); /* light halo, not neon */
+}
+
+.notes-link:hover::after {
+  width: 100%;
+  opacity: 1;
+}

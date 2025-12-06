@@ -50,799 +50,268 @@
   </div>
 </header>
 
+<!-- LESSON NOTES SIDEBAR -->
+<div class="notes-sidebar-overlay" id="notesOverlay"></div>
 
-  <!-- LESSON NOTES SIDEBAR -->
-  <div class="notes-sidebar-overlay" id="notesOverlay"></div>
+<aside class="notes-sidebar" id="notesSidebar" aria-hidden="true">
+  <div class="notes-sidebar-header">
+    <h3>Lesson Notes</h3>
+    <button class="notes-close" id="notesClose" aria-label="Close notes">×</button>
+  </div>
 
-  <aside class="notes-sidebar" id="notesSidebar" aria-hidden="true">
-    <div class="notes-sidebar-header">
-      <h3>Lesson Notes</h3>
-      <button class="notes-close" id="notesClose" aria-label="Close notes">×</button>
-    </div>
+  <div class="notes-sidebar-body">
+    <!-- LESSON 1 -->
+    <section class="notes-section">
+      <h4>
+        <a
+          class="notes-link"
+          href="ITC notes/lesson-1-data-information-knowledge.html"
+        >
+          Lesson 1: Data, Information, and Knowledge
+        </a>
+      </h4>
+      <ul>
+        <li>Definitions and short examples</li>
+        <li>Key terms to remember for essays</li>
+        <li>Any formulas or diagrams</li>
+      </ul>
+    </section>
 
-    <div class="notes-sidebar-body">
-      <!-- Example lesson sections – you can replace these with your own notes -->
-      <section class="notes-section">
-        <h4>Lesson 1: Data, Information, and Knowledge</h4>
-        <ul>
-          <li>Definitions and short examples</li>
-          <li>Key terms to remember for essays</li>
-          <li>Any formulas or diagrams</li>
-        </ul>
-      </section>
+    <!-- LESSON 2 -->
+    <section class="notes-section">
+      <h4>
+        <a
+          class="notes-link"
+          href="ITC notes/lesson-2-artificial-intelligence.html"
+        >
+          Lesson 2: Artificial Intelligence
+        </a>
+      </h4>
+      <ul>
+        <li>What AI is and is not</li>
+        <li>Everyday examples you can mention</li>
+      </ul>
+    </section>
 
-      <section class="notes-section">
-        <h4>Lesson 2: Artificial Intelligence</h4>
-        <ul>
-          <li>What AI is and is not</li>
-          <li>Everyday examples you can mention</li>
-        </ul>
-      </section>
+    <!-- Add more <section> blocks here for later lessons -->
+  </div>
+</aside>
 
-      <!-- Add more <section class="notes-section"> ... </section> as needed -->
-    </div>
-  </aside>
 
-  <main class="page-shell">
-
-    <!-- HERO -->
-    <section class="hero" id="top">
-      <div>
-        <div class="hero-tag">
-          <div class="hero-tag-icon">★</div>
-          <div class="hero-tag-text">
-            <span class="hero-tag-handle">@AlexanderTheBored</span>
-            &nbsp;|&nbsp; Turning class requirements into finished projects
-          </div>
+<main class="page-shell">
+  <!-- HERO stays in the main file -->
+  <section class="hero" id="top">
+    <div>
+      <div class="hero-tag">
+        <div class="hero-tag-icon">★</div>
+        <div class="hero-tag-text">
+          <span class="hero-tag-handle">@AlexanderTheBored</span>
+          &nbsp;|&nbsp; Turning class requirements into finished projects
         </div>
-
-        <h1>
-          Hi, I’m <span>Rovel Lumapas</span>
-        </h1>
-        <p class="hero-subtitle">
-          A first year <strong>BSIT student</strong> specializing in taking
-          chaotic deadlines, broken ideas, and half written drafts
-          and turning them into
-          <strong>clean, working experiences</strong> on screen.
-        </p>
-
-        <div class="hero-meta">
-          <div class="chip">
-            <span class="chip-dot"></span>
-            Live from Cebu • Always in dev mode
-          </div>
-          <div class="chip chip-ghost">
-            Focus: HTML, CSS, JavaScript, C, basic ML, and way too many drafts
-          </div>
-        </div>
-
-        <div class="hero-cta-row">
-          <button class="btn btn-primary" data-scroll-to="#projects">
-            <span>▸</span> View Featured Work
-          </button>
-          <button class="btn btn-ghost" data-scroll-to="#weekly">
-            Weekly Outputs
-          </button>
-        </div>
-
-        <p class="hero-note">
-          <strong>Note:</strong> This portfolio is built in raw HTML, CSS, and
-          JavaScript. No frameworks, just student brain and caffeine.
-        </p>
       </div>
 
-      <!-- HERO VISUAL CARD STACK -->
-      <div class="hero-visual">
-        <div class="stack-orbit">
-          <div class="stack-orbit-glow"></div>
+      <h1>
+        Hi, I’m <span>Rovel Lumapas</span>
+      </h1>
+      <p class="hero-subtitle">
+        A first year <strong>BSIT student</strong> specializing in taking
+        chaotic deadlines, broken ideas, and half written drafts
+        and turning them into
+        <strong>clean, working experiences</strong> on screen.
+      </p>
 
-          <article class="stack-card stack-card-tertiary">
-            <div class="stack-card-header">
-              <div class="stack-card-title">Snapshot</div>
-              <div class="stack-card-status">
-                <span class="stack-card-status-badge"></span>
-                v1.0 Online
-              </div>
-            </div>
-            <div class="stack-card-grid">
-              <div class="stack-metrics">
-                <div>
-                  <div class="stack-metric-label">Semester</div>
-                  <div class="stack-metric-value">AY 2025</div>
-                </div>
-                <div class="stack-metric-tag">
-                  <span class="stack-pill-dot"></span>
-                  CIS1104 • HCI • GE-PC
-                </div>
-              </div>
-              <div class="stack-timeline">
-                <div class="stack-timeline-item">
-                  <span class="stack-timeline-dot"></span>
-                  <div>
-                    <div class="stack-timeline-label">Mode</div>
-                    <div class="stack-timeline-desc">
-                      Creative + Essay outputs in one hub
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article class="stack-card stack-card-secondary">
-            <div class="stack-card-header">
-              <div class="stack-card-title">Progress</div>
-              <div class="stack-card-status">
-                <span class="stack-card-status-badge"></span>
-                Tracking
-              </div>
-            </div>
-            <div class="stack-card-grid">
-              <div class="stack-metrics">
-                <div>
-                  <div class="stack-metric-label">Sub-outputs</div>
-                  <div class="stack-metric-value">0 / ?</div>
-                </div>
-                <div class="stack-metric-tag">
-                  <span class="stack-pill-dot"></span>
-                  Auto updates as I add more
-                </div>
-              </div>
-              <div class="stack-timeline">
-                <div class="stack-timeline-item">
-                  <span class="stack-timeline-dot"></span>
-                  <div>
-                    <div class="stack-timeline-label">Goal</div>
-                    <div class="stack-timeline-desc">
-                      One clean card per requirement
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article class="stack-card stack-card-main">
-            <div class="stack-card-header">
-              <div class="stack-card-title">Current Focus</div>
-              <div class="stack-card-status">
-                <span class="stack-card-status-badge"></span>
-                Portfolio Build
-              </div>
-            </div>
-            <div class="stack-card-grid">
-              <div class="stack-metrics">
-                <div>
-                  <div class="stack-metric-label">This page</div>
-                  <div class="stack-metric-value">HTML • CSS • JS</div>
-                </div>
-                <div class="stack-metric-tag">
-                  <span class="stack-pill-dot"></span>
-                  Card based layout with shimmer animations
-                </div>
-              </div>
-              <div class="stack-timeline">
-                <div class="stack-timeline-item">
-                  <span class="stack-timeline-dot"></span>
-                  <div>
-                    <div class="stack-timeline-label">Up next</div>
-                    <div class="stack-timeline-desc">
-                      Fill in weekly outputs and upload to Canvas as PDF
-                    </div>
-                  </div>
-                </div>
-                <div class="stack-timeline-item">
-                  <span class="stack-timeline-dot"></span>
-                  <div>
-                    <div class="stack-timeline-label">Long term</div>
-                    <div class="stack-timeline-desc">
-                      Connect to future projects like MangaView and hackathon
-                      builds
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
+      <div class="hero-meta">
+        <div class="chip">
+          <span class="chip-dot"></span>
+          Live from Cebu • Always in dev mode
         </div>
+        <div class="chip chip-ghost">
+          Focus: HTML, CSS, JavaScript, C, basic ML, and way too many drafts
+        </div>
+      </div>
 
-        <button
-          type="button"
-          class="stack-rotate-btn"
-          id="stackRotateBtn"
-          aria-label="Rotate cards"
-          title="Rotate cards"
-        >
-          ⟳
+      <div class="hero-cta-row">
+        <button class="btn btn-primary" data-scroll-to="#projects">
+          <span>▸</span> View Featured Work
+        </button>
+        <button class="btn btn-ghost" data-scroll-to="#weekly">
+          Weekly Outputs
         </button>
       </div>
-    </section>
 
-    <!-- ABOUT -->
-    <section class="section" id="about">
-      <div class="section-header">
-        <h2 class="section-title">About</h2>
-        <div class="section-pill">Block B1 • BSIT • University of San Carlos</div>
-      </div>
-
-      <div class="grid grid-2">
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Who I Am</h3>
-                <p class="card-subtitle">Student, builder, and chronic overthinker</p>
-              </div>
-              <span class="card-badge">
-                Profile
-              </span>
-            </div>
-            <div class="card-body">
-              I am a first year BSIT student who lives inside group chats, Google
-              Docs, and VS Code. I enjoy turning instructions into working
-              outputs and giving every requirement a bit of personality.
-            </div>
-            <ul class="card-list">
-              <li>Comfortable in HTML, CSS, C, and basic Python</li>
-              <li>Can switch between creative writing and technical work</li>
-              <li>Usually the one centralizing files and fixing formatting</li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">Student dev</span>
-              <span class="tag">Class representative energy</span>
-              <span class="tag">Night owl</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">How This Portfolio Works</h3>
-                <p class="card-subtitle">One requirement = one card</p>
-              </div>
-              <span class="card-badge">
-                System
-              </span>
-            </div>
-            <div class="card-body">
-              This site is structured to match how teachers check work. Hero on
-              top, then sections for <strong>featured projects</strong>,
-              <strong>weekly outputs</strong>, and <strong>skills</strong>.
-            </div>
-            <ul class="card-list">
-              <li>
-                Each sub output from the Google Doc becomes a card under
-                Weekly Outputs
-              </li>
-              <li>
-                Major creative pieces and websites are highlighted under
-                Featured Projects
-              </li>
-              <li>
-                The layout is print friendly for PDF export, but still animated
-                on the web
-              </li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">Teacher friendly</span>
-              <span class="tag">Organized</span>
-              <span class="tag">Expandable for future semesters</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section class="section" id="projects">
-      <div class="section-header">
-        <h2 class="section-title">Featured Projects</h2>
-        <div class="section-pill">Web based work that feels like me</div>
-      </div>
-
-      <div class="grid">
-        <!-- PROJECT CARD 1 -->
-<!-- PROJECT CARD 1: MANGAVIEW -->
-<article
-  class="card card-flip reveal"
-  data-card-flip
-  tabindex="0"
-  aria-label="MangaView project card. Press to flip for more details."
->
-  <div class="card-flip-inner">
-    <!-- FRONT FACE -->
-    <div class="card-face card-face-front">
-      <div class="card-inner">
-        <div class="card-header">
-          <div>
-            <h3 class="card-title">MangaView</h3>
-            <p class="card-subtitle">
-              Local-first manga library with JSON driven cards
-            </p>
-          </div>
-          <span class="card-badge">
-            Web
-          </span>
-        </div>
-        <div class="card-body">
-          A personal manga library that treats every series like a collectible.
-          The frontend reads JSON metadata and renders a grid of cards that
-          show cover, title, status, and chapter count, so the shelf feels
-          like a dashboard instead of a folder list.
-        </div>
-        <ul class="card-list">
-          <li>Dark themed layout with soft neon highlights</li>
-          <li>Each manga is a card with status and chapter progress</li>
-          <li>Metadata comes from JSON files instead of hardcoded HTML</li>
-        </ul>
-        <div class="card-tags">
-          <span class="tag tag-pill">HTML</span>
-          <span class="tag tag-pill">CSS</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">JSON</span>
-        </div>
-        <div class="card-footer">
-          <div class="card-pill">
-            Click or tap to flip for how it works and the GitHub link
-          </div>
-        </div>
-      </div>
+      <p class="hero-note">
+        <strong>Note:</strong> This portfolio is built in raw HTML, CSS, and
+        JavaScript. No frameworks, just student brain and caffeine.
+      </p>
     </div>
 
-    <!-- BACK FACE -->
-    <div class="card-face card-face-back">
-      <div class="card-inner">
-        <div class="card-header">
-          <div>
-            <h3 class="card-title">How MangaView Works</h3>
-            <p class="card-subtitle">
-              CLI downloader + JSON metadata + card based UI
-            </p>
+    <!-- HERO VISUAL CARD STACK -->
+    <div class="hero-visual">
+      <div class="stack-orbit">
+        <div class="stack-orbit-glow"></div>
+
+        <article class="stack-card stack-card-tertiary">
+          <div class="stack-card-header">
+            <div class="stack-card-title">Snapshot</div>
+            <div class="stack-card-status">
+              <span class="stack-card-status-badge"></span>
+              v1.0 Online
+            </div>
           </div>
-          <span class="card-badge">
-            Under active refactor
-          </span>
-        </div>
-        <div class="card-body">
-          MangaView is split into two parts: scripts that pull manga data,
-          and a static web UI that reads that data and turns it into cards.
-        </div>
-        <ul class="card-list">
-          <li>
-            Uses helper scripts to download chapters from MangaDex and save
-            them into a local <code>assets/manga/</code> structure
-          </li>
-          <li>
-            Each series has JSON metadata for title, cover, status, and
-            chapters, which the UI uses as the single source of truth
-          </li>
-          <li>
-            Frontend is a simple card grid that can later grow into a full
-            reader with filters, tags, and reading progress
-          </li>
-        </ul>
-        <div class="card-footer">
-          <a
-            class="card-link"
-            href="https://github.com/AlexanderTheBored/MangaView"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>↗</span> View on GitHub
-          </a>
-          <div class="card-pill">
-            Status: In progress, refactoring for class safe demo
+          <div class="stack-card-grid">
+            <div class="stack-metrics">
+              <div>
+                <div class="stack-metric-label">Semester</div>
+                <div class="stack-metric-value">AY 2025</div>
+              </div>
+              <div class="stack-metric-tag">
+                <span class="stack-pill-dot"></span>
+                CIS1104 • HCI • GE-PC
+              </div>
+            </div>
+            <div class="stack-timeline">
+              <div class="stack-timeline-item">
+                <span class="stack-timeline-dot"></span>
+                <div>
+                  <div class="stack-timeline-label">Mode</div>
+                  <div class="stack-timeline-desc">
+                    Creative + Essay outputs in one hub
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </article>
+
+        <article class="stack-card stack-card-secondary">
+          <div class="stack-card-header">
+            <div class="stack-card-title">Progress</div>
+            <div class="stack-card-status">
+              <span class="stack-card-status-badge"></span>
+              Tracking
+            </div>
+          </div>
+          <div class="stack-card-grid">
+            <div class="stack-metrics">
+              <div>
+                <div class="stack-metric-label">Sub-outputs</div>
+                <div class="stack-metric-value">0 / ?</div>
+              </div>
+              <div class="stack-metric-tag">
+                <span class="stack-pill-dot"></span>
+                Auto updates as I add more
+              </div>
+            </div>
+            <div class="stack-timeline">
+              <div class="stack-timeline-item">
+                <span class="stack-timeline-dot"></span>
+                <div>
+                  <div class="stack-timeline-label">Goal</div>
+                  <div class="stack-timeline-desc">
+                    One clean card per requirement
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="stack-card stack-card-main">
+          <div class="stack-card-header">
+            <div class="stack-card-title">Current Focus</div>
+            <div class="stack-card-status">
+              <span class="stack-card-status-badge"></span>
+              Portfolio Build
+            </div>
+          </div>
+          <div class="stack-card-grid">
+            <div class="stack-metrics">
+              <div>
+                <div class="stack-metric-label">This page</div>
+                <div class="stack-metric-value">HTML • CSS • JS</div>
+              </div>
+              <div class="stack-metric-tag">
+                <span class="stack-pill-dot"></span>
+                Card based layout with shimmer animations
+              </div>
+            </div>
+            <div class="stack-timeline">
+              <div class="stack-timeline-item">
+                <span class="stack-timeline-dot"></span>
+                <div>
+                  <div class="stack-timeline-label">Up next</div>
+                  <div class="stack-timeline-desc">
+                    Fill in weekly outputs and upload to Canvas as PDF
+                  </div>
+                </div>
+              </div>
+              <div class="stack-timeline-item">
+                <span class="stack-timeline-dot"></span>
+                <div>
+                  <div class="stack-timeline-label">Long term</div>
+                  <div class="stack-timeline-desc">
+                    Connect to future projects like MangaView and hackathon
+                    builds
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
+
+      <button
+        type="button"
+        class="stack-rotate-btn"
+        id="stackRotateBtn"
+        aria-label="Rotate cards"
+        title="Rotate cards"
+      >
+        ⟳
+      </button>
     </div>
-  </div>
-</article>
+  </section>
 
+  <!-- ABOUT SECTION PARTIAL -->
+  <section
+    class="section"
+    id="about"
+    data-include="partials/about.html"
+  ></section>
 
-        <!-- PROJECT CARD 2 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Networking Information Page</h3>
-                <p class="card-subtitle">
-                  Educational site turning notes into a visual reference
-                </p>
-              </div>
-              <span class="card-badge">
-                School
-              </span>
-            </div>
-            <div class="card-body">
-              A simple, structured page for networking fundamentals where each
-              topic is a card. Clear headings, consistent icons, and enough
-              whitespace to keep information readable.
-            </div>
-            <ul class="card-list">
-              <li>Responsive layout for phone and laptop checking</li>
-              <li>Card based sections for OSI, TCP, and basic concepts</li>
-              <li>Built to be easy to expand in future semesters</li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">HTML</span>
-              <span class="tag tag-pill">CSS</span>
-              <span class="tag">Educational</span>
-            </div>
-            <div class="card-footer">
-              <div class="card-pill">
-                Role: Design, structure, and implementation
-              </div>
-            </div>
-          </div>
-        </article>
+  <!-- PROJECTS SECTION PARTIAL -->
+  <section
+    class="section"
+    id="projects"
+    data-include="partials/projects.html"
+  ></section>
 
-        <!-- PROJECT CARD 3 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Creative Writing & HCI Collabs</h3>
-                <p class="card-subtitle">
-                  Bringing story brain into interface design
-                </p>
-              </div>
-              <span class="card-badge">
-                Mixed
-              </span>
-            </div>
-            <div class="card-body">
-              As a former creative writing org president, I carry narrative
-              structure into UI decisions. Every card on this site is treated as
-              a mini story with a clear beginning, middle, and end.
-            </div>
-            <ul class="card-list">
-              <li>Uses hierarchy and pacing to guide reading order</li>
-              <li>Pairs text density with visual breathing room</li>
-              <li>Balances academic tone with personal voice</li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">Storytelling</span>
-              <span class="tag">UX writing</span>
-              <span class="tag">HCI</span>
-            </div>
-            <div class="card-footer">
-              <div class="card-pill">
-                Output type: Essays, reflections, and interface drafts
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
+  <!-- WEEKLY OUTPUTS SECTION PARTIAL -->
+  <section
+    class="section"
+    id="weekly"
+    data-include="partials/weekly.html"
+  ></section>
 
-    <!-- WEEKLY OUTPUTS -->
-    <section class="section" id="weekly">
-      <div class="section-header">
-        <h2 class="section-title">Weekly Outputs</h2>
-        <div class="section-pill">
-          Each card below is a placeholder for a sub output from the Google Doc
-        </div>
-      </div>
+  <!-- SKILLS SECTION PARTIAL -->
+  <section
+    class="section"
+    id="skills"
+    data-include="partials/skills.html"
+  ></section>
 
-      <!-- TIP TEXT -->
-      <div class="grid grid-1">
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">How to use this section</h3>
-                <p class="card-subtitle">
-                  Replace the placeholder text with your actual outputs
-                </p>
-              </div>
-              <span class="card-badge">Guide</span>
-            </div>
-            <div class="card-body">
-              For each requirement in the Google Doc (creative or essay version),
-              create or edit a card below. You can duplicate a card structure
-              and fill it with your:
-            </div>
-            <ul class="card-list">
-              <li>Title of the task or sub output</li>
-              <li>Short description of what you did</li>
-              <li>Bullet points for key learning or reflection</li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">Editable</span>
-              <span class="tag">Teacher view friendly</span>
-              <span class="tag">Centralized</span>
-            </div>
-          </div>
-        </article>
-      </div>
+  <!-- FOOTER PARTIAL -->
+  <footer
+    class="section"
+    data-include="partials/footer.html"
+  ></footer>
+</main>
 
-      <!-- GRID OF WEEK CARDS -->
-      <div class="grid grid-2">
-        <!-- WEEK 1 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Week 1 • Orientation & Expectations</h3>
-                <p class="card-subtitle">First contact with the course</p>
-              </div>
-              <span class="card-badge">Week 1</span>
-            </div>
-            <div class="card-body">
-              <!-- TODO: Replace this with your own reflection or creative piece -->
-              Short reflection on how I entered the course, my starting
-              expectations, and what I want my portfolio to look like by the end
-              of the semester.
-            </div>
-            <ul class="card-list">
-              <li>Initial feelings about the subject</li>
-              <li>What I am excited or nervous about</li>
-              <li>How I plan to manage requirements</li>
-            </ul>
-          </div>
-        </article>
+<!-- BACK TO TOP BUTTON -->
+<button class="back-to-top" aria-label="Back to top" title="Back to top">
+  ↑
+</button>
 
-        <!-- WEEK 2 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Week 2 • First Creative Output</h3>
-                <p class="card-subtitle">Translating concepts into a story</p>
-              </div>
-              <span class="card-badge">Week 2</span>
-            </div>
-            <div class="card-body">
-              <!-- TODO: Describe your chosen creative or essay output -->
-              I chose the creative version and wrote a piece that connected the
-              topic to my own experience as a student learning technology.
-            </div>
-            <ul class="card-list">
-              <li>Main idea or thesis of the output</li>
-              <li>Key scenes or arguments</li>
-              <li>What I learned while writing it</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- WEEK 3 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Week 3 • Reflection Task</h3>
-                <p class="card-subtitle">Looking at my habits honestly</p>
-              </div>
-              <span class="card-badge">Week 3</span>
-            </div>
-            <div class="card-body">
-              A reflection on how I balance time, procrastination, and sudden
-              waves of productivity, especially around coding tasks.
-            </div>
-            <ul class="card-list">
-              <li>One habit I am proud of</li>
-              <li>One habit I want to change</li>
-              <li>Concrete step I will try next week</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- WEEK 4 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Week 4 • Group Activity</h3>
-                <p class="card-subtitle">Working in teams and surviving chats</p>
-              </div>
-              <span class="card-badge">Week 4</span>
-            </div>
-            <div class="card-body">
-              <!-- TODO: Replace with actual group work description -->
-              A short documentation of our group activity, my role in it, and
-              how we divided tasks among members.
-            </div>
-            <ul class="card-list">
-              <li>Group number and members</li>
-              <li>Main output we produced</li>
-              <li>How collaboration went and what could improve</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- WEEK 5 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Week 5 • Midterm Preparation</h3>
-                <p class="card-subtitle">Converting notes into understanding</p>
-              </div>
-              <span class="card-badge">Week 5</span>
-            </div>
-            <div class="card-body">
-              <!-- TODO: Describe your midterm related work -->
-              A summary of my midterm review strategies, plus any reviewer or
-              study aid I created and how it helped.
-            </div>
-            <ul class="card-list">
-              <li>Topics I focused on the most</li>
-              <li>How I tested myself</li>
-              <li>What I will keep or change for finals</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- WEEK 6 -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Week 6 • Portfolio Progress Check</h3>
-                <p class="card-subtitle">Bringing everything into one page</p>
-              </div>
-              <span class="card-badge">Week 6</span>
-            </div>
-            <div class="card-body">
-              <!-- TODO: Add your own check in -->
-              A short status update on how many outputs I have added to this
-              site and what is still pending.
-            </div>
-            <ul class="card-list">
-              <li>What is complete</li>
-              <li>What still needs to be added</li>
-              <li>One thing I am proud of so far</li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section class="section" id="skills">
-      <div class="section-header">
-        <h2 class="section-title">Skills & Tools</h2>
-        <div class="section-pill">What I am currently using to stay afloat</div>
-      </div>
-
-      <div class="grid grid-3">
-        <!-- TECHNICAL SKILLS -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Technical Skills</h3>
-                <p class="card-subtitle">Languages and tools</p>
-              </div>
-              <span class="card-badge">Tech</span>
-            </div>
-            <ul class="card-list">
-              <li>HTML & CSS for structured, responsive layouts</li>
-              <li>Basic JavaScript for interactivity and animations</li>
-              <li>C programming for foundational logic and problem solving</li>
-              <li>Beginner Python and machine learning fundamentals</li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">HTML</span>
-              <span class="tag tag-pill">CSS</span>
-              <span class="tag">JavaScript</span>
-              <span class="tag">C</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- COLLAB SKILLS -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Collaboration & Organization</h3>
-                <p class="card-subtitle">Class rep instincts</p>
-              </div>
-              <span class="card-badge">Soft</span>
-            </div>
-            <ul class="card-list">
-              <li>Helps coordinate group tasks and announcements</li>
-              <li>Keeps track of files, folders, and submission formats</li>
-              <li>Comfortable talking to teachers for clarifications</li>
-              <li>Balances multiple subject requirements in parallel</li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">Communication</span>
-              <span class="tag">Time management (work in progress)</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- CREATIVE SKILLS -->
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Creative & Writing</h3>
-                <p class="card-subtitle">Words plus layout</p>
-              </div>
-              <span class="card-badge">Creative</span>
-            </div>
-            <ul class="card-list">
-              <li>Experience leading a creative writing organization</li>
-              <li>Comfortable writing essays, reflections, and narratives</li>
-              <li>Can adjust tone for academic, casual, or technical work</li>
-              <li>Uses story thinking to design flows and layouts</li>
-            </ul>
-            <div class="card-tags">
-              <span class="tag tag-pill">Writing</span>
-              <span class="tag">Story structure</span>
-              <span class="tag">HCI perspective</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="section">
-      <div class="grid grid-2">
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Contact & Details</h3>
-                <p class="card-subtitle">
-                  For teachers, future group mates, or future me
-                </p>
-              </div>
-              <span class="card-badge">Footer</span>
-            </div>
-            <div class="card-body">
-              You can reach me through our official class channels. This
-              portfolio exists mainly for subject requirements, but I am also
-              treating it as the starting point of my real online presence as a
-              developer and creator.
-            </div>
-            <ul class="card-list">
-              <li>Location: Cebu, Philippines</li>
-              <li>Program: BS Information Technology</li>
-              <li>School: University of San Carlos, Talamban Campus</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="card reveal">
-          <div class="card-inner">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">Next Steps</h3>
-                <p class="card-subtitle">
-                  Things I want to add after this submission
-                </p>
-              </div>
-              <span class="card-badge">Future</span>
-            </div>
-            <div class="card-body">
-              This portfolio is version one. After the grading period, I want to:
-            </div>
-            <ul class="card-list">
-              <li>Add more actual project demos and screenshots</li>
-              <li>Connect GitHub repos and live previews</li>
-              <li>Create a separate section for hackathon experiences</li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </footer>
-  </main>
-
-  <!-- BACK TO TOP BUTTON -->
-  <button class="back-to-top" aria-label="Back to top" title="Back to top">
-    ↑
-  </button>
-
-
-  <!-- External script -->
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
