@@ -91,24 +91,20 @@
   overflow: hidden;
 }
 
-/* Subtle grid lines to feel like a neat notes page */
-.itc-notes-page .card::before {
+.itc-notes-page .notes-cheatsheet .card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(
-      rgba(148, 163, 184, 0.05) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(148, 163, 184, 0.03) 1px,
-      transparent 1px
-    );
-  background-size: 100% 40px, 40px 100%;
-  opacity: 0.2;
+  background:
+    radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.22), transparent 65%),
+    radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.16), transparent 65%);
+  opacity: 0.35;
   pointer-events: none;
+}
+
+/* No vignette/glow pseudo-element on the big lesson card */
+.itc-notes-page .lesson-card::before {
+  content: none;
 }
 
 /* No dramatic hover */
@@ -264,32 +260,38 @@
   display: block;
 }
 
+/* The inner wrapper that actually rotates */
 .itc-notes-page .card-flip-inner {
   position: relative;
   width: 100%;
+  min-height: 220px; /* ensures there is space for both faces */
   transform-style: preserve-3d;
   transition: transform 260ms ease-out;
 }
 
-/* Faces share base styling */
+/* Front + back share the same footprint */
 .itc-notes-page .card-face {
+  position: absolute;
+  inset: 0;
   border-radius: inherit;
   overflow: hidden;
   backface-visibility: hidden;
   transform-style: preserve-3d;
+
+  display: flex;
+  flex-direction: column;
 }
 
-/* Front sits in normal flow */
+/* Front facing side */
 .itc-notes-page .card-face-front {
-  position: relative;
   transform: rotateY(0deg);
+  z-index: 2;
 }
 
-/* Back overlays and is rotated away */
+/* Back side (initially turned away) */
 .itc-notes-page .card-face-back {
-  position: absolute;
-  inset: 0;
   transform: rotateY(180deg);
+  z-index: 3;
 }
 
 /* Flipped state: rotate the inner wrapper */

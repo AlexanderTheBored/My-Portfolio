@@ -41,7 +41,7 @@
     <header class="notes-page-header">
       <div class="notes-page-label">ITC Reviewer</div>
       <h1 class="notes-page-title">
-        Lesson 1 · Data, Information, and Knowledge
+        Lesson 1 • Data, Information, and Knowledge
       </h1>
       <p class="notes-page-subtitle">
         Personal notes and examples you can review quickly before a quiz or recitation.
@@ -55,9 +55,9 @@
     </header>
 
     <!-- LESSON TAB + CONTENT CARD -->
-      <article class="card lesson-card">
+    <article class="card lesson-card">
       <div class="card-inner">
-        <!-- Folder-style tab bar -->
+        <!-- Seamless strip with tab and pill -->
         <div class="lesson-tab-bar">
           <button
             class="lesson-tab"
@@ -66,7 +66,7 @@
             aria-expanded="true"
           >
             <span class="lesson-tab-label">
-              Lesson 1: Data, Information, and Knowledge
+              Lesson 1 • Data, Information, Knowledge
             </span>
             <span class="lesson-tab-icon" aria-hidden="true">▾</span>
           </button>
@@ -77,12 +77,13 @@
         <!-- Collapsible lesson body -->
         <div class="lesson-panel">
           <div class="card-body notes-body">
-        <header class="notes-section-header">
-          <p class="notes-section-label">Lesson overview</p>
-          <h2 class="notes-section-title">
-            From raw data to useful knowledge
-          </h2>
-        </header>
+            <header class="notes-section-header">
+              <p class="notes-section-label">Lesson overview</p>
+              <h2 class="notes-section-title">
+                From raw data to useful knowledge
+              </h2>
+            </header>
+
             <p>
               Imagine you are tracking your grades this semester. In your notebook you have the numbers
               <strong>18, 25, 9, and 10</strong> written in a line. No labels. No subjects. No descriptions.
@@ -197,13 +198,13 @@
     </article>
 
     <!-- CHEAT SHEET FLIP CARD -->
-<article
-  class="card-flip notes-cheatsheet"
-  data-card-flip
-  tabindex="0"
-  aria-label="Flip to view the Lesson 1 cheat sheet."
-  style="margin-top: 1.75rem;"
->
+    <article
+      class="card-flip notes-cheatsheet"
+      data-card-flip
+      tabindex="0"
+      aria-label="Flip to view the Lesson 1 cheat sheet."
+      style="margin-top: 1.75rem;"
+    >
       <div class="card card-flip-inner">
         <!-- FRONT FACE -->
         <div class="card-face card-face-front">
@@ -224,34 +225,54 @@
           <div class="card-inner">
             <div class="card-header notes-cheatsheet-header">
               <div>
-                <h3 class="card-title">Cheat sheet for fast review</h3>
+                <h3 class="card-title">Lesson 1 cheat sheet</h3>
                 <p class="card-subtitle">
-                  Use these lines when answering short essay questions.
+                  Use these lines for quick review and short essay answers.
                 </p>
               </div>
-              <span class="card-badge">Reviewer</span>
+              <span class="card-badge">L1 · Reviewer</span>
             </div>
 
             <ul class="card-list notes-cheatsheet-list">
               <li>
-                <strong>Data</strong>: raw, unorganized facts with no clear meaning yet
-                (scores, names, timestamps, sensor readings).
+                <strong>Data</strong>  
+                Raw, unprocessed facts with no context or meaning yet.  
+                Examples: numbers like 18, 25, 9, 10, names, dates, sensor readings.
               </li>
+
               <li>
-                <strong>Information</strong>: data that is processed, organized, or presented in a way that
-                answers simple questions such as <q>What happened?</q>.
+                <strong>Information</strong>  
+                Data that has been processed, organized, or labeled so it answers basic questions such as
+                “What happened” or “When did it happen”.  
+                Example: a grade table showing Quiz 1 = 18 over 20, Quiz 2 = 25 over 30.
               </li>
+
               <li>
-                <strong>Knowledge</strong>: conclusions and insights formed when information is combined with
-                experience and used to make decisions.
+                <strong>Knowledge</strong>  
+                Understanding and insight gained from analyzing information and connecting it with experience.  
+                Example: noticing that your quiz scores drop when the test is timed and deciding to practice under time pressure.
               </li>
+
               <li>
-                Flow to remember:
-                <strong>Data → Information → Knowledge → Action.</strong>
+                <strong>Flow to memorize</strong>  
+                Data → processed → Information → analyzed → Knowledge → used for Action.
               </li>
+
               <li>
-                Computers mainly support the jump from <strong>data</strong> to <strong>information</strong>.
-                People still play the main role in turning information into knowledge and deciding what to do.
+                <strong>One sentence definitions</strong>  
+                Data is raw facts.  
+                Information is processed data with context.  
+                Knowledge is interpreted information that supports decisions.
+              </li>
+
+              <li>
+                <strong>Short answer template</strong>  
+                “Data is raw and unprocessed facts. Information is data that has been processed and given context. Knowledge is interpreted information that leads to understanding and better decisions.”
+              </li>
+
+              <li>
+                <strong>Why it matters in IT</strong>  
+                Databases store data, systems transform it into information, and people use knowledge to choose actions in business, education, and everyday life.
               </li>
             </ul>
           </div>
