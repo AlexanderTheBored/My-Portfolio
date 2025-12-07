@@ -1299,3 +1299,121 @@ main {
   width: 100%;
   opacity: 1;
 }
+
+/* ========== ITC NOTES PAGES ========== */
+
+.itc-notes-page .section {
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.itc-notes-page .card {
+  border-radius: 1.5rem;
+}
+
+.itc-notes-page .card-inner {
+  padding: 2rem 2.25rem;
+}
+
+.itc-notes-page .card-title {
+  font-size: 1.45rem;
+}
+
+.itc-notes-page .card-subtitle {
+  font-size: 1rem;
+}
+
+.itc-notes-page .card-body,
+.itc-notes-page .card-list {
+  font-size: 1.12rem;      /* bigger text */
+  line-height: 1.9;        /* more relaxed lines */
+}
+
+/* extra spacing between paragraphs and bullets */
+.itc-notes-page .card-body p {
+  margin-bottom: 1rem;
+}
+
+.itc-notes-page .card-list li + li {
+  margin-top: 0.55rem;
+}
+
+/* ========== ITC NOTES PAGES ========== */
+
+.itc-notes-page {
+  /* slightly lighter, flatter background for reading */
+  background: radial-gradient(circle at top, #071225 0, #020712 55%, #000208 100%);
+}
+
+.itc-notes-page .section {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+/* cards: lighter + clearer edges */
+.itc-notes-page .card {
+  background: rgba(18, 26, 48, 0.96);
+  border: 1px solid rgba(180, 205, 255, 0.16);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(0, 0, 0, 0.35);
+  border-radius: 1.5rem;
+}
+
+.itc-notes-page .card-inner {
+  padding: 2rem 2.25rem;
+}
+
+/* typography sizing */
+.itc-notes-page .card-title {
+  font-size: 1.45rem;
+}
+
+.itc-notes-page .card-subtitle {
+  font-size: 1rem;
+}
+
+/* main text – "Wikipedia-ish" and high contrast */
+.itc-notes-page .card-body,
+.itc-notes-page .card-list {
+  font-size: 1.12rem;
+  line-height: 1.9;
+  color: #f5f7ff;
+}
+
+.itc-notes-page .card-body p {
+  margin-bottom: 1rem;
+}
+
+.itc-notes-page .card-list li {
+  color: #eef2ff;
+}
+
+.itc-notes-page .card-list li + li {
+  margin-top: 0.55rem;
+}
+
+/* table used for sample dataset */
+.itc-notes-page .notes-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 1.06rem;
+}
+
+.itc-notes-page .notes-table th,
+.itc-notes-page .notes-table td {
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.itc-notes-page .notes-table thead th {
+  font-weight: 600;
+  color: #f9fbff;
+}
+
+.itc-notes-page .notes-table-summary td {
+  font-weight: 600;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
