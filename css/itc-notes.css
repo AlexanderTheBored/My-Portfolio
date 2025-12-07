@@ -1,43 +1,129 @@
 /* ========== ITC NOTES PAGES ========== */
 
 .itc-notes-page {
-  background: radial-gradient(circle at top, #071225 0, #020712 55%, #000208 100%);
+  background:
+    radial-gradient(circle at top, #0b1220 0, #020617 55%, #000208 100%);
 }
 
 /* Layout shell for this page */
 .itc-notes-page .section {
-  max-width: 900px;
+  max-width: 960px;
   margin-inline: auto;
 }
 
-/* Cards on notes page: no shine, no dramatic hover */
+/* Outer shell spacing */
+.itc-notes-page .notes-shell {
+  margin-top: 1.75rem;
+}
+
+/* Page header */
+.itc-notes-page .notes-page-header {
+  margin-bottom: 1.75rem;
+  text-align: center;
+  max-width: 72ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.itc-notes-page .notes-page-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a5b4fc;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(129, 140, 248, 0.4);
+  background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.16), transparent),
+    rgba(15, 23, 42, 0.9);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+}
+
+.itc-notes-page .notes-page-title {
+  font-size: clamp(1.7rem, 3vw, 2rem);
+  margin-top: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.itc-notes-page .notes-page-subtitle {
+  font-size: 0.98rem;
+  color: #cbd5f5;
+  max-width: 640px;
+}
+
+.itc-notes-page .notes-meta-row {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.itc-notes-page .notes-meta-pill {
+  font-size: 0.78rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  color: #9ca3af;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+/* Cards on notes page: softer, with a subtle notebook grid */
+
 .itc-notes-page .card {
-  background: rgba(18, 26, 48, 0.96);
-  border: 1px solid rgba(180, 205, 255, 0.16);
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.92),
+      rgba(15, 23, 42, 0.98)
+    ),
+    radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 60%);
+  border: 1px solid rgba(148, 163, 184, 0.3);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(0, 0, 0, 0.35);
+    0 18px 40px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(15, 23, 42, 0.8);
   border-radius: 1.5rem;
   margin-inline: auto;
   transform: none;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Kill shimmer on this page */
+/* Subtle grid lines to feel like a neat notes page */
 .itc-notes-page .card::before {
-  content: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      rgba(148, 163, 184, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(148, 163, 184, 0.03) 1px,
+      transparent 1px
+    );
+  background-size: 100% 40px, 40px 100%;
+  opacity: 0.2;
+  pointer-events: none;
 }
 
-/* Calm hover state */
+/* No dramatic hover */
 .itc-notes-page .card:hover {
   transform: none;
-  border-color: rgba(180, 205, 255, 0.2);
+  border-color: rgba(148, 163, 184, 0.5);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(0, 0, 0, 0.35);
-  background: rgba(18, 26, 48, 0.96);
+    0 18px 40px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
 }
 
+/* Inner padding */
 .itc-notes-page .card-inner {
+  position: relative;
+  z-index: 1;
   padding: 2rem 2.25rem;
 }
 
@@ -48,14 +134,15 @@
 
 .itc-notes-page .card-subtitle {
   font-size: 1rem;
+  color: #cbd5f5;
 }
 
 /* main text */
 .itc-notes-page .card-body,
 .itc-notes-page .card-list {
-  font-size: 1.12rem;
+  font-size: 1.04rem;
   line-height: 1.9;
-  color: #f5f7ff;
+  color: #e5e7ff;
 }
 
 .itc-notes-page .card-body p {
@@ -63,36 +150,103 @@
 }
 
 .itc-notes-page .card-list li {
-  color: #eef2ff;
+  color: #e5e7ff;
 }
 
 .itc-notes-page .card-list li + li {
   margin-top: 0.55rem;
 }
 
+/* Headings and layout inside notes body */
+
+.itc-notes-page .notes-body {
+  text-align: left;
+  max-width: 72ch;
+  margin-inline: auto;
+}
+
+.itc-notes-page .notes-section-header {
+  margin-bottom: 1.1rem;
+}
+
+.itc-notes-page .notes-section-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9ca3c7;
+  margin-bottom: 0.35rem;
+}
+
+.itc-notes-page .notes-section-title {
+  font-size: 1.18rem;
+  margin: 0;
+  color: #e5e7ff;
+}
+
+.itc-notes-page .notes-subheading {
+  font-size: 1.02rem;
+  margin-top: 1.15rem;
+  margin-bottom: 0.3rem;
+  color: #c7d2fe;
+}
+
+/* Summary block */
+
+.itc-notes-page .notes-summary-block {
+  margin-top: 1.35rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(129, 140, 248, 0.5);
+  background:
+    radial-gradient(circle at 0 0, rgba(129, 140, 248, 0.25), transparent 55%),
+    rgba(15, 23, 42, 0.95);
+}
+
+.itc-notes-page .notes-summary-block p {
+  margin-bottom: 0.35rem;
+}
+
+.itc-notes-page .notes-flow-line {
+  font-size: 0.98rem;
+  color: #e0f2fe;
+}
+
 /* table used for sample dataset */
+
 .itc-notes-page .notes-table {
   width: 100%;
   border-collapse: collapse;
   margin: 1rem 0 1.5rem;
-  font-size: 1.06rem;
+  font-size: 1rem;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 0.9rem;
+  overflow: hidden;
 }
 
 .itc-notes-page .notes-table th,
 .itc-notes-page .notes-table td {
-  padding: 0.6rem 0.8rem;
+  padding: 0.6rem 0.9rem;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
 }
 
 .itc-notes-page .notes-table thead th {
   font-weight: 600;
   color: #f9fbff;
+  background: rgba(30, 64, 175, 0.85);
+}
+
+.itc-notes-page .notes-table tbody tr:nth-child(odd) {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.itc-notes-page .notes-table tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.96);
 }
 
 .itc-notes-page .notes-table-summary td {
   font-weight: 600;
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 1px solid rgba(129, 140, 248, 0.65);
 }
 
 /* Cheat sheet card container */
@@ -150,7 +304,7 @@
 
 .itc-notes-page .notes-cheatsheet-label {
   font-size: 0.9rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #cbd5f5;
   margin-bottom: 0.5rem;
@@ -172,6 +326,21 @@
   color: #9ca3c7;
 }
 
+/* Cheat sheet header alignment */
+.itc-notes-page .notes-cheatsheet-header {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.itc-notes-page .notes-cheatsheet-header > div {
+  text-align: left;
+}
+
+.itc-notes-page .notes-cheatsheet-list {
+  text-align: left;
+}
+
 /* Bottom links row */
 .itc-notes-page .notes-links-row {
   margin-top: 1.75rem;
@@ -181,62 +350,56 @@
   justify-content: center;
 }
 
-/* Center text inside cards on the ITC notes page */
-.itc-notes-page .card-header,
-.itc-notes-page .card-body,
-.itc-notes-page .card-list {
-  text-align: center;
-}
-
-/* Make the header stack nicely with centered text and badge */
-.itc-notes-page .card-header {
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.itc-notes-page .card-header > div {
-  text-align: center;
-}
-
 /* ========== LESSON TAB FOLDER STYLE ========== */
+
+/* Let the top strip sit on the card edge */
+.itc-notes-page .lesson-card {
+  overflow: visible;
+}
 
 .itc-notes-page .lesson-card .card-inner {
   position: relative;
-  padding: 2rem 2.25rem 2rem;
+  padding: 2.5rem 2.25rem 2rem;
 }
 
-/* Bar that holds the tab and the L1 pill */
+/* Seamless top strip attached to the card */
 .itc-notes-page .lesson-tab-bar {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 1rem;
 
-  /* make the tab sit on the card border */
-  margin: -2rem -2.25rem 0;
-  padding: 0 2.25rem;
+  margin: -2.5rem -2.25rem 0;
+  padding: 0.85rem 2.25rem 0.7rem;
+
+  border-radius: 1.5rem 1.5rem 0 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.98),
+      rgba(15, 23, 42, 0.96)
+    );
+  border-bottom: 1px solid rgba(15, 23, 42, 1);
 }
 
-/* Main folder tab */
+/* Text button that lives inside the strip, not a separate pill */
 .itc-notes-page .lesson-tab {
-  border-radius: 0.9rem 0.9rem 0 0;
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  border-bottom: none;
-  background: #050816;
-  padding: 0.45rem 1.25rem;
-  color: #e5e7ff;
-  font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #e5e7ff;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.45);
 }
 
-/* Remove native button outline */
-.itc-notes-page .lesson-tab {
-  outline: none;
+.itc-notes-page .lesson-tab:focus-visible {
+  outline: 2px solid rgba(56, 189, 248, 0.7);
+  outline-offset: 2px;
+  border-radius: 999px;
 }
 
 /* Tab label text */
@@ -247,24 +410,25 @@
 /* Little arrow icon */
 .itc-notes-page .lesson-tab-icon {
   font-size: 0.8rem;
-  opacity: 0.9;
-  transition: transform 150ms ease-out;
+  opacity: 0.85;
+  transition: transform 150ms ease-out, opacity 150ms ease-out;
 }
 
-/* L1 pill on the right */
+/* L1 pill on the right, still separate but matching */
 .itc-notes-page .lesson-tab-pill {
-  padding: 0.25rem 0.9rem;
+  padding: 0.3rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.6);
   font-size: 0.75rem;
-  color: #9ca3af;
-  background: transparent;
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.96);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
 }
 
 /* Collapsible lesson content */
 .itc-notes-page .lesson-panel {
   border-radius: 0 0 1.5rem 1.5rem;
-  margin-top: 0.5rem;
+  margin-top: 0.7rem;
 }
 
 /* Collapsed state */
@@ -275,4 +439,55 @@
 /* Arrow when collapsed */
 .itc-notes-page .lesson-tab[aria-expanded="false"] .lesson-tab-icon {
   transform: rotate(-90deg);
+  opacity: 0.7;
+}
+
+/* ========== GENERAL ALIGNMENT TWEAKS ========== */
+
+/* For notes pages, keep most text left-aligned except where explicitly centered */
+.itc-notes-page .card-header,
+.itc-notes-page .card-body,
+.itc-notes-page .card-list {
+  text-align: left;
+}
+
+.itc-notes-page .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* Responsive tweaks */
+
+@media (max-width: 768px) {
+  .itc-notes-page .card-inner {
+    padding: 1.6rem 1.5rem;
+  }
+
+  .itc-notes-page .lesson-card .card-inner {
+    padding: 1.8rem 1.5rem 1.6rem;
+  }
+
+  .itc-notes-page .lesson-tab-bar {
+    margin: -1.8rem -1.5rem 0;
+    padding: 0 1.5rem;
+  }
+
+  .itc-notes-page .lesson-tab-label {
+    white-space: normal;
+  }
+
+  .itc-notes-page .notes-page-header {
+    text-align: left;
+  }
+
+  .itc-notes-page .notes-meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .itc-notes-page .notes-body {
+    max-width: 100%;
+  }
 }

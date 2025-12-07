@@ -16,7 +16,7 @@
       </div>
       <div class="nav-title">
         <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
-        <div class="nav-title-sub">ITC • Lesson 1 Notes</div>
+        <div class="nav-title-sub">ITC Notes • Lesson 1</div>
       </div>
     </div>
 
@@ -36,12 +36,27 @@
 </header>
 
 <main class="page-shell">
-  <section class="section">
+  <section class="section notes-shell">
+    <!-- Page heading strip -->
+    <header class="notes-page-header">
+      <div class="notes-page-label">ITC Reviewer</div>
+      <h1 class="notes-page-title">
+        Lesson 1 · Data, Information, and Knowledge
+      </h1>
+      <p class="notes-page-subtitle">
+        Personal notes and examples you can review quickly before a quiz or recitation.
+      </p>
+
+      <div class="notes-meta-row">
+        <span class="notes-meta-pill">Topic: Foundations</span>
+        <span class="notes-meta-pill">Format: Story + Table + Cheat sheet</span>
+        <span class="notes-meta-pill">Target: Short essay answers</span>
+      </div>
+    </header>
 
     <!-- LESSON TAB + CONTENT CARD -->
-    <article class="card lesson-card">
+      <article class="card lesson-card">
       <div class="card-inner">
-
         <!-- Folder-style tab bar -->
         <div class="lesson-tab-bar">
           <button
@@ -61,11 +76,17 @@
 
         <!-- Collapsible lesson body -->
         <div class="lesson-panel">
-          <div class="card-body">
+          <div class="card-body notes-body">
+        <header class="notes-section-header">
+          <p class="notes-section-label">Lesson overview</p>
+          <h2 class="notes-section-title">
+            From raw data to useful knowledge
+          </h2>
+        </header>
             <p>
               Imagine you are tracking your grades this semester. In your notebook you have the numbers
-              18, 25, 9, and 10 written in a line. No labels. No subjects. No descriptions. On their own,
-              those values do not really tell you anything. They are just raw values with no meaning.
+              <strong>18, 25, 9, and 10</strong> written in a line. No labels. No subjects. No descriptions.
+              On their own, those values do not really tell you anything. They are just raw values with no meaning.
             </p>
 
             <p>
@@ -74,8 +95,10 @@
               idea is that data exists, but by itself it does not yet answer any question.
             </p>
 
+            <h3 class="notes-subheading">Example grade record</h3>
+
             <p>
-              To see the difference, look at the same values in a small grade record.
+              Now look at the same values placed into a simple grade table.
             </p>
 
             <table class="notes-table">
@@ -134,6 +157,8 @@
               data in a useful way through tables, charts, or reports.
             </p>
 
+            <h3 class="notes-subheading">From information to knowledge</h3>
+
             <p>
               If you keep recording your quiz and project scores over several weeks, you might notice a
               pattern. Maybe your project scores are always high, while your quiz scores drop whenever
@@ -155,33 +180,38 @@
               then making that information easy to access.
             </p>
 
-            <p>
-              In short, <strong>data</strong> is raw input, <strong>information</strong> is processed and
-              organized output, and <strong>knowledge</strong> is human understanding built on top of that
-              information. A simple way to remember the flow is:
-              <strong>Data → Information → Knowledge → Action</strong>.
-            </p>
+            <div class="notes-summary-block">
+              <h3 class="notes-subheading">Key flow to remember</h3>
+              <p>
+                <strong>Data</strong> is raw input,
+                <strong>information</strong> is processed and organized output, and
+                <strong>knowledge</strong> is human understanding built on that information.
+              </p>
+              <p class="notes-flow-line">
+                <strong>Data → Information → Knowledge → Action</strong>
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </article>
 
     <!-- CHEAT SHEET FLIP CARD -->
-    <article
-      class="card-flip notes-cheatsheet"
-      data-card-flip
-      tabindex="0"
-      aria-label="Flip to view the Lesson 1 cheat sheet."
-      style="margin-top: 1.75rem;"
-    >
+<article
+  class="card-flip notes-cheatsheet"
+  data-card-flip
+  tabindex="0"
+  aria-label="Flip to view the Lesson 1 cheat sheet."
+  style="margin-top: 1.75rem;"
+>
       <div class="card card-flip-inner">
         <!-- FRONT FACE -->
         <div class="card-face card-face-front">
           <div class="card-inner notes-cheatsheet-front">
             <div class="notes-cheatsheet-label">Lesson 1</div>
-            <h3 class="notes-cheatsheet-title">Data, information, knowledge</h3>
+            <h3 class="notes-cheatsheet-title">Quick reviewer</h3>
             <p class="notes-cheatsheet-subtitle">
-              Short reviewer on what each term means and how they connect.
+              Data vs Information vs Knowledge at a glance.
             </p>
             <p class="notes-cheatsheet-hint">
               Click or tap this card to flip and see the key points.
@@ -192,21 +222,24 @@
         <!-- BACK FACE -->
         <div class="card-face card-face-back">
           <div class="card-inner">
-            <div class="card-header">
+            <div class="card-header notes-cheatsheet-header">
               <div>
-                <h3 class="card-title">Cheat sheet for quick review</h3>
+                <h3 class="card-title">Cheat sheet for fast review</h3>
+                <p class="card-subtitle">
+                  Use these lines when answering short essay questions.
+                </p>
               </div>
               <span class="card-badge">Reviewer</span>
             </div>
 
-            <ul class="card-list">
+            <ul class="card-list notes-cheatsheet-list">
               <li>
                 <strong>Data</strong>: raw, unorganized facts with no clear meaning yet
                 (scores, names, timestamps, sensor readings).
               </li>
               <li>
                 <strong>Information</strong>: data that is processed, organized, or presented in a way that
-                answers simple questions such as “what happened”.
+                answers simple questions such as <q>What happened?</q>.
               </li>
               <li>
                 <strong>Knowledge</strong>: conclusions and insights formed when information is combined with
@@ -217,8 +250,8 @@
                 <strong>Data → Information → Knowledge → Action.</strong>
               </li>
               <li>
-                Computers mainly support the jump from data to information. People still play the main role in
-                turning information into knowledge and deciding what to do.
+                Computers mainly support the jump from <strong>data</strong> to <strong>information</strong>.
+                People still play the main role in turning information into knowledge and deciding what to do.
               </li>
             </ul>
           </div>
@@ -226,6 +259,7 @@
       </div>
     </article>
 
+    <!-- Bottom links -->
     <div class="notes-links-row">
       <a class="card-link" href="overview.html">
         <span>↗</span> Back to ITC overview
