@@ -94,7 +94,7 @@ img {
   align-items: center;
   gap: 12px;
   height: var(--nav-height);
-  position: relative;  /* allows us to center nav-links absolutely */
+  position: relative;
 }
 
 .nav-left {
@@ -152,13 +152,12 @@ img {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto;   /* pushes this group to the right */
+  margin-left: auto;
 }
-
 
 /* Notes burger icon */
 .burger {
-  position: relative;          /* back inside the flex flow */
+  position: relative;
   width: 32px;
   height: 22px;
   background: transparent;
@@ -173,7 +172,7 @@ img {
   position: absolute;
   height: 3px;
   width: 100%;
-  background: #e5e7eb; /* match your text color */
+  background: #e5e7eb;
   border-radius: 999px;
   opacity: 1;
   left: 0;
@@ -309,7 +308,7 @@ main {
 .hero h1 {
   font-size: clamp(2.1rem, 4vw, 2.8rem);
   letter-spacing: 0.03em;
-  line-height: 1.1;      /* <<< add this */
+  line-height: 1.1;
   margin-bottom: 8px;
 }
 
@@ -357,10 +356,8 @@ main {
   border-radius: 999px;
   background: radial-gradient(circle at 0 0, #22c55e, #16a34a);
   box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
-  /* make it blink / pulse like a light */
   animation: statusBlink 1.2s ease-in-out infinite;
 }
-
 
 .chip-ghost {
   background: rgba(15, 23, 42, 0.7);
@@ -489,13 +486,10 @@ main {
   transform-origin: center;
   transition: transform 220ms ease-out, box-shadow 220ms ease-out,
     border-color 220ms ease-out;
-     backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-/* ===================== FLIP CARD VARIANT ===================== */
-
-/* Outer card already has .card styles.
-   This just adds flip behavior. */
+/* Flip card variant */
 .card-flip {
   perspective: 1400px;
   cursor: pointer;
@@ -503,7 +497,6 @@ main {
   display: block;
 }
 
-/* Wrapper that actually rotates */
 .card-flip-inner {
   position: relative;
   width: 100%;
@@ -511,33 +504,25 @@ main {
   transition: transform 260ms ease-out;
 }
 
-/* Front + back share the same box */
 .card-face {
   backface-visibility: hidden;
   transform-style: preserve-3d;
   width: 100%;
 }
 
-/* Front stays in normal flow
-   so it decides the height of the card */
 .card-face-front {
   position: relative;
 }
 
-/* Back is pinned on top of the front,
-   stretching to the same width/height */
 .card-face-back {
   position: absolute;
   inset: 0;
   transform: rotateY(180deg);
 }
 
-/* Flip the inner wrapper to show the back */
 .card-flip.is-flipped .card-flip-inner {
   transform: rotateY(180deg);
 }
-
-/* ===================== END FLIP CARD VARIANT ===================== */
 
 .stack-card::before {
   content: "";
@@ -761,7 +746,7 @@ main {
   grid-template-columns: minmax(0, 1fr);
 }
 
-/* Helper for clarity (same as .grid's default) */
+/* Helper for clarity */
 .grid-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -870,10 +855,6 @@ main {
   border: 1px solid rgba(148, 163, 184, 0.6);
   color: #9ca3af;
   background: rgba(15, 23, 42, 0.9);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
 }
 
 .card-body {
@@ -1028,8 +1009,7 @@ main {
   transform: translateY(-2px);
 }
 
-/* ===================== LESSON NOTES SIDEBAR ===================== */
-
+/* LESSON NOTES SIDEBAR */
 .notes-sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -1131,7 +1111,6 @@ main {
 }
 
 /* KEYFRAMES */
-
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -1159,9 +1138,7 @@ main {
   }
 }
 
-
-/* ===================== SCROLL REVEAL ANIMATIONS ===================== */
-
+/* SCROLL REVEAL ANIMATIONS (enhanced) */
 .reveal {
   opacity: 0;
   transform: translateY(24px) scale(0.985);
@@ -1172,45 +1149,38 @@ main {
     filter 600ms ease-out;
 }
 
-/* When the element is "activated" by JS */
 .reveal.show {
   opacity: 1;
   transform: translateY(0) scale(1);
   filter: blur(0);
 }
 
-/* Optional direction variants using data attributes */
 .reveal[data-reveal="left"] {
   transform: translateX(-32px);
 }
+
 .reveal[data-reveal="right"] {
   transform: translateX(32px);
 }
+
 .reveal[data-reveal="up"] {
   transform: translateY(32px);
 }
 
-/* When shown, all variants end at normal position */
 .reveal.show[data-reveal] {
   transform: translateX(0) translateY(0) scale(1);
 }
 
-
-/* ===================== NAV BAR CUT OFF BUG FIX ===================== */
-
-/* Make anchored sections account for the sticky navbar */
+/* NAV BAR CUT OFF BUG FIX */
 .section {
   scroll-margin-top: calc(var(--nav-height) + 24px);
 }
 
-/* If you ever scroll to the hero by id="top" */
 #top {
   scroll-margin-top: calc(var(--nav-height) + 24px);
 }
 
-
-/* ===== Featured Projects as folder tabs ===== */
-
+/* Featured projects tabs */
 .projects-shell {
   display: flex;
   flex-direction: column;
@@ -1218,7 +1188,7 @@ main {
 }
 
 .project-tabs {
-  /* already uses .grid spacing, just ensure cursor + behavior */
+  /* placeholder for additional styles */
 }
 
 .project-tab {
@@ -1247,11 +1217,7 @@ main {
   display: block;
 }
 
-
-/* ===== End Featured Projects as folder tabs ===== */
-
-/* NAVIGATION BAR */
-
+/* Notes links */
 .notes-link,
 .notes-link-inline {
   color: inherit;
@@ -1263,11 +1229,8 @@ main {
   text-decoration: underline;
 }
 
-/* ===== Lesson links in notes sidebar (subtle glow) ===== */
-
 .notes-link {
   color: var(--text-main);
-  text-decoration: none;
   position: relative;
   display: inline-block;
   transition:
@@ -1283,7 +1246,7 @@ main {
   height: 1px;
   width: 0;
   background: var(--accent);
-  box-shadow: 0 0 6px rgba(56, 189, 248, 0.35); /* softer glow */
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.35);
   opacity: 0;
   transition:
     width 0.22s ease-out,
@@ -1292,128 +1255,10 @@ main {
 
 .notes-link:hover {
   color: var(--accent);
-  text-shadow: 0 0 4px rgba(56, 189, 248, 0.45); /* light halo, not neon */
+  text-shadow: 0 0 4px rgba(56, 189, 248, 0.45);
 }
 
 .notes-link:hover::after {
   width: 100%;
   opacity: 1;
-}
-
-/* ========== ITC NOTES PAGES ========== */
-
-.itc-notes-page .section {
-  max-width: 880px;
-  margin-inline: auto;
-}
-
-.itc-notes-page .card {
-  border-radius: 1.5rem;
-}
-
-.itc-notes-page .card-inner {
-  padding: 2rem 2.25rem;
-}
-
-.itc-notes-page .card-title {
-  font-size: 1.45rem;
-}
-
-.itc-notes-page .card-subtitle {
-  font-size: 1rem;
-}
-
-.itc-notes-page .card-body,
-.itc-notes-page .card-list {
-  font-size: 1.12rem;      /* bigger text */
-  line-height: 1.9;        /* more relaxed lines */
-}
-
-/* extra spacing between paragraphs and bullets */
-.itc-notes-page .card-body p {
-  margin-bottom: 1rem;
-}
-
-.itc-notes-page .card-list li + li {
-  margin-top: 0.55rem;
-}
-
-/* ========== ITC NOTES PAGES ========== */
-
-.itc-notes-page {
-  /* slightly lighter, flatter background for reading */
-  background: radial-gradient(circle at top, #071225 0, #020712 55%, #000208 100%);
-}
-
-.itc-notes-page .section {
-  max-width: 900px;
-  margin-inline: auto;
-}
-
-/* cards: lighter + clearer edges */
-.itc-notes-page .card {
-  background: rgba(18, 26, 48, 0.96);
-  border: 1px solid rgba(180, 205, 255, 0.16);
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(0, 0, 0, 0.35);
-  border-radius: 1.5rem;
-}
-
-.itc-notes-page .card-inner {
-  padding: 2rem 2.25rem;
-}
-
-/* typography sizing */
-.itc-notes-page .card-title {
-  font-size: 1.45rem;
-}
-
-.itc-notes-page .card-subtitle {
-  font-size: 1rem;
-}
-
-/* main text – "Wikipedia-ish" and high contrast */
-.itc-notes-page .card-body,
-.itc-notes-page .card-list {
-  font-size: 1.12rem;
-  line-height: 1.9;
-  color: #f5f7ff;
-}
-
-.itc-notes-page .card-body p {
-  margin-bottom: 1rem;
-}
-
-.itc-notes-page .card-list li {
-  color: #eef2ff;
-}
-
-.itc-notes-page .card-list li + li {
-  margin-top: 0.55rem;
-}
-
-/* table used for sample dataset */
-.itc-notes-page .notes-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1rem 0 1.5rem;
-  font-size: 1.06rem;
-}
-
-.itc-notes-page .notes-table th,
-.itc-notes-page .notes-table td {
-  padding: 0.6rem 0.8rem;
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.itc-notes-page .notes-table thead th {
-  font-weight: 600;
-  color: #f9fbff;
-}
-
-.itc-notes-page .notes-table-summary td {
-  font-weight: 600;
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
 }

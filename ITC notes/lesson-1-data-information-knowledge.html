@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <title>ITC Lesson 1 Notes | Data, Information, Knowledge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../main.css" />
+  <script src="../itc-notes.js" defer></script>
 </head>
 <body class="itc-notes-page">
 <header class="nav">
@@ -36,166 +37,196 @@
 
 <main class="page-shell">
   <section class="section">
-    <div class="section-header">
-      <h2 class="section-title">Lesson 1: Data, Information, and Knowledge</h2>
-      <div class="section-pill">
-        Definitions, example, and a quick reviewer
-      </div>
-    </div>
 
-    <!-- ARTICLE CARD -->
-    <article class="card">
+    <!-- LESSON TAB + CONTENT CARD -->
+    <article class="card lesson-card">
       <div class="card-inner">
-        <div class="card-header">
-          <div>
-            <h3 class="card-title">Data, information, and knowledge in practice</h3>
-            <p class="card-subtitle">
-              Understanding the three ideas using a simple grade record
+
+        <!-- Folder-style tab bar -->
+        <div class="lesson-tab-bar">
+          <button
+            class="lesson-tab"
+            type="button"
+            data-lesson-toggle
+            aria-expanded="true"
+          >
+            <span class="lesson-tab-label">
+              Lesson 1: Data, Information, and Knowledge
+            </span>
+            <span class="lesson-tab-icon" aria-hidden="true">▾</span>
+          </button>
+
+          <div class="lesson-tab-pill">L1</div>
+        </div>
+
+        <!-- Collapsible lesson body -->
+        <div class="lesson-panel">
+          <div class="card-body">
+            <p>
+              Imagine you are tracking your grades this semester. In your notebook you have the numbers
+              18, 25, 9, and 10 written in a line. No labels. No subjects. No descriptions. On their own,
+              those values do not really tell you anything. They are just raw values with no meaning.
+            </p>
+
+            <p>
+              That is what we call <strong>data</strong>. Data is any collection of raw facts and figures.
+              It can be numbers, words, images, sensor readings, click logs, or survey responses. The key
+              idea is that data exists, but by itself it does not yet answer any question.
+            </p>
+
+            <p>
+              To see the difference, look at the same values in a small grade record.
+            </p>
+
+            <table class="notes-table">
+              <thead>
+                <tr>
+                  <th>Activity</th>
+                  <th>Score</th>
+                  <th>Maximum</th>
+                  <th>Percentage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Quiz 1</td>
+                  <td>18</td>
+                  <td>20</td>
+                  <td>90%</td>
+                </tr>
+                <tr>
+                  <td>Quiz 2</td>
+                  <td>25</td>
+                  <td>30</td>
+                  <td>83%</td>
+                </tr>
+                <tr>
+                  <td>Seatwork</td>
+                  <td>9</td>
+                  <td>10</td>
+                  <td>90%</td>
+                </tr>
+                <tr>
+                  <td>Project</td>
+                  <td>10</td>
+                  <td>10</td>
+                  <td>100%</td>
+                </tr>
+                <tr class="notes-table-summary">
+                  <td>Average</td>
+                  <td colspan="2">overall quiz and classwork</td>
+                  <td>90.75%</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>
+              In the table, the same numbers now have labels and structure. You know what each score belongs
+              to, how you performed, and how the activities compare. The data was not changed, but it was
+              organized and presented clearly.
+            </p>
+
+            <p>
+              At this point you are no longer looking at random values. You are looking at
+              <strong>information</strong>. Information is data that has been processed, organized, or
+              structured so that it answers simple questions like <q>What happened?</q>. Teachers, managers,
+              and computer systems create information when they format, summarize, calculate, and present
+              data in a useful way through tables, charts, or reports.
+            </p>
+
+            <p>
+              If you keep recording your quiz and project scores over several weeks, you might notice a
+              pattern. Maybe your project scores are always high, while your quiz scores drop whenever
+              there is a strict time limit. That observation does not come from one line of numbers. It
+              comes from looking at information over time and thinking about it.
+            </p>
+
+            <p>
+              That deeper understanding is <strong>knowledge</strong>. Knowledge is the result of taking
+              information, connecting it with experience, and using it to make decisions. With that
+              knowledge you might decide to practice more under time pressure, review specific topics, or
+              ask your teacher for help.
+            </p>
+
+            <p>
+              In organizations, people use knowledge to answer questions like <q>Why is this happening?</q>
+              and <q>What should we do next?</q>. Computer systems help by collecting and storing large
+              amounts of data, turning them into information through processing and visualization, and
+              then making that information easy to access.
+            </p>
+
+            <p>
+              In short, <strong>data</strong> is raw input, <strong>information</strong> is processed and
+              organized output, and <strong>knowledge</strong> is human understanding built on top of that
+              information. A simple way to remember the flow is:
+              <strong>Data → Information → Knowledge → Action</strong>.
             </p>
           </div>
-          <span class="card-badge">Article</span>
-        </div>
-
-        <div class="card-body">
-          <p>
-            Imagine you are tracking your grades this semester. In your notebook you have the numbers
-            18, 25, 9, and 10 written in a line. No labels. No subjects. No descriptions. On their own,
-            those values do not really tell you anything. They are just raw values with no meaning.
-          </p>
-
-          <p>
-            That is what we call <strong>data</strong>. Data is any collection of raw facts and figures.
-            It can be numbers, words, images, sensor readings, click logs, or survey responses. The key
-            idea is that data exists, but by itself it does not yet answer any question.
-          </p>
-
-          <p>
-            To see the difference, look at the same values in a small grade record.
-          </p>
-
-          <table class="notes-table">
-            <thead>
-              <tr>
-                <th>Activity</th>
-                <th>Score</th>
-                <th>Maximum</th>
-                <th>Percentage</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Quiz 1</td>
-                <td>18</td>
-                <td>20</td>
-                <td>90%</td>
-              </tr>
-              <tr>
-                <td>Quiz 2</td>
-                <td>25</td>
-                <td>30</td>
-                <td>83%</td>
-              </tr>
-              <tr>
-                <td>Seatwork</td>
-                <td>9</td>
-                <td>10</td>
-                <td>90%</td>
-              </tr>
-              <tr>
-                <td>Project</td>
-                <td>10</td>
-                <td>10</td>
-                <td>100%</td>
-              </tr>
-              <tr class="notes-table-summary">
-                <td>Average</td>
-                <td colspan="2">overall quiz and classwork</td>
-                <td>90.75%</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <p>
-            In the table, the same numbers now have labels and structure. You know what each score belongs
-            to, how you performed, and how the activities compare. The data was not changed, but it was
-            organized and presented clearly.
-          </p>
-
-          <p>
-            At this point you are no longer looking at random values. You are looking at
-            <strong>information</strong>. Information is data that has been processed, organized, or
-            structured so that it answers simple questions like <q>What happened?</q>. Teachers, managers,
-            and computer systems create information when they format, summarize, calculate, and present
-            data in a useful way through tables, charts, or reports.
-          </p>
-
-          <p>
-            If you keep recording your quiz and project scores over several weeks, you might notice a
-            pattern. Maybe your project scores are always high, while your quiz scores drop whenever
-            there is a strict time limit. That observation does not come from one line of numbers. It
-            comes from looking at information over time and thinking about it.
-          </p>
-
-          <p>
-            That deeper understanding is <strong>knowledge</strong>. Knowledge is the result of taking
-            information, connecting it with experience, and using it to make decisions. With that
-            knowledge you might decide to practice more under time pressure, review specific topics, or
-            ask your teacher for help.
-          </p>
-
-          <p>
-            In organizations, people use knowledge to answer questions like <q>Why is this happening?</q>
-            and <q>What should we do next?</q>. Computer systems help by collecting and storing large
-            amounts of data, turning them into information through processing and visualization, and
-            then making that information easy to access.
-          </p>
-
-          <p>
-            In short, <strong>data</strong> is raw input, <strong>information</strong> is processed and
-            organized output, and <strong>knowledge</strong> is human understanding built on top of that
-            information. A simple way to remember the flow is:
-            <strong>Data → Information → Knowledge → Action</strong>.
-          </p>
         </div>
       </div>
     </article>
 
-    <!-- CHEAT SHEET CARD -->
-    <article class="card" style="margin-top: 1.75rem;">
-      <div class="card-inner">
-        <div class="card-header">
-          <div>
-            <h3 class="card-title">Cheat sheet for quick review</h3>
+    <!-- CHEAT SHEET FLIP CARD -->
+    <article
+      class="card-flip notes-cheatsheet"
+      data-card-flip
+      tabindex="0"
+      aria-label="Flip to view the Lesson 1 cheat sheet."
+      style="margin-top: 1.75rem;"
+    >
+      <div class="card card-flip-inner">
+        <!-- FRONT FACE -->
+        <div class="card-face card-face-front">
+          <div class="card-inner notes-cheatsheet-front">
+            <div class="notes-cheatsheet-label">Lesson 1</div>
+            <h3 class="notes-cheatsheet-title">Data, information, knowledge</h3>
+            <p class="notes-cheatsheet-subtitle">
+              Short reviewer on what each term means and how they connect.
+            </p>
+            <p class="notes-cheatsheet-hint">
+              Click or tap this card to flip and see the key points.
+            </p>
           </div>
-          <span class="card-badge">Reviewer</span>
         </div>
 
-        <ul class="card-list">
-          <li>
-            <strong>Data</strong>: raw, unorganized facts with no clear meaning yet
-            (scores, names, timestamps, sensor readings).
-          </li>
-          <li>
-            <strong>Information</strong>: data that is processed, organized, or presented in a way that
-            answers simple questions such as <q>what happened</q>.
-          </li>
-          <li>
-            <strong>Knowledge</strong>: conclusions and insights formed when information is combined with
-            experience and used to make decisions.
-          </li>
-          <li>
-            Flow to remember:
-            <strong>Data → Information → Knowledge → Action</strong>.
-          </li>
-          <li>
-            Computers mainly support the jump from data to information. People still play the main role in
-            turning information into knowledge and deciding what to do.
-          </li>
-        </ul>
+        <!-- BACK FACE -->
+        <div class="card-face card-face-back">
+          <div class="card-inner">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Cheat sheet for quick review</h3>
+              </div>
+              <span class="card-badge">Reviewer</span>
+            </div>
+
+            <ul class="card-list">
+              <li>
+                <strong>Data</strong>: raw, unorganized facts with no clear meaning yet
+                (scores, names, timestamps, sensor readings).
+              </li>
+              <li>
+                <strong>Information</strong>: data that is processed, organized, or presented in a way that
+                answers simple questions such as “what happened”.
+              </li>
+              <li>
+                <strong>Knowledge</strong>: conclusions and insights formed when information is combined with
+                experience and used to make decisions.
+              </li>
+              <li>
+                Flow to remember:
+                <strong>Data → Information → Knowledge → Action.</strong>
+              </li>
+              <li>
+                Computers mainly support the jump from data to information. People still play the main role in
+                turning information into knowledge and deciding what to do.
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </article>
 
-    <div style="margin-top: 1.75rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <div class="notes-links-row">
       <a class="card-link" href="overview.html">
         <span>↗</span> Back to ITC overview
       </a>

@@ -1,0 +1,278 @@
+/* ========== ITC NOTES PAGES ========== */
+
+.itc-notes-page {
+  background: radial-gradient(circle at top, #071225 0, #020712 55%, #000208 100%);
+}
+
+/* Layout shell for this page */
+.itc-notes-page .section {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+/* Cards on notes page: no shine, no dramatic hover */
+.itc-notes-page .card {
+  background: rgba(18, 26, 48, 0.96);
+  border: 1px solid rgba(180, 205, 255, 0.16);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(0, 0, 0, 0.35);
+  border-radius: 1.5rem;
+  margin-inline: auto;
+  transform: none;
+}
+
+/* Kill shimmer on this page */
+.itc-notes-page .card::before {
+  content: none;
+}
+
+/* Calm hover state */
+.itc-notes-page .card:hover {
+  transform: none;
+  border-color: rgba(180, 205, 255, 0.2);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(0, 0, 0, 0.35);
+  background: rgba(18, 26, 48, 0.96);
+}
+
+.itc-notes-page .card-inner {
+  padding: 2rem 2.25rem;
+}
+
+/* typography sizing */
+.itc-notes-page .card-title {
+  font-size: 1.45rem;
+}
+
+.itc-notes-page .card-subtitle {
+  font-size: 1rem;
+}
+
+/* main text */
+.itc-notes-page .card-body,
+.itc-notes-page .card-list {
+  font-size: 1.12rem;
+  line-height: 1.9;
+  color: #f5f7ff;
+}
+
+.itc-notes-page .card-body p {
+  margin-bottom: 1rem;
+}
+
+.itc-notes-page .card-list li {
+  color: #eef2ff;
+}
+
+.itc-notes-page .card-list li + li {
+  margin-top: 0.55rem;
+}
+
+/* table used for sample dataset */
+.itc-notes-page .notes-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 1.06rem;
+}
+
+.itc-notes-page .notes-table th,
+.itc-notes-page .notes-table td {
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.itc-notes-page .notes-table thead th {
+  font-weight: 600;
+  color: #f9fbff;
+}
+
+.itc-notes-page .notes-table-summary td {
+  font-weight: 600;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Cheat sheet card container */
+.itc-notes-page .notes-cheatsheet {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+/* ========== FLIP CARD (CHEAT SHEET) ========== */
+
+.itc-notes-page .card-flip {
+  perspective: 1400px;
+  cursor: pointer;
+  position: relative;
+  display: block;
+}
+
+.itc-notes-page .card-flip-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 260ms ease-out;
+}
+
+/* Faces share base styling */
+.itc-notes-page .card-face {
+  border-radius: inherit;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Front sits in normal flow */
+.itc-notes-page .card-face-front {
+  position: relative;
+  transform: rotateY(0deg);
+}
+
+/* Back overlays and is rotated away */
+.itc-notes-page .card-face-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+/* Flipped state: rotate the inner wrapper */
+.itc-notes-page .card-flip.is-flipped .card-flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* Cheat sheet front styling */
+.itc-notes-page .notes-cheatsheet-front {
+  text-align: center;
+}
+
+.itc-notes-page .notes-cheatsheet-label {
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #cbd5f5;
+  margin-bottom: 0.5rem;
+}
+
+.itc-notes-page .notes-cheatsheet-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.itc-notes-page .notes-cheatsheet-subtitle {
+  font-size: 1rem;
+  color: #d1d5ff;
+  margin-bottom: 0.75rem;
+}
+
+.itc-notes-page .notes-cheatsheet-hint {
+  font-size: 0.9rem;
+  color: #9ca3c7;
+}
+
+/* Bottom links row */
+.itc-notes-page .notes-links-row {
+  margin-top: 1.75rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Center text inside cards on the ITC notes page */
+.itc-notes-page .card-header,
+.itc-notes-page .card-body,
+.itc-notes-page .card-list {
+  text-align: center;
+}
+
+/* Make the header stack nicely with centered text and badge */
+.itc-notes-page .card-header {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.itc-notes-page .card-header > div {
+  text-align: center;
+}
+
+/* ========== LESSON TAB FOLDER STYLE ========== */
+
+.itc-notes-page .lesson-card .card-inner {
+  position: relative;
+  padding: 2rem 2.25rem 2rem;
+}
+
+/* Bar that holds the tab and the L1 pill */
+.itc-notes-page .lesson-tab-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  /* make the tab sit on the card border */
+  margin: -2rem -2.25rem 0;
+  padding: 0 2.25rem;
+}
+
+/* Main folder tab */
+.itc-notes-page .lesson-tab {
+  border-radius: 0.9rem 0.9rem 0 0;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  border-bottom: none;
+  background: #050816;
+  padding: 0.45rem 1.25rem;
+  color: #e5e7ff;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.45);
+}
+
+/* Remove native button outline */
+.itc-notes-page .lesson-tab {
+  outline: none;
+}
+
+/* Tab label text */
+.itc-notes-page .lesson-tab-label {
+  white-space: nowrap;
+}
+
+/* Little arrow icon */
+.itc-notes-page .lesson-tab-icon {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  transition: transform 150ms ease-out;
+}
+
+/* L1 pill on the right */
+.itc-notes-page .lesson-tab-pill {
+  padding: 0.25rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  font-size: 0.75rem;
+  color: #9ca3af;
+  background: transparent;
+}
+
+/* Collapsible lesson content */
+.itc-notes-page .lesson-panel {
+  border-radius: 0 0 1.5rem 1.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Collapsed state */
+.itc-notes-page .lesson-panel.is-collapsed {
+  display: none;
+}
+
+/* Arrow when collapsed */
+.itc-notes-page .lesson-tab[aria-expanded="false"] .lesson-tab-icon {
+  transform: rotate(-90deg);
+}

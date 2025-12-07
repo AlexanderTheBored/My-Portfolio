@@ -1,0 +1,7 @@
+/* main.css
+   Central stylesheet that imports all modular CSS files.
+   This is the ONLY file you link in your HTML.
+*/
+
+@import url("css/base.css");
+@import url("css/itc-notes.css");
