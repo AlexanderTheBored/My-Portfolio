@@ -5,7 +5,7 @@
   <title>ITC Notes Overview | Rovel Lumapas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- go up one level to reuse main styles -->
-  <link rel="stylesheet" href="../style.css" />
+<link rel="stylesheet" href="../main.css">
 </head>
 <body>
 <header class="nav">
@@ -39,7 +39,7 @@
 <main class="page-shell">
   <section class="section">
     <div class="section-header">
-      <h2 class="section-title">ITC Notes & Portfolio Guide</h2>
+      <h2 class="section-title">ITC Notes &amp; Portfolio Guide</h2>
       <div class="section-pill">
         One folder • separate pages per lesson
       </div>
@@ -76,61 +76,20 @@
       </div>
     </article>
 
-    <!-- Lesson list -->
-    <div class="grid grid-2" style="margin-top: 1.75rem;">
-      <!-- LESSON 1 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title">Lesson 1: Data, Information, Knowledge</h3>
-              <p class="card-subtitle">Basic concepts and differences</p>
-            </div>
-            <span class="card-badge">L1</span>
-          </div>
-          <div class="card-body">
-            Definitions, simple examples, and how raw data turns into something
-            meaningful for decision making.
-          </div>
-          <div class="card-footer">
-            <a
-              class="card-link"
-              href="lesson-1-data-information-knowledge.html"
-            >
-              <span>↗</span> Open Lesson 1 notes
-            </a>
-          </div>
-        </div>
-      </article>
+    <!-- Search input for filtering lessons dynamically -->
+    <input
+      type="search"
+      id="lesson-search"
+      class="lesson-search-input"
+      placeholder="Search lessons…"
+      aria-label="Search lessons"
+      style="width: 100%; margin-top: 1.75rem; padding: 0.5rem 1rem;"
+    />
 
-      <!-- LESSON 2 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title">Lesson 2: Artificial Intelligence</h3>
-              <p class="card-subtitle">What AI is and is not</p>
-            </div>
-            <span class="card-badge">L2</span>
-          </div>
-          <div class="card-body">
-            Everyday examples of AI, basic categories, and why it matters for
-            IT students.
-          </div>
-          <div class="card-footer">
-            <a
-              class="card-link"
-              href="lesson-2-artificial-intelligence.html"
-            >
-              <span>↗</span> Open Lesson 2 notes
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- You can duplicate these cards for more lessons later -->
-    </div>
+    <!-- Dynamic container where JavaScript will inject lesson cards -->
+    <div id="lessons-container" class="grid grid-2" style="margin-top: 1rem;"></div>
   </section>
 </main>
+<script src="overview.js"></script>
 </body>
 </html>
