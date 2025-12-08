@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ITC Lesson 10 Notes | Network Topologies</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../main.css" />
+  <script src="../itc-notes.js" defer></script>
+</head>
+
+<body class="itc-notes-page">
+<header class="nav">
+  <div class="nav-inner">
+
+    <div class="nav-left">
+      <div class="nav-logo"><span>RL</span></div>
+      <div class="nav-title">
+        <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
+        <div class="nav-title-sub">ITC Notes • Lesson 10</div>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../index.html">Main portfolio</a>
+      <a href="overview.html">ITC overview</a>
+      <a href="lesson-9-student-database.html">Previous lesson</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="nav-pill">
+        <span>Lesson 10</span>
+        <small>Network topologies</small>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<main class="page-shell">
+<section class="section notes-shell">
+
+  <!-- PAGE HEADER -->
+  <header class="notes-page-header">
+    <div class="notes-page-label">ITC Reviewer</div>
+    <h1 class="notes-page-title">Lesson 10 • Network Topologies and Their Advantages</h1>
+    <p class="notes-page-subtitle">
+      How different ways of arranging computers in a network affect performance, reliability, and cost.
+    </p>
+
+    <div class="notes-meta-row">
+      <span class="notes-meta-pill">Networking</span>
+      <span class="notes-meta-pill">Topology</span>
+      <span class="notes-meta-pill">LAN</span>
+    </div>
+  </header>
+
+  <!-- LESSON CARD -->
+  <article class="card lesson-card">
+    <div class="card-inner">
+
+      <!-- TAB STRIP -->
+      <div class="lesson-tab-bar">
+        <button class="lesson-tab" type="button" data-lesson-toggle aria-expanded="true">
+          <span class="lesson-tab-label">Lesson 10 • Network Topologies and Their Advantages</span>
+          <span class="lesson-tab-icon">▾</span>
+        </button>
+        <div class="lesson-tab-pill">L10</div>
+      </div>
+
+      <!-- COLLAPSIBLE BODY -->
+      <div class="lesson-panel">
+        <div class="card-body notes-body">
+
+          <header class="notes-section-header">
+            <p class="notes-section-label">Lesson overview</p>
+            <h2 class="notes-section-title">What is a network topology</h2>
+          </header>
+
+          <p>
+            A <strong>network topology</strong> describes how computers and devices are arranged and
+            connected in a network. It shows the pattern of cables, switches, and devices and how data
+            travels between them. Choosing the right topology affects how easy it is to expand the network,
+            how much it costs, and how the network behaves when there is a problem.
+          </p>
+
+          <p>
+            In local area networks inside schools or offices, common topologies include
+            <strong>star</strong>, <strong>bus</strong>, <strong>ring</strong>, and <strong>mesh</strong>.
+            Many modern networks also use a mix of these patterns in a hybrid design.
+          </p>
+
+          <h3 class="notes-subheading">Star topology</h3>
+          <p>
+            In a <strong>star topology</strong>, all devices connect to a central device such as a switch
+            or hub. Each computer has its own cable that goes directly to the center.
+          </p>
+          <p>Advantages:</p>
+          <ul>
+            <li>Easy to add or remove devices without affecting the rest of the network.</li>
+            <li>Problems in one cable usually do not bring down the entire network.</li>
+            <li>Issues are easier to locate because each device connects through the central point.</li>
+          </ul>
+          <p>
+            The main disadvantage is that if the central switch or hub fails, the whole network stops
+            working.
+          </p>
+
+          <h3 class="notes-subheading">Bus topology</h3>
+          <p>
+            In a <strong>bus topology</strong>, all devices share a single main cable called the backbone.
+            Each computer taps into this cable to send and receive data.
+          </p>
+          <p>Advantages:</p>
+          <ul>
+            <li>Uses less cable compared to a star topology.</li>
+            <li>Can be cheaper and simpler in very small networks.</li>
+          </ul>
+          <p>
+            However, if the main cable fails, the entire network goes down. Performance can also slow down
+            as more devices share the same bus and collisions increase.
+          </p>
+
+          <h3 class="notes-subheading">Ring topology</h3>
+          <p>
+            In a <strong>ring topology</strong>, each device connects to exactly two neighbors, forming a
+            closed loop. Data travels around the ring from one device to the next.
+          </p>
+          <p>Advantages:</p>
+          <ul>
+            <li>Data can flow in an orderly way around the ring.</li>
+            <li>Sometimes easier to predict network performance compared to a shared bus.</li>
+          </ul>
+          <p>
+            One major drawback is that if a single connection in the ring breaks, the whole network can be
+            affected, unless there is a backup path.
+          </p>
+
+          <h3 class="notes-subheading">Mesh topology</h3>
+          <p>
+            In a <strong>mesh topology</strong>, devices are connected by multiple paths. In a full mesh,
+            every device connects directly to every other device. In a partial mesh, only some devices have
+            multiple connections.
+          </p>
+          <p>Advantages:</p>
+          <ul>
+            <li>Very high reliability because there are alternate paths for data.</li>
+            <li>Network can continue to work even if one link fails.</li>
+          </ul>
+          <p>
+            The downside is that mesh networks can be expensive and complex to set up because they require
+            more cabling and network interfaces.
+          </p>
+
+          <div class="notes-summary-block">
+            <h3 class="notes-subheading">Choosing a topology</h3>
+            <p>
+              In practice, network designers mix different topologies to balance cost, performance, and
+              reliability. Star is popular for modern LANs, while mesh is common in critical backbone
+              networks where uptime is very important.
+            </p>
+            <p class="notes-flow-line">
+              Bus and ring for simple or older networks → Star for typical LANs → Mesh for high reliability
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- CHEAT SHEET -->
+  <article
+    class="card-flip notes-cheatsheet"
+    data-card-flip
+    data-cheatsheet="lesson-10"
+    tabindex="0"
+    aria-label="Flip to view the Lesson 10 cheat sheet."
+    style="margin-top: 1.75rem;"
+  >
+    <div class="card-flip-inner">
+
+      <!-- FRONT -->
+      <div class="card-face card-face-front">
+        <div class="card card-inner notes-cheatsheet-front">
+          <div class="notes-cheatsheet-label">Lesson 10</div>
+          <h3 class="notes-cheatsheet-title">Quick reviewer</h3>
+          <p class="notes-cheatsheet-subtitle">
+            Common network topologies and when to use them.
+          </p>
+          <p class="notes-cheatsheet-hint">
+            Click or tap this card to flip and see the key points.
+          </p>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-face card-face-back">
+        <div class="card card-inner">
+          <div class="card-header notes-cheatsheet-header">
+            <div>
+              <h3 class="card-title">Lesson 10 Cheat Sheet</h3>
+              <p class="card-subtitle">
+                Short lines you can reuse in quizzes and IDs.
+              </p>
+            </div>
+            <span class="card-badge">L10 · Reviewer</span>
+          </div>
+
+          <ul class="card-list notes-cheatsheet-list">
+
+            <li>
+              <strong>Network topology</strong><br />
+              The physical or logical layout of devices and cables in a network and the path that data follows.
+            </li>
+
+            <li>
+              <strong>Star topology</strong><br />
+              All devices connect to a central switch or hub. Easy to manage and expand. One cable failure
+              usually affects only one device, but the central device is a single point of failure.
+            </li>
+
+            <li>
+              <strong>Bus topology</strong><br />
+              All devices share a single main cable. Uses less cable but one backbone failure can take down
+              the whole network and performance drops as more devices join.
+            </li>
+
+            <li>
+              <strong>Ring topology</strong><br />
+              Each device connects to two neighbors in a loop. Data travels around the ring. Failure of one
+              link can stop communication unless there is a backup path.
+            </li>
+
+            <li>
+              <strong>Mesh topology</strong><br />
+              Devices have multiple paths between them. Very reliable but more expensive and complex because
+              it needs more cabling and interfaces.
+            </li>
+
+            <li>
+              <strong>One sentence answer</strong><br />
+              “Network topologies such as star, bus, ring, and mesh describe how devices are arranged and
+              each has its own trade off between cost, performance, and reliability.”
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- BOTTOM LINKS -->
+  <div class="notes-links-row">
+    <a class="card-link" href="overview.html">
+      <span>↗</span> Back to ITC overview
+    </a>
+    <a class="card-link" href="../index.html">
+      <span>↗</span> Return to main portfolio
+    </a>
+    <a class="card-link" href="lesson-11-ethical-issues-it-code-of-ethics.html">
+      <span>↗</span> Next: Lesson 11: Ethical Issues and IT Code of Ethics</a>
+  </div>
+
+</section>
+</main>
+
+</body>
+</html>

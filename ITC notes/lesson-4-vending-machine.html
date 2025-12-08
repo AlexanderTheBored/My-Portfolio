@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ITC Lesson 4 Notes | Vending Machine Algorithm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../main.css" />
+  <script src="../itc-notes.js" defer></script>
+</head>
+
+<body class="itc-notes-page">
+<header class="nav">
+  <div class="nav-inner">
+
+    <div class="nav-left">
+      <div class="nav-logo"><span>RL</span></div>
+      <div class="nav-title">
+        <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
+        <div class="nav-title-sub">ITC Notes • Lesson 4</div>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../index.html">Main portfolio</a>
+      <a href="overview.html">ITC overview</a>
+      <a href="lesson-3-healthcare.html">Previous lesson</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="nav-pill">
+        <span>Lesson 4</span>
+        <small>Vending machine algorithm</small>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<main class="page-shell">
+<section class="section notes-shell">
+
+  <!-- PAGE HEADER -->
+  <header class="notes-page-header">
+    <div class="notes-page-label">ITC Reviewer</div>
+    <h1 class="notes-page-title">Lesson 4 • Vending Machine Algorithm (Pseudocode and Flowchart)</h1>
+    <p class="notes-page-subtitle">
+      Using a vending machine to understand how algorithms, pseudocode, and flowcharts describe real world processes.
+    </p>
+
+    <div class="notes-meta-row">
+      <span class="notes-meta-pill">Algorithms</span>
+      <span class="notes-meta-pill">Pseudocode</span>
+      <span class="notes-meta-pill">Flowchart</span>
+    </div>
+  </header>
+
+  <!-- LESSON CARD -->
+  <article class="card lesson-card">
+    <div class="card-inner">
+
+      <!-- TAB STRIP -->
+      <div class="lesson-tab-bar">
+        <button class="lesson-tab" type="button" data-lesson-toggle aria-expanded="true">
+          <span class="lesson-tab-label">Lesson 4 • Vending Machine Algorithm</span>
+          <span class="lesson-tab-icon">▾</span>
+        </button>
+        <div class="lesson-tab-pill">L4</div>
+      </div>
+
+      <!-- COLLAPSIBLE BODY -->
+      <div class="lesson-panel">
+        <div class="card-body notes-body">
+
+          <header class="notes-section-header">
+            <p class="notes-section-label">Lesson overview</p>
+            <h2 class="notes-section-title">From real world steps to clear algorithms</h2>
+          </header>
+
+          <p>
+            A vending machine is a simple example of an algorithm in action. Behind every button press,
+            there is a step by step process that the machine follows. It needs to check the selected item,
+            compare money with price, decide whether to dispense the product, and return change if needed.
+          </p>
+
+          <p>
+            To design this behavior, we first describe the logic using
+            <strong>pseudocode</strong> and a <strong>flowchart</strong>. These tools help us plan the
+            algorithm in a way that is easy to understand even before writing a real program.
+          </p>
+
+          <h3 class="notes-subheading">Basic vending machine scenario</h3>
+          <p>
+            In a basic transaction, the user inserts money and chooses a product. The vending machine has to:
+          </p>
+          <ul>
+            <li>Check if the selected item exists and still has stock.</li>
+            <li>Check if the inserted money is enough for that item.</li>
+            <li>Dispense the product if the money is enough.</li>
+            <li>Return change when the payment is more than the price.</li>
+            <li>Return the money or ask for more if the payment is not enough.</li>
+          </ul>
+
+          <h3 class="notes-subheading">Pseudocode for a vending machine</h3>
+          <p>
+            <strong>Pseudocode</strong> is a structured description of an algorithm written in a simple,
+            human friendly style. It does not follow the exact syntax of a programming language, but it
+            uses a clear format with keywords like IF, THEN, ELSE, and WHILE.
+          </p>
+
+          <p>Example pseudocode for a vending machine transaction:</p>
+
+          <div class="notes-summary-block">
+            <p><strong>Vending machine pseudocode (simplified)</strong></p>
+            <p>
+              1. Start  
+              2. Display list of products  
+              3. Ask user to insert money  
+              4. Ask user to select product  
+              5. If product is out of stock, display message and return money  
+              6. Else if money is less than price, ask user to add more or cancel  
+              7. If money is enough, dispense product  
+              8. If money is more than price, calculate and return change  
+              9. Update stock and go back to idle state  
+              10. End
+            </p>
+          </div>
+
+          <h3 class="notes-subheading">Flowchart for a vending machine</h3>
+          <p>
+            A <strong>flowchart</strong> shows the same logic using symbols and arrows. Common symbols are:
+          </p>
+          <ul>
+            <li><strong>Oval</strong> for Start and End.</li>
+            <li><strong>Parallelogram</strong> for Input and Output (insert money, display message).</li>
+            <li><strong>Rectangle</strong> for Process steps (update stock, dispense product).</li>
+            <li><strong>Diamond</strong> for Decision points (enough money, in stock or not).</li>
+          </ul>
+
+          <p>
+            For the vending machine, the flowchart might start at <strong>Start</strong>, then move to
+            <strong>Insert money</strong> and <strong>Select item</strong>. A decision checks if the item is
+            in stock. If not, the flow goes to a message and money return. If it is in stock, the next
+            decision checks if the money is enough. Different arrows show the paths for not enough money,
+            exact payment, or excess payment.
+          </p>
+
+          <h3 class="notes-subheading">Why this matters in IT</h3>
+          <p>
+            Using pseudocode and flowcharts helps programmers and stakeholders think through all possible
+            cases. They can see what happens when money is short, when an item is out of stock, or when the
+            user cancels. Planning at this level reduces errors and makes the final program easier to write,
+            test, and maintain.
+          </p>
+
+          <div class="notes-summary-block">
+            <h3 class="notes-subheading">Key idea</h3>
+            <p>
+              The vending machine is a clear, everyday example that shows how algorithms guide real world
+              processes using structured steps and decisions.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- CHEAT SHEET -->
+  <article
+    class="card-flip notes-cheatsheet"
+    data-card-flip
+    data-cheatsheet="lesson-4"
+    tabindex="0"
+    aria-label="Flip to view the Lesson 4 cheat sheet."
+    style="margin-top: 1.75rem;"
+  >
+    <div class="card-flip-inner">
+
+      <!-- FRONT -->
+      <div class="card-face card-face-front">
+        <div class="card card-inner notes-cheatsheet-front">
+          <div class="notes-cheatsheet-label">Lesson 4</div>
+          <h3 class="notes-cheatsheet-title">Quick reviewer</h3>
+          <p class="notes-cheatsheet-subtitle">
+            Algorithm, pseudocode, and flowchart using a vending machine.
+          </p>
+          <p class="notes-cheatsheet-hint">
+            Click or tap this card to flip and see the key points.
+          </p>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-face card-face-back">
+        <div class="card card-inner">
+          <div class="card-header notes-cheatsheet-header">
+            <div>
+              <h3 class="card-title">Lesson 4 Cheat Sheet</h3>
+              <p class="card-subtitle">
+                Phrases you can reuse in short answers.
+              </p>
+            </div>
+            <span class="card-badge">L4 · Reviewer</span>
+          </div>
+
+          <ul class="card-list notes-cheatsheet-list">
+
+            <li>
+              <strong>Algorithm</strong>  
+              A step by step procedure that solves a problem or completes a task, such as selling an item
+              from a vending machine.
+            </li>
+
+            <li>
+              <strong>Pseudocode</strong>  
+              A plain language version of an algorithm that looks like code but does not follow a specific
+              programming syntax. It focuses on clear steps and decisions.
+            </li>
+
+            <li>
+              <strong>Flowchart</strong>  
+              A visual diagram that uses symbols and arrows to show the sequence of steps and decisions in an
+              algorithm.
+            </li>
+
+            <li>
+              <strong>Key vending machine steps</strong>  
+              Insert money → Select product → Check stock → Check payment → Dispense item and change → 
+              Update stock → Return to idle state.
+            </li>
+
+            <li>
+              <strong>Typical decision points</strong>  
+              “Is the item in stock”, “Is the money enough”, “Does the user want to cancel”.
+            </li>
+
+            <li>
+              <strong>One sentence answer</strong>  
+              “The vending machine algorithm shows how pseudocode and flowcharts can describe a real life
+              process through input, decisions, and actions.”
+            </li>
+
+            <li>
+              <strong>Why IT students study this</strong>  
+              It trains you to think logically, cover special cases, and clearly communicate system behavior
+              before writing any code.
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- BOTTOM LINKS -->
+  <div class="notes-links-row">
+    <a class="card-link" href="overview.html">
+      <span>↗</span> Back to ITC overview
+    </a>
+    <a class="card-link" href="../index.html">
+      <span>↗</span> Return to main portfolio
+    </a>
+    <a class="card-link" href="lesson-5-number-systems.html">
+      <span>↗</span> Next: Lesson 5 - Number systems</a>
+  </div>
+
+</section>
+</main>
+
+</body>
+</html>

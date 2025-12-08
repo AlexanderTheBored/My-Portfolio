@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ITC Lesson 9 Notes | Student Information Databases</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../main.css" />
+  <script src="../itc-notes.js" defer></script>
+</head>
+
+<body class="itc-notes-page">
+<header class="nav">
+  <div class="nav-inner">
+
+    <div class="nav-left">
+      <div class="nav-logo"><span>RL</span></div>
+      <div class="nav-title">
+        <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
+        <div class="nav-title-sub">ITC Notes • Lesson 9</div>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../index.html">Main portfolio</a>
+      <a href="overview.html">ITC overview</a>
+      <a href="lesson-8-utility-software.html">Previous lesson</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="nav-pill">
+        <span>Lesson 9</span>
+        <small>Student information database</small>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<main class="page-shell">
+<section class="section notes-shell">
+
+  <!-- PAGE HEADER -->
+  <header class="notes-page-header">
+    <div class="notes-page-label">ITC Reviewer</div>
+    <h1 class="notes-page-title">Lesson 9 • Student Information Databases and Data Fields</h1>
+    <p class="notes-page-subtitle">
+      How schools organize student records using databases, tables, and well designed data fields.
+    </p>
+
+    <div class="notes-meta-row">
+      <span class="notes-meta-pill">Databases</span>
+      <span class="notes-meta-pill">Records</span>
+      <span class="notes-meta-pill">Data fields</span>
+    </div>
+  </header>
+
+  <!-- LESSON CARD -->
+  <article class="card lesson-card">
+    <div class="card-inner">
+
+      <!-- TAB STRIP -->
+      <div class="lesson-tab-bar">
+        <button class="lesson-tab" type="button" data-lesson-toggle aria-expanded="true">
+          <span class="lesson-tab-label">Lesson 9 • Student Information Databases and Data Fields</span>
+          <span class="lesson-tab-icon">▾</span>
+        </button>
+        <div class="lesson-tab-pill">L9</div>
+      </div>
+
+      <!-- COLLAPSIBLE BODY -->
+      <div class="lesson-panel">
+        <div class="card-body notes-body">
+
+          <header class="notes-section-header">
+            <p class="notes-section-label">Lesson overview</p>
+            <h2 class="notes-section-title">Why schools use student information databases</h2>
+          </header>
+
+          <p>
+            Schools handle large amounts of information about students. Names, contact details, grades,
+            attendance, and payments all need to be stored and updated. A <strong>student information
+            database</strong> is a structured system that stores this data in an organized and consistent
+            way so that staff can find the right information quickly and safely.
+          </p>
+
+          <p>
+            Instead of scattered paper forms or separate spreadsheets, a central database allows different
+            offices such as the registrar, finance, and department chairs to access shared data without
+            retyping the same information many times.
+          </p>
+
+          <h3 class="notes-subheading">Tables, records, and fields</h3>
+          <p>
+            A database is usually divided into <strong>tables</strong>. Each table focuses on one type of
+            entity, such as students, classes, or payments. In a <strong>student</strong> table, each row
+            is a <strong>record</strong> for one student, and each column is a <strong>field</strong> that
+            stores a specific piece of data.
+          </p>
+
+          <p>Common fields in a student table include:</p>
+          <ul>
+            <li><strong>Student ID</strong> - a unique identifier for each student</li>
+            <li><strong>Full name</strong> - first name, middle name, and last name</li>
+            <li><strong>Birthdate and age</strong></li>
+            <li><strong>Program and year level</strong></li>
+            <li><strong>Section</strong> or block</li>
+            <li><strong>Contact number</strong> and <strong>email address</strong></li>
+            <li><strong>Guardian name</strong> and <strong>guardian contact</strong></li>
+          </ul>
+
+          <p>
+            Additional tables can store grades, subjects, and payments, which are linked back to the
+            student through the Student ID.
+          </p>
+
+          <h3 class="notes-subheading">Primary keys and relationships</h3>
+          <p>
+            A <strong>primary key</strong> is a field that uniquely identifies each record in a table.
+            For student data, the Student ID is usually used as the primary key. No two students should
+            share the same ID, which prevents confusion and duplication.
+          </p>
+          <p>
+            Other tables such as a <strong>grades</strong> table can include the Student ID as a
+            <strong>foreign key</strong>, creating a relationship between the tables. This allows the
+            system to list all grades for a specific student or show all students enrolled in a subject.
+          </p>
+
+          <h3 class="notes-subheading">Benefits of a well designed student database</h3>
+          <p>
+            When fields and relationships are designed properly, a student information database offers
+            several advantages:
+          </p>
+          <ul>
+            <li><strong>Accuracy</strong> - fewer repeated entries and lower risk of inconsistent data</li>
+            <li><strong>Speed</strong> - faster searching, sorting, and reporting</li>
+            <li><strong>Security</strong> - access can be restricted to authorized staff only</li>
+            <li><strong>Reporting</strong> - easy generation of class lists, grade summaries, and statistics</li>
+          </ul>
+
+          <p>
+            These benefits help the school make better decisions and provide more organized services to
+            students and parents.
+          </p>
+
+          <div class="notes-summary-block">
+            <h3 class="notes-subheading">Key idea</h3>
+            <p>
+              A student information database is built from tables, records, and fields that are linked by
+              keys. Good design makes data easier to store, protect, and use.
+            </p>
+            <p class="notes-flow-line">
+              Real world data → Structured tables → Organized records → Better school decisions
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- CHEAT SHEET -->
+  <article
+    class="card-flip notes-cheatsheet"
+    data-card-flip
+    data-cheatsheet="lesson-9"
+    tabindex="0"
+    aria-label="Flip to view the Lesson 9 cheat sheet."
+    style="margin-top: 1.75rem;"
+  >
+    <div class="card-flip-inner">
+
+      <!-- FRONT -->
+      <div class="card-face card-face-front">
+        <div class="card card-inner notes-cheatsheet-front">
+          <div class="notes-cheatsheet-label">Lesson 9</div>
+          <h3 class="notes-cheatsheet-title">Quick reviewer</h3>
+          <p class="notes-cheatsheet-subtitle">
+            How student information databases are organized.
+          </p>
+          <p class="notes-cheatsheet-hint">
+            Click or tap this card to flip and see the key points.
+          </p>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-face card-face-back">
+        <div class="card card-inner">
+          <div class="card-header notes-cheatsheet-header">
+            <div>
+              <h3 class="card-title">Lesson 9 Cheat Sheet</h3>
+              <p class="card-subtitle">
+                Short lines you can reuse in essays and IDs.
+              </p>
+            </div>
+            <span class="card-badge">L9 · Reviewer</span>
+          </div>
+
+          <ul class="card-list notes-cheatsheet-list">
+
+            <li>
+              <strong>Student information database</strong><br />
+              A structured system that stores and manages student records for a school in an organized way.
+            </li>
+
+            <li>
+              <strong>Tables, records, and fields</strong><br />
+              Tables group related data, each record represents one student, and fields store specific
+              details like name, program, and contact number.
+            </li>
+
+            <li>
+              <strong>Common fields</strong><br />
+              Student ID, full name, birthdate, program, year level, section, contact details, and
+              guardian information.
+            </li>
+
+            <li>
+              <strong>Primary key</strong><br />
+              A field such as Student ID that uniquely identifies each record and prevents duplicates.
+            </li>
+
+            <li>
+              <strong>Relationships</strong><br />
+              Other tables such as grades or payments include the Student ID as a foreign key so the
+              system can link records together.
+            </li>
+
+            <li>
+              <strong>One sentence answer</strong><br />
+              “A student information database uses tables, keys, and well defined fields to store and
+              organize school records so data is accurate, secure, and easy to use.”
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- BOTTOM LINKS -->
+  <div class="notes-links-row">
+    <a class="card-link" href="overview.html">
+      <span>↗</span> Back to ITC overview
+    </a>
+    <a class="card-link" href="../index.html">
+      <span>↗</span> Return to main portfolio
+    </a>
+    <a class="card-link" href="lesson-10-network-topologies.html">
+      <span>↗</span> Next: Lesson 10: Network Topology</a>
+  </div>
+  
+</section>
+</main>
+
+</body>
+</html>

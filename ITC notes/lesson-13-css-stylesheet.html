@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ITC Lesson 13 Notes | CSS Style Sheet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../main.css" />
+  <script src="../itc-notes.js" defer></script>
+</head>
+
+<body class="itc-notes-page">
+<header class="nav">
+  <div class="nav-inner">
+
+    <div class="nav-left">
+      <div class="nav-logo"><span>RL</span></div>
+      <div class="nav-title">
+        <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
+        <div class="nav-title-sub">ITC Notes • Lesson 13</div>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../index.html">Main portfolio</a>
+      <a href="overview.html">ITC overview</a>
+      <a href="lesson-12-html-personal-webpage.html">Previous lesson</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="nav-pill">
+        <span>Lesson 13</span>
+        <small>CSS style sheet</small>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<main class="page-shell">
+<section class="section notes-shell">
+
+  <!-- PAGE HEADER -->
+  <header class="notes-page-header">
+    <div class="notes-page-label">ITC Reviewer</div>
+    <h1 class="notes-page-title">
+      Lesson 13 • CSS Style Sheet for a Simple Webpage
+    </h1>
+    <p class="notes-page-subtitle">
+      Using Cascading Style Sheets to control colors, fonts, spacing, and layout for a personal webpage.
+    </p>
+
+    <div class="notes-meta-row">
+      <span class="notes-meta-pill">CSS</span>
+      <span class="notes-meta-pill">Web design</span>
+      <span class="notes-meta-pill">Styling</span>
+    </div>
+  </header>
+
+  <!-- LESSON CARD -->
+  <article class="card lesson-card">
+    <div class="card-inner">
+
+      <!-- TAB STRIP -->
+      <div class="lesson-tab-bar">
+        <button class="lesson-tab" type="button" data-lesson-toggle aria-expanded="true">
+          <span class="lesson-tab-label">
+            Lesson 13 • CSS Style Sheet for a Simple Webpage
+          </span>
+          <span class="lesson-tab-icon">▾</span>
+        </button>
+        <div class="lesson-tab-pill">L13</div>
+      </div>
+
+      <!-- COLLAPSIBLE BODY -->
+      <div class="lesson-panel">
+        <div class="card-body notes-body">
+
+          <header class="notes-section-header">
+            <p class="notes-section-label">Lesson overview</p>
+            <h2 class="notes-section-title">
+              What CSS does for a webpage
+            </h2>
+          </header>
+
+          <p>
+            <strong>Cascading Style Sheets (CSS)</strong> control how HTML content looks on the screen.
+            HTML provides the structure and meaning, while CSS sets colors, fonts, spacing, borders, and
+            layout. A good style sheet makes a simple personal webpage easier to read and more visually
+            appealing without changing the actual text.
+          </p>
+
+          <p>
+            CSS can be written in three ways: inline styles, internal styles inside a
+            <code>&lt;style&gt;</code> tag, and external style sheets in a separate <code>.css</code> file.
+            For larger projects, an external style sheet is preferred so that many pages can share the same
+            design.
+          </p>
+
+          <h3 class="notes-subheading">Selectors, properties, and values</h3>
+          <p>
+            A CSS rule is made of a <strong>selector</strong> and one or more <strong>declarations</strong>.
+            The selector chooses which HTML elements to style. Declarations use a
+            <strong>property</strong> and a <strong>value</strong>, such as <code>color: blue</code>
+            or <code>font-size: 16px</code>.
+          </p>
+
+          <pre class="notes-code-block">
+p {
+  color: #333333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+          </pre>
+
+          <p>
+            In the example above, the selector <code>p</code> targets all paragraph elements and applies
+            the same text color, size, and line spacing.
+          </p>
+
+          <h3 class="notes-subheading">Working with colors and fonts</h3>
+          <p>
+            CSS lets you define a consistent color scheme and typography. The <code>color</code> property
+            sets the text color, while <code>background-color</code> sets the background. The
+            <code>font-family</code>, <code>font-size</code>, and <code>font-weight</code> properties
+            control how text looks.
+          </p>
+
+          <pre class="notes-code-block">
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #222222;
+}
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+          </pre>
+
+          <p>
+            By defining these in a style sheet, you can make the entire page use the same base font and
+            colors, which improves readability and consistency.
+          </p>
+
+          <h3 class="notes-subheading">Spacing and layout</h3>
+          <p>
+            CSS also controls spacing and basic layout. The <code>margin</code> and <code>padding</code>
+            properties add space around and inside elements. Borders can be added with
+            <code>border-width</code>, <code>border-style</code>, and <code>border-color</code>.
+          </p>
+
+          <p>
+            For layout, simple techniques include using <code>text-align</code> for alignment and
+            <code>display</code> properties such as <code>block</code>, <code>inline-block</code>, or
+            <code>flex</code>. Even without advanced layouts, margins and padding already help separate
+            sections like "About Me", "Skills", and "Contact".
+          </p>
+
+          <h3 class="notes-subheading">Linking an external CSS file</h3>
+          <p>
+            To apply a style sheet to an HTML page, you typically add a <code>&lt;link&gt;</code> element
+            inside the <code>&lt;head&gt;</code> section:
+          </p>
+
+          <pre class="notes-code-block">
+&lt;link rel="stylesheet" href="styles.css" /&gt;
+          </pre>
+
+          <p>
+            This line tells the browser to load the <code>styles.css</code> file and apply the rules to the
+            HTML document. Updating the CSS file will change the appearance of all pages that use the same
+            link.
+          </p>
+
+          <div class="notes-summary-block">
+            <h3 class="notes-subheading">Key idea</h3>
+            <p>
+              CSS works together with HTML. HTML structures the content, and CSS provides the design.
+              Selectors, properties, and values let you define colors, fonts, spacing, and layout in a
+              reusable style sheet.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- CHEAT SHEET -->
+  <article
+    class="card-flip notes-cheatsheet"
+    data-card-flip
+    data-cheatsheet="lesson-13"
+    tabindex="0"
+    aria-label="Flip to view the Lesson 13 cheat sheet."
+    style="margin-top: 1.75rem;"
+  >
+    <div class="card-flip-inner">
+
+      <!-- FRONT -->
+      <div class="card-face card-face-front">
+        <div class="card card-inner notes-cheatsheet-front">
+          <div class="notes-cheatsheet-label">Lesson 13</div>
+          <h3 class="notes-cheatsheet-title">Quick reviewer</h3>
+          <p class="notes-cheatsheet-subtitle">
+            How a CSS style sheet controls colors, fonts, and layout.
+          </p>
+          <p class="notes-cheatsheet-hint">
+            Click or tap this card to flip and see the key points.
+          </p>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-face card-face-back">
+        <div class="card card-inner">
+          <div class="card-header notes-cheatsheet-header">
+            <div>
+              <h3 class="card-title">Lesson 13 Cheat Sheet</h3>
+              <p class="card-subtitle">
+                Short lines you can reuse in IDs and essays.
+              </p>
+            </div>
+            <span class="card-badge">L13 · Reviewer</span>
+          </div>
+
+          <ul class="card-list notes-cheatsheet-list">
+
+            <li>
+              <strong>What CSS does</strong><br />
+              CSS controls the presentation of a webpage, including colors, fonts, spacing, and layout,
+              while HTML provides the structure and content.
+            </li>
+
+            <li>
+              <strong>Selectors, properties, values</strong><br />
+              A CSS rule uses a selector to target elements and declarations that combine properties such as
+              color or font-size with specific values.
+            </li>
+
+            <li>
+              <strong>Colors and fonts</strong><br />
+              Properties like color, background-color, font-family, and font-size set the visual style for
+              text and backgrounds.
+            </li>
+
+            <li>
+              <strong>Spacing and layout</strong><br />
+              Margin and padding control space around and inside elements, while display and text-align
+              help organize layout and alignment.
+            </li>
+
+            <li>
+              <strong>External style sheet</strong><br />
+              A link tag in the head section can connect an HTML page to an external .css file so multiple
+              pages share the same design.
+            </li>
+
+            <li>
+              <strong>One sentence answer</strong><br />
+              “A CSS style sheet uses selectors with properties and values to define the colors, fonts,
+              spacing, and layout that control how a webpage looks.”
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- BOTTOM LINKS -->
+  <div class="notes-links-row">
+    <a class="card-link" href="overview.html">
+      <span>↗</span> Back to ITC overview
+    </a>
+    <a class="card-link" href="../index.html">
+      <span>↗</span> Return to main portfolio
+    </a>
+    <a class="card-link" href="lesson-14-generative-ai.html">
+      <span>↗</span> Next: Lesson 14 - Generative AI and its impact</a>
+  </div>
+
+</section>
+</main>
+
+</body>
+</html>

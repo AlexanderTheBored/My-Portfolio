@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ITC Lesson 5 Notes | Number Systems and Conversions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../main.css" />
+  <script src="../itc-notes.js" defer></script>
+</head>
+
+<body class="itc-notes-page">
+<header class="nav">
+  <div class="nav-inner">
+
+    <div class="nav-left">
+      <div class="nav-logo"><span>RL</span></div>
+      <div class="nav-title">
+        <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
+        <div class="nav-title-sub">ITC Notes • Lesson 5</div>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../index.html">Main portfolio</a>
+      <a href="overview.html">ITC overview</a>
+      <a href="lesson-4-vending-machine.html">Previous lesson</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="nav-pill">
+        <span>Lesson 5</span>
+        <small>Number systems and conversions</small>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<main class="page-shell">
+<section class="section notes-shell">
+
+  <!-- PAGE HEADER -->
+  <header class="notes-page-header">
+    <div class="notes-page-label">ITC Reviewer</div>
+    <h1 class="notes-page-title">
+      Lesson 5 • Number Systems: Decimal, Binary, and Hexadecimal
+    </h1>
+    <p class="notes-page-subtitle">
+      Understanding how to convert decimal 25 into binary and hexadecimal, and why different number systems matter in computing.
+    </p>
+
+    <div class="notes-meta-row">
+      <span class="notes-meta-pill">Number systems</span>
+      <span class="notes-meta-pill">Binary</span>
+      <span class="notes-meta-pill">Hexadecimal</span>
+    </div>
+  </header>
+
+  <!-- LESSON CARD -->
+  <article class="card lesson-card">
+    <div class="card-inner">
+
+      <!-- TAB STRIP -->
+      <div class="lesson-tab-bar">
+        <button class="lesson-tab" type="button" data-lesson-toggle aria-expanded="true">
+          <span class="lesson-tab-label">
+            Lesson 5 • Number Systems: Decimal, Binary, and Hexadecimal
+          </span>
+          <span class="lesson-tab-icon">▾</span>
+        </button>
+        <div class="lesson-tab-pill">L5</div>
+      </div>
+
+      <!-- COLLAPSIBLE BODY -->
+      <div class="lesson-panel">
+        <div class="card-body notes-body">
+
+          <header class="notes-section-header">
+            <p class="notes-section-label">Lesson overview</p>
+            <h2 class="notes-section-title">
+              Why computers use different number systems
+            </h2>
+          </header>
+
+          <p>
+            Humans are comfortable with <strong>decimal</strong> because it uses ten digits
+            from 0 to 9. Computers, however, work with <strong>binary</strong>, which uses
+            only 0 and 1. Programmers also use <strong>hexadecimal</strong> as a compact way
+            to write binary values. Understanding how to move between these systems is a basic
+            but important skill in IT.
+          </p>
+
+          <p>
+            In this lesson, we focus on a concrete example from the module:
+            <strong>converting decimal 25 to binary and hexadecimal</strong>.
+            The same technique can be used for many other numbers.
+          </p>
+
+          <h3 class="notes-subheading">Decimal and place value recap</h3>
+          <p>
+            In decimal, each position represents a power of ten. For example, in the number
+            25, the digit 2 means 2 tens, and the digit 5 means 5 ones, so:
+          </p>
+          <p class="notes-flow-line">
+            25 = 2 × 10 + 5 × 1
+          </p>
+          <p>
+            Binary and hexadecimal follow the same idea, but use powers of 2 and 16 instead
+            of powers of 10.
+          </p>
+
+          <h3 class="notes-subheading">Converting decimal 25 to binary</h3>
+          <p>
+            Binary uses only the digits 0 and 1. Each place value is a power of 2
+            (1, 2, 4, 8, 16, and so on). One common method to convert decimal to binary is
+            to <strong>divide repeatedly by 2 and record the remainders</strong>.
+          </p>
+
+          <p>Step by step for 25:</p>
+
+          <ul>
+            <li>25 ÷ 2 = 12, remainder 1</li>
+            <li>12 ÷ 2 = 6, remainder 0</li>
+            <li>6 ÷ 2 = 3, remainder 0</li>
+            <li>3 ÷ 2 = 1, remainder 1</li>
+            <li>1 ÷ 2 = 0, remainder 1</li>
+          </ul>
+
+          <p>
+            Now read the remainders <strong>from bottom to top</strong>:
+          </p>
+          <p class="notes-flow-line">
+            1 1 0 0 1
+          </p>
+          <p>
+            So in binary:
+          </p>
+          <p class="notes-flow-line">
+            <strong>25₁₀ = 11001₂</strong>
+          </p>
+
+          <h3 class="notes-subheading">Checking using powers of two</h3>
+          <p>
+            We can check the answer by expanding 11001₂ using powers of 2:
+          </p>
+          <ul>
+            <li>1 × 16 (2⁴) = 16</li>
+            <li>1 × 8 (2³) = 8</li>
+            <li>0 × 4 (2²) = 0</li>
+            <li>0 × 2 (2¹) = 0</li>
+            <li>1 × 1 (2⁰) = 1</li>
+          </ul>
+          <p>
+            Add them: 16 + 8 + 1 = 25, so the binary conversion is correct.
+          </p>
+
+          <h3 class="notes-subheading">Converting decimal 25 to hexadecimal</h3>
+          <p>
+            Hexadecimal, or hex, is base 16. It uses digits 0 to 9 and letters A to F
+            to represent values 10 to 15. Hex is popular because
+            <strong>one hex digit corresponds to four binary bits</strong>, which makes
+            it a compact way to write binary numbers.
+          </p>
+
+          <p>
+            To convert decimal 25 to hex, we divide by 16 and record the quotient and remainder:
+          </p>
+          <ul>
+            <li>25 ÷ 16 = 1, remainder 9</li>
+          </ul>
+
+          <p>
+            The quotient is the sixteens place and the remainder is the ones place. This gives:
+          </p>
+          <p class="notes-flow-line">
+            <strong>25₁₀ = 19₁₆</strong>
+          </p>
+
+          <p>
+            We can check again:
+          </p>
+          <ul>
+            <li>1 × 16 = 16</li>
+            <li>9 × 1 = 9</li>
+            <li>16 + 9 = 25</li>
+          </ul>
+          <p>
+            The result matches the original decimal value.
+          </p>
+
+          <div class="notes-summary-block">
+            <h3 class="notes-subheading">Summary of conversions for 25</h3>
+            <p><strong>Decimal:</strong> 25₁₀</p>
+            <p><strong>Binary:</strong> 11001₂</p>
+            <p><strong>Hexadecimal:</strong> 19₁₆</p>
+            <p class="notes-flow-line">
+              Decimal 25 → divide by 2 for binary → divide by 16 for hex → verify using place values.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- CHEAT SHEET -->
+  <article
+    class="card-flip notes-cheatsheet"
+    data-card-flip
+    data-cheatsheet="lesson-5"
+    tabindex="0"
+    aria-label="Flip to view the Lesson 5 cheat sheet."
+    style="margin-top: 1.75rem;"
+  >
+    <div class="card-flip-inner">
+
+      <!-- FRONT -->
+      <div class="card-face card-face-front">
+        <div class="card card-inner notes-cheatsheet-front">
+          <div class="notes-cheatsheet-label">Lesson 5</div>
+          <h3 class="notes-cheatsheet-title">Quick reviewer</h3>
+          <p class="notes-cheatsheet-subtitle">
+            Converting decimal 25 to binary and hexadecimal.
+          </p>
+          <p class="notes-cheatsheet-hint">
+            Click or tap this card to flip and see the key points.
+          </p>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-face card-face-back">
+        <div class="card card-inner">
+          <div class="card-header notes-cheatsheet-header">
+            <div>
+              <h3 class="card-title">Lesson 5 Cheat Sheet</h3>
+              <p class="card-subtitle">
+                Short lines you can reuse in quizzes and IDs.
+              </p>
+            </div>
+            <span class="card-badge">L5 · Reviewer</span>
+          </div>
+
+          <ul class="card-list notes-cheatsheet-list">
+
+            <li>
+              <strong>Number system</strong>  
+              A way of representing numbers using a base and a set of symbols.
+              Decimal uses base 10, binary uses base 2, and hexadecimal uses base 16.
+            </li>
+
+            <li>
+              <strong>Decimal 25 to binary</strong>  
+              Divide by 2 and record remainders: 25, 12, 6, 3, 1 → remainders 1, 0, 0, 1, 1.
+              Read remainders from bottom to top: <strong>11001₂</strong>.
+            </li>
+
+            <li>
+              <strong>Check the binary</strong>  
+              11001₂ = 1·16 + 1·8 + 0·4 + 0·2 + 1·1 = 16 + 8 + 1 = 25.
+            </li>
+
+            <li>
+              <strong>Decimal 25 to hex</strong>  
+              Divide by 16: 25 ÷ 16 = 1 remainder 9.  
+              Quotient is sixteens place, remainder is ones place: <strong>19₁₆</strong>.
+            </li>
+
+            <li>
+              <strong>Key idea</strong>  
+              Binary uses powers of 2. Hex uses powers of 16 and digits 0 to 9 plus A to F.
+            </li>
+
+            <li>
+              <strong>One sentence answer</strong>  
+              “Decimal 25 is equal to 11001 in binary and 19 in hexadecimal.”
+            </li>
+
+            <li>
+              <strong>Why it matters</strong>  
+              Conversions between decimal, binary, and hex are basic skills for working with
+              low level data, memory addresses, and color codes in computing.
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- BOTTOM LINKS -->
+  <div class="notes-links-row">
+    <a class="card-link" href="overview.html">
+      <span>↗</span> Back to ITC overview
+    </a>
+    <a class="card-link" href="../index.html">
+      <span>↗</span> Return to main portfolio
+    </a>
+    <a class="card-link" href="lesson-6-application-software.html">
+      <span>↗</span> Next: Lesson 6 - Application software</a>
+  </div>
+
+</section>
+</main>
+
+</body>
+</html>
