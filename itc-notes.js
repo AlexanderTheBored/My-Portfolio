@@ -431,40 +431,38 @@ document.addEventListener("DOMContentLoaded", () => {
   {
     title: "Basic HTML skeleton",
     body:
-      "A simple page starts with <!DOCTYPE html>, then <html>, a <head> section with a " +
-      "<title>, and a <body> that contains the visible content."
+      "A simple page starts with &lt;!DOCTYPE html&gt;, then &lt;html&gt;, a &lt;head&gt; section with a " +
+      "&lt;title&gt;, and a &lt;body&gt; that contains the visible content."
   },
   {
     title: "Headings",
     body:
-      "Use <h1> to <h6> to define the structure of the page. <h1> is usually your name, " +
-      "and <h2> marks sections like About Me, Skills, and Contact."
+      "Use &lt;h1&gt; to &lt;h6&gt; to define the structure of the page. &lt;h1&gt; is usually your name, " +
+      "and &lt;h2&gt; marks sections like About Me, Skills, and Contact."
   },
   {
     title: "Paragraphs",
     body:
-      "<p> tags hold short blocks of text that describe who you are, what you study, and " +
-      "your interests or goals."
+      "&lt;p&gt; tags hold short blocks of text that describe who you are, what you study, and your interests or goals."
   },
   {
     title: "Lists for skills and contact",
     body:
-      "Unordered lists with <ul> and <li> are ideal for listing skills, tools, and " +
-      "contact information in a clean and scannable way."
+      "Unordered lists with &lt;ul&gt; and &lt;li&gt; are ideal for listing skills, tools, and contact information in a clean and scannable way."
   },
   {
     title: "Example layout",
     body:
-      "A common pattern is: <h1>Your Name</h1>, <h2>About Me</h2> with a paragraph, " +
-      "<h2>Skills</h2> with a list, and <h2>Contact</h2> with another list."
+      "A common pattern is: &lt;h1&gt;Your Name&lt;/h1&gt;, &lt;h2&gt;About Me&lt;/h2&gt; with a paragraph, " +
+      "&lt;h2&gt;Skills&lt;/h2&gt; with a list, and &lt;h2&gt;Contact&lt;/h2&gt; with another list."
   },
   {
     title: "One sentence answer",
     body:
-      "A simple personal webpage uses a basic HTML structure with headings, paragraphs, " +
-      "and lists to present information clearly and logically."
+      "A simple personal webpage uses a basic HTML structure with headings, paragraphs, and lists to present information clearly and logically."
   }
 ],
+
 
 "lesson-13": [
   {
