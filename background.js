@@ -1,14 +1,4 @@
-/*
- * Particle background animation
- *
- * This script adds a subtle particle network to the page background.
- * Particles drift around the screen and connect to nearby neighbors with
- * faint lines. Colours are pulled from CSS variables `--accent` and
- * `--accent-2` so the animation stays in harmony with the rest of the site.
- *
- * The animation respects the user’s reduced‑motion preferences: if
- * `prefers-reduced-motion` is enabled, no animation runs.
- */
+
 
 (() => {
   // If the browser prefers reduced motion, exit early.
