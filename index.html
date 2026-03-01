@@ -60,12 +60,6 @@
     <button class="notes-close" id="notesClose" aria-label="Close notes">×</button>
   </div>
 
-  <!--
-    The notes sidebar lists each lesson and links to its corresponding notes page.
-    This updated version includes placeholders for lessons 1–14 to reflect the
-    planned structure of the Introduction to Computing course. If you have not yet
-    created a particular lesson file, keep the link as a placeholder for future work.
-  -->
   <div class="notes-sidebar-body">
     <!-- LESSON 1 -->
     <section class="notes-section">
@@ -265,7 +259,7 @@
       </div>
 
       <h1>
-        Hi, I’m <span>Rovel Lumapas</span>
+        Hi, I'm <span>Rovel Lumapas</span>
       </h1>
       <p class="hero-subtitle">
         A first year <strong>BSIT student</strong> specializing in taking
@@ -316,21 +310,19 @@
             <div class="stack-metrics">
               <div>
                 <div class="stack-metric-label">Semester</div>
-                <div class="stack-metric-value">AY 2025</div>
+                <div class="stack-metric-value">2nd Sem AY 2025</div>
               </div>
               <div class="stack-metric-tag">
                 <span class="stack-pill-dot"></span>
-                CIS1104 • HCI • GE-PC
+                <span id="now-subject">--</span>
               </div>
             </div>
             <div class="stack-timeline">
               <div class="stack-timeline-item">
                 <span class="stack-timeline-dot"></span>
                 <div>
-                  <div class="stack-timeline-label">Mode</div>
-                  <div class="stack-timeline-desc">
-                    Creative + Essay outputs in one hub
-                  </div>
+                  <div class="stack-timeline-label" id="now-label">Now</div>
+                  <div class="stack-timeline-desc" id="now-desc">--</div>
                 </div>
               </div>
             </div>
@@ -449,5 +441,72 @@
 
 <script src="script.js"></script>
 <script src="background.js"></script>
+<script>
+// ===================== LIVE SCHEDULE VIEWER =====================
+(function () {
+  // Schedule: { days: [0=Sun,1=Mon,...,6=Sat], start: "HH:MM", end: "HH:MM", code, room, label }
+  var schedule = [
+    { days:[1,3], start:"07:30", end:"09:00", code:"GE-FEL TFL", room:"LB485TC", label:"GE-FEL TFL" },
+    { days:[2,4], start:"08:00", end:"09:00", code:"TPE 1202",   room:"JBB102TC", label:"TPE 1202" },
+    { days:[2,4], start:"09:00", end:"10:30", code:"EDM 2",      room:"MR105TC",  label:"EDM 2" },
+    { days:[1,3], start:"10:00", end:"12:30", code:"CIS 1205",   room:"LB470TC",  label:"CIS 1205" },
+    { days:[6],   start:"07:30", end:"10:30", code:"CIS 2106N",  room:"LB446TC",  label:"CIS 2106N" },
+    { days:[1,3], start:"13:30", end:"15:00", code:"IT 3106",    room:"LB486TC",  label:"IT 3106" },
+    { days:[2,4], start:"13:30", end:"15:00", code:"CIS 1204",   room:"LB484TC",  label:"CIS 1204" },
+    { days:[1,3], start:"15:00", end:"17:30", code:"CIS 1201",   room:"LB467TC",  label:"CIS 1201" },
+    { days:[2,4], start:"15:00", end:"17:30", code:"CIS 1202",   room:"LB446TC",  label:"CIS 1202" },
+    { days:[6],   start:"12:00", end:"15:00", code:"NSTP 2",     room:"1B12c",    label:"NSTP 2" },
+  ];
+
+  function toMins(t) {
+    var p = t.split(":"); return parseInt(p[0]) * 60 + parseInt(p[1]);
+  }
+
+  function update() {
+    var now = new Date();
+    var day = now.getDay();
+    var mins = now.getHours() * 60 + now.getMinutes();
+
+    var current = null, next = null, nextDiff = Infinity;
+
+    schedule.forEach(function(s) {
+      var start = toMins(s.start), end = toMins(s.end);
+      if (s.days.indexOf(day) !== -1 && mins >= start && mins < end) {
+        current = s;
+      }
+      // find next class today or upcoming
+      if (s.days.indexOf(day) !== -1 && start > mins) {
+        var diff = start - mins;
+        if (diff < nextDiff) { nextDiff = diff; next = s; }
+      }
+    });
+
+    var pillEl   = document.getElementById("now-subject");
+    var labelEl  = document.getElementById("now-label");
+    var descEl   = document.getElementById("now-desc");
+
+    if (!pillEl || !labelEl || !descEl) return;
+
+    if (current) {
+      pillEl.textContent  = current.code;
+      labelEl.textContent = "In class";
+      descEl.textContent  = current.room;
+    } else if (next) {
+      var h = Math.floor(nextDiff / 60), m = nextDiff % 60;
+      var eta = h > 0 ? h + "h " + m + "m" : m + "m";
+      pillEl.textContent  = next.code + " soon";
+      labelEl.textContent = "Up next";
+      descEl.textContent  = next.room + " • in " + eta;
+    } else {
+      pillEl.textContent  = "No class";
+      labelEl.textContent = "Free";
+      descEl.textContent  = "Enjoy the break!";
+    }
+  }
+
+  update();
+  setInterval(update, 30000);
+})();
+</script>
 </body>
 </html>
