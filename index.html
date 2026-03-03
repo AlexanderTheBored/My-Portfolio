@@ -98,29 +98,83 @@
       50% { opacity: 0.85; }
     }
 
-    /* Pixel clouds */
+    /* Pixel clouds - base */
     .pixel-cloud {
       position: absolute;
       background: #ffffff;
       animation: cloud-drift linear infinite;
+      transition: opacity 1.5s;
     }
     .pixel-cloud::before, .pixel-cloud::after {
       content: '';
       position: absolute;
-      background: #ffffff;
+      background: inherit;
     }
-    .cloud-1 { width:48px; height:16px; top:60px; left:-100px; animation-duration: 40s; animation-delay: 0s; }
+
+    /* Cloud shape variations */
+    .cloud-1 { width:48px; height:16px; top:60px; left:-100px; animation-duration:40s; animation-delay:0s; }
     .cloud-1::before { width:32px; height:16px; top:-12px; left:8px; }
     .cloud-1::after  { width:16px; height:8px;  top:-20px; left:16px; }
-    .cloud-2 { width:64px; height:16px; top:90px; left:-120px; animation-duration: 55s; animation-delay: -20s; }
+
+    .cloud-2 { width:64px; height:16px; top:90px; left:-120px; animation-duration:55s; animation-delay:-20s; }
     .cloud-2::before { width:40px; height:16px; top:-14px; left:10px; }
     .cloud-2::after  { width:20px; height:8px;  top:-22px; left:22px; }
-    .cloud-3 { width:40px; height:14px; top:40px; left:-80px; animation-duration: 48s; animation-delay: -35s; }
+
+    .cloud-3 { width:40px; height:14px; top:40px; left:-80px; animation-duration:48s; animation-delay:-35s; }
     .cloud-3::before { width:28px; height:14px; top:-10px; left:6px; }
     .cloud-3::after  { width:14px; height:8px;  top:-16px; left:13px; }
+
+    /* Extra clouds */
+    .cloud-4 { width:72px; height:18px; top:110px; left:-140px; animation-duration:62s; animation-delay:-10s; }
+    .cloud-4::before { width:44px; height:18px; top:-14px; left:14px; }
+    .cloud-4::after  { width:24px; height:10px; top:-22px; left:28px; }
+
+    .cloud-5 { width:32px; height:12px; top:30px; left:-60px; animation-duration:35s; animation-delay:-28s; }
+    .cloud-5::before { width:20px; height:12px; top:-8px; left:6px; }
+    .cloud-5::after  { width:10px; height:6px;  top:-14px; left:11px; }
+
+    .cloud-6 { width:56px; height:14px; top:75px; left:-110px; animation-duration:50s; animation-delay:-42s; }
+    .cloud-6::before { width:36px; height:14px; top:-10px; left:10px; }
+    .cloud-6::after  { width:18px; height:8px;  top:-17px; left:19px; }
+
+    .cloud-7 { width:80px; height:20px; top:50px; left:-160px; animation-duration:70s; animation-delay:-55s; }
+    .cloud-7::before { width:50px; height:20px; top:-16px; left:16px; }
+    .cloud-7::after  { width:26px; height:10px; top:-24px; left:28px; }
+
+    /* Weather states - cloud colors only, canvas handles particles */
+    body.wx-cloudy  .pixel-cloud { background: #c8c8c8; }
+    body.wx-rain    .pixel-cloud { background: #909090; }
+    body.wx-storm   .pixel-cloud { background: #585858; }
+    body.wx-night   #desktop { background: linear-gradient(180deg, #06061a 0%, #0e0e2a 60%, #0a1a0a 100%); }
+    body.wx-night   .pixel-sun { opacity: 0; }
+    body.wx-night   .pixel-cloud { background: #1a1a3a; opacity: 0.5; }
+
+    /* Weather canvas — sits above desktop but below windows */
+    #wx-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
     @keyframes cloud-drift {
       from { transform: translateX(0); }
-      to { transform: translateX(calc(100vw + 200px)); }
+      to   { transform: translateX(calc(100vw + 200px)); }
+    }
+
+    /* Weather indicator badge on desktop */
+    #wx-badge {
+      position: absolute;
+      top: 8px; right: 140px;
+      font-family: var(--pixel);
+      font-size: 6px;
+      color: #fff;
+      background: rgba(0,0,0,0.35);
+      padding: 3px 6px;
+      border: 1px solid rgba(255,255,255,0.2);
+      pointer-events: none;
+      text-shadow: 1px 1px 0 #000;
+      z-index: 5;
     }
 
     /* ===================== DESKTOP ICONS ===================== */
@@ -356,36 +410,74 @@
     .win-body a { color: var(--accent); }
 
     /* Win95 progress bar */
-    .win-progress-outer {
-      height: 18px;
-      background: var(--win-inset-bg);
-      border: 2px solid;
-      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
-      margin: 4px 0;
-    }
-    .win-progress-inner {
-      height: 100%;
-      background: repeating-linear-gradient(
-        90deg,
-        var(--accent) 0, var(--accent) 12px,
-        transparent 12px, transparent 14px
-      );
-    }
-
-    /* Skill row */
+    /* ── SKILL PIPS (10-block RPG style) ── */
     .skill-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .skill-row label {
       font-family: var(--pixel);
       font-size: 6px;
-      min-width: 80px;
+      width: 100px;
+      min-width: 100px;
       color: #000;
     }
-    .skill-row .win-progress-outer { flex: 1; margin: 0; }
+    .skill-pips {
+      display: flex;
+      gap: 3px;
+    }
+    .skill-pip {
+      width: 18px;
+      height: 14px;
+      border: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      background: var(--win-inset-bg);
+      flex-shrink: 0;
+    }
+    .skill-pip.filled {
+      background: var(--accent);
+      border-color: var(--win-border-light) var(--win-border-dark) var(--win-border-dark) var(--win-border-light);
+    }
+    .skill-level {
+      font-family: var(--pixel);
+      font-size: 6px;
+      color: #000080;
+      min-width: 70px;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    /* About big mode tabs */
+    .about-tab {
+      font-family: var(--pixel);
+      font-size: 7px;
+      padding: 7px 14px;
+      background: var(--win-body);
+      border: none;
+      border-right: 1px solid #888;
+      cursor: pointer;
+      color: #000;
+    }
+    .about-tab:hover { background: #d0d0d0; }
+    .about-tab.active-tab {
+      background: var(--win-body);
+      border-bottom: 2px solid var(--win-body);
+      margin-bottom: -2px;
+      color: #000080;
+      font-weight: bold;
+    }
+    .about-tab-panel {
+      padding: 10px;
+      overflow-y: auto;
+      height: 380px;
+      font-family: var(--pixel);
+      font-size: 7px;
+      line-height: 2;
+    }
+    .about-tab-panel ul { padding-left: 14px; }
+    .about-tab-panel li { margin-bottom: 4px; }
 
     /* Tag chip */
     .tag {
@@ -557,7 +649,8 @@
       text-overflow: ellipsis;
       display: flex; align-items: center; gap: 4px;
     }
-    .taskbar-btn.active {
+    .win-window.minimized { display: none !important; }
+    .taskbar-btn.minimized-btn { border-style: inset; color: #555; }
       border-color: var(--win-border-darker) var(--win-border-light) var(--win-border-light) var(--win-border-darker);
       background: #b0b0b0;
     }
@@ -643,6 +736,8 @@
       position: fixed;
       bottom: 36px;
       right: 0;
+      top: auto;
+      left: auto;
       width: 210px;
       background: var(--win-body);
       border: 2px solid;
@@ -650,9 +745,6 @@
       box-shadow: 2px 2px 0 var(--win-border-dark);
       z-index: 999;
       font-family: var(--pixel);
-    }
-    #schedule-widget.big-mode {
-      width: 260px;
     }
     #schedule-widget .sw-titlebar {
       background: var(--win-titlebar);
@@ -716,7 +808,27 @@
     /* big mode */
     #sw-big { display: none; }
     #schedule-widget.big-mode #sw-compact { display: none; }
-    #schedule-widget.big-mode #sw-big    { display: block; }
+    #schedule-widget.big-mode {
+      width: 260px;
+      max-height: calc(100vh - 44px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      bottom: 36px !important;
+      top: auto !important;
+    }
+    #schedule-widget.big-mode #sw-big {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+    .sw-day-list {
+      overflow-y: auto;
+      max-height: 160px;
+      padding: 0 8px 4px;
+    }
     .sw-clock-wrap {
       display: flex;
       flex-direction: column;
@@ -739,7 +851,7 @@
       color: #888;
       margin-top: 2px;
     }
-    .sw-day-list {
+    .sw-day-list-inner {
       margin: 0 0 4px;
       padding: 0 8px;
     }
@@ -858,9 +970,119 @@
       animation: blink-badge 1s step-start infinite;
     }
     @keyframes blink-badge { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    /* ===================== STICKY NOTES ===================== */
+    .sticky-note {
+      position: absolute;
+      width: 180px;
+      min-height: 80px;
+      background: #ffff88;
+      border: 2px solid;
+      border-color: #e8e800 #a0a000 #a0a000 #e8e800;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+      z-index: 50;
+      font-family: var(--vt);
+      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sticky-titlebar {
+      background: #e8c800;
+      padding: 2px 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+      font-family: var(--pixel);
+      font-size: 6px;
+    }
+    .sticky-close {
+      cursor: pointer;
+      font-size: 10px;
+      line-height: 1;
+      padding: 1px 3px;
+      background: var(--win-body);
+      border: 1px solid #888;
+    }
+    .sticky-body {
+      padding: 6px 8px;
+      flex: 1;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #333;
+      line-height: 1.4;
+    }
+    .sticky-id {
+      font-family: var(--pixel);
+      font-size: 5px;
+      color: #999;
+      padding: 2px 4px;
+      text-align: right;
+    }
+
+    /* CMD blinking cursor */
+    @keyframes cmd-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    #cmd-input { animation: cmd-blink 1s step-start infinite; }
+    #cmd-input:focus { animation: none; }
+
+    /* BSOD overlay */
+    #bsod-overlay {
+      position: fixed; inset: 0;
+      background: #0000aa;
+      color: #fff;
+      font-family: var(--pixel);
+      font-size: 8px;
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 40px;
+      text-align: center;
+      line-height: 2;
+    }
+    #bsod-overlay.show { display: flex; }
+
+    /* ASCII art easter egg */
+    .cmd-ascii {
+      color: #00ff00;
+      font-size: 11px;
+      line-height: 1.2;
+      white-space: pre;
+    }
+    .cmd-error { color: #ff4444; }
+    .cmd-success { color: #00ff00; }
+    .cmd-info { color: #ffff00; }
+    .cmd-dim { color: #888; }
+
+    /* Mini game */
+    #cmd-game-area {
+      display: none;
+      margin-top: 4px;
+      border: 1px solid #444;
+      padding: 4px;
+      background: #001a00;
+    }
+
   </style>
 </head>
 <body>
+
+<!-- BSOD OVERLAY -->
+<div id="bsod-overlay">
+  <div style="background:#fff;color:#0000aa;padding:2px 8px;font-size:9px;">Windows</div>
+  <div style="font-size:9px;max-width:500px;">
+    A fatal exception 0E has occurred at 0028:C0034B2F in VXD VMM(01) +<br>
+    00034B2F. The current application will be terminated.<br><br>
+    * Press any key to terminate the current application.<br>
+    * Press CTRL+ALT+DEL to restart your computer. You will<br>
+    lose any unsaved information in all applications.<br><br>
+    <span style="animation:cmd-blink 1s step-start infinite;display:inline-block;">Press any key to continue_</span>
+  </div>
+</div>
+
+<!-- WEATHER CANVAS -->
+<canvas id="wx-canvas"></canvas>
 
 <!-- ===================== DESKTOP ===================== -->
 <div id="desktop">
@@ -868,6 +1090,11 @@
   <div class="pixel-cloud cloud-1"></div>
   <div class="pixel-cloud cloud-2"></div>
   <div class="pixel-cloud cloud-3"></div>
+  <div class="pixel-cloud cloud-4"></div>
+  <div class="pixel-cloud cloud-5"></div>
+  <div class="pixel-cloud cloud-6"></div>
+  <div class="pixel-cloud cloud-7"></div>
+  <div id="wx-badge">⛅ --°C Mandaue</div>
 
   <!-- Desktop Icons -->
   <div class="desktop-icons">
@@ -891,6 +1118,10 @@
       <div class="icon-img">📧</div>
       <div class="icon-label">Contact</div>
     </div>
+    <div class="desktop-icon" data-window="win-cmd">
+      <div class="icon-img">🖥️</div>
+      <div class="icon-label">cmd.exe</div>
+    </div>
   </div>
 
   <!-- ===================== WINDOWS ===================== -->
@@ -900,8 +1131,8 @@
     <div class="win-titlebar" onmousedown="startDrag(event,'win-about')">
       <div class="win-title"><span class="win-title-icon">🗂️</span> About Me</div>
       <div class="win-controls">
-        <button class="win-btn">_</button>
-        <button class="win-btn">□</button>
+        <button class="win-btn" onclick="minimizeWindow('win-about')">_</button>
+        <button class="win-btn" id="about-expand-btn" onclick="toggleAboutMode()" title="Expand">⊡</button>
         <button class="win-btn win-btn-close" onclick="closeWindow('win-about')">✕</button>
       </div>
     </div>
@@ -910,61 +1141,173 @@
       <span class="win-menu-item">View</span>
       <span class="win-menu-item">Help</span>
     </div>
-    <div class="win-body" style="max-height:480px;">
-      <div class="about-header">
-        <div class="about-avatar">👤</div>
-        <div>
-          <div class="about-name">ROVEL FLORIANE S. LUMAPAS</div>
-          <div class="about-sub">19 · Feb 1, 2007 · Eldest of 3 · Cebu, PH</div>
-          <div class="about-sub" style="color:#000080;">@AlexanderTheBored</div>
+
+    <!-- COMPACT MODE -->
+    <div id="about-compact">
+      <div class="win-body" style="max-height:480px;">
+        <div class="about-header">
+          <div class="about-avatar">👤</div>
+          <div>
+            <div class="about-name">ROVEL FLORIANE S. LUMAPAS</div>
+            <div class="about-sub">19 · Feb 1, 2007 · Eldest of 3 · Cebu, PH</div>
+            <div class="about-sub" style="color:#000080;">@AlexanderTheBored</div>
+          </div>
+        </div>
+        <div class="win-inset" style="margin-bottom:10px;">
+          <p>"The eldest child who decided to speak in code." Ships code, leads teams, writes stories, and still placed 3rd at a hackathon. If you want someone who does all of the above — you just met her.</p>
+        </div>
+        <div class="win-divider"></div>
+        <h3>► ACADEMIC</h3>
+        <ul>
+          <li>SHS — La Salle University Integrated School</li>
+          <li>BS Information Technology · University of San Carlos · 1st Year</li>
+          <li>Track: Information Management &amp; Web Development</li>
+          <li>Coursework: ERDs, BPMN, HTML/CSS, C, Networking</li>
+        </ul>
+        <div class="win-divider"></div>
+        <h3>► INTERESTS</h3>
+        <ul>
+          <li>📖 Avid reader — fiction, tech, and everything between</li>
+          <li>✍️ Creative writer — fanfiction, worldbuilding, storytelling</li>
+          <li>🎸 Guitar player</li>
+          <li>🗺️ Building civic tech (ZoneLens — Sinulog Hackathon 2026, 3rd Place)</li>
+          <li>🎮 Designing interactive experiences in code</li>
+        </ul>
+        <div class="win-divider"></div>
+        <h3>► CAREER GOALS</h3>
+        <ul>
+          <li>🎯 Pursue a Doctorate in Cybersecurity</li>
+          <li>🔐 Specialize in digital security &amp; ethical hacking</li>
+          <li>💡 Build tech that matters for communities</li>
+          <li>📝 Keep writing — code and prose alike</li>
+        </ul>
+        <div class="win-divider"></div>
+        <h3>► EXTRACURRICULARS</h3>
+        <ul>
+          <li>Class Secretary — 3 years running</li>
+          <li>House of Ben Ambassador — 3 years running</li>
+          <li>House of Ben President — led 400+ member org for 3 years</li>
+          <li>Creative Writer's Guild — Lead Creative for 3 years</li>
+        </ul>
+        <div class="win-divider"></div>
+        <h3>► CURRENT STATUS</h3>
+        <p>2nd Semester AY 2025 · 27 units loaded</p>
+        <div class="win-progress-outer"><div class="win-progress-inner" style="width:40%"></div></div>
+        <p style="font-family:'Press Start 2P',monospace;font-size:6px;color:#666;">SEMESTER PROGRESS: ~40%</p>
+      </div>
+    </div>
+
+    <!-- BIG MODE -->
+    <div id="about-big" style="display:none;">
+      <div style="display:flex;height:420px;">
+
+        <!-- LEFT: Stat card -->
+        <div style="width:200px;min-width:200px;background:#000080;color:#fff;padding:16px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
+          <div style="text-align:center;font-size:48px;line-height:1;margin-bottom:4px;">👤</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-align:center;line-height:2;border-bottom:1px solid #4466cc;padding-bottom:10px;">
+            ROVEL F.<br>LUMAPAS
+          </div>
+          <div style="font-family:'VT323',monospace;font-size:16px;line-height:1.9;color:#aaccff;">
+            <div>AGE &nbsp;&nbsp;&nbsp; 19</div>
+            <div>BORN &nbsp;&nbsp; FEB 1, 2007</div>
+            <div>CITY &nbsp;&nbsp; CEBU, PH</div>
+            <div>SCHOOL &nbsp; USC</div>
+            <div>YEAR &nbsp;&nbsp; 1ST</div>
+            <div>MAJOR &nbsp; BSIT</div>
+          </div>
+          <div style="border-top:1px solid #4466cc;padding-top:10px;font-family:'VT323',monospace;font-size:16px;color:#ffff88;line-height:1.9;">
+            <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#aaccff;margin-bottom:4px;">ACHIEVEMENTS</div>
+            <div>🥉 Sinulog Hackathon 2026</div>
+            <div>🥉 OneHack 3.0</div>
+            <div>🏛️ Pres. House of Ben</div>
+            <div>✍️ CWG Lead Creative</div>
+            <div>📋 Class Secretary</div>
+          </div>
+          <div style="margin-top:auto;font-family:'VT323',monospace;font-size:15px;color:#aaccff;line-height:1.8;">
+            <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#fff;margin-bottom:4px;">SEM PROGRESS</div>
+            <div style="background:#000033;border:1px solid #4466cc;height:10px;">
+              <div style="background:#00ff00;width:40%;height:100%;"></div>
+            </div>
+            <div style="color:#00ff00;font-size:14px;">2nd Sem · 40%</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Tabbed content -->
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="display:flex;border-bottom:2px solid #888;background:var(--win-body);" id="about-tabs">
+            <button class="about-tab active-tab" onclick="switchAboutTab('bio')">Bio</button>
+            <button class="about-tab" onclick="switchAboutTab('academic')">Academic</button>
+            <button class="about-tab" onclick="switchAboutTab('goals')">Goals</button>
+            <button class="about-tab" onclick="switchAboutTab('extra')">Extra</button>
+          </div>
+
+          <!-- Tab: Bio -->
+          <div class="about-tab-panel" id="about-tab-bio" style="display:block;">
+            <div class="win-inset" style="margin:12px 12px 10px;">
+              <p style="font-size:9px;line-height:1.8;">"The eldest child who decided to speak in code." Ships code, leads teams, writes stories — and still placed 3rd at a hackathon. If you want someone who does all of the above, you just met her.</p>
+            </div>
+            <div style="padding:0 12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
+              <div>📖 &nbsp;Avid reader — fiction, tech, and everything between</div>
+              <div>✍️ &nbsp;Creative writer — fanfiction, worldbuilding, storytelling</div>
+              <div>🎸 &nbsp;Guitar player</div>
+              <div>🗺️ &nbsp;Civic tech builder — ZoneLens, Sinulog 2026</div>
+              <div>🎮 &nbsp;Designs interactive experiences in code</div>
+              <div style="margin-top:10px;color:#000080;font-family:'Press Start 2P',monospace;font-size:7px;">@AlexanderTheBored</div>
+            </div>
+          </div>
+
+          <!-- Tab: Academic -->
+          <div class="about-tab-panel" id="about-tab-academic" style="display:none;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► EDUCATION</div>
+              <div>🏫 &nbsp;SHS — La Salle University Integrated School</div>
+              <div>🎓 &nbsp;BS Information Technology</div>
+              <div style="padding-left:24px;color:#444;">University of San Carlos · 1st Year</div>
+              <div style="padding-left:24px;color:#444;">Track: Info Management &amp; Web Dev</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► COURSEWORK</div>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;">
+                <span class="tag">ERDs</span><span class="tag">BPMN</span><span class="tag">HTML/CSS</span>
+                <span class="tag">C</span><span class="tag">Networking</span><span class="tag">Algorithms</span>
+                <span class="tag">Databases</span><span class="tag">Cybersecurity</span>
+              </div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:6px;">► CURRENT LOAD</div>
+              <div>27 units · 2nd Semester AY 2025–2026</div>
+            </div>
+          </div>
+
+          <!-- Tab: Goals -->
+          <div class="about-tab-panel" id="about-tab-goals" style="display:none;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► SHORT TERM</div>
+              <div>📚 &nbsp;Complete BSIT with strong academic standing</div>
+              <div>🛠️ &nbsp;Ship more open-source civic tech projects</div>
+              <div>🔐 &nbsp;Get into cybersecurity coursework &amp; certs</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► LONG TERM</div>
+              <div>🎯 &nbsp;Pursue a Doctorate in Cybersecurity</div>
+              <div>🔓 &nbsp;Specialize in ethical hacking &amp; digital security</div>
+              <div>💡 &nbsp;Build technology that genuinely helps communities</div>
+              <div>📝 &nbsp;Keep writing — code and prose alike</div>
+            </div>
+          </div>
+
+          <!-- Tab: Extracurriculars -->
+          <div class="about-tab-panel" id="about-tab-extra" style="display:none;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► LEADERSHIP</div>
+              <div>🏛️ &nbsp;<strong>House of Ben President</strong> — 3 consecutive years</div>
+              <div style="padding-left:24px;color:#444;font-size:15px;">Led and managed 400+ member organization</div>
+              <div>🏛️ &nbsp;House of Ben Ambassador — 3 years</div>
+              <div>📋 &nbsp;Class Secretary — 3 consecutive years</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► CREATIVE</div>
+              <div>✍️ &nbsp;<strong>Creative Writer's Guild</strong> — Lead Creative, 3 years</div>
+              <div style="padding-left:24px;color:#444;font-size:15px;">Directed guild creative direction &amp; outputs</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► HACKATHONS</div>
+              <div>🥉 &nbsp;Sinulog Hackathon 2026 — ZoneLens, 3rd Place</div>
+              <div>🥉 &nbsp;OneHack 3.0 — USC FoodChain, 3rd · ₱30,000</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="win-inset" style="margin-bottom:10px;">
-        <p>"The eldest child who decided to speak in code." Ships code, leads teams, writes stories, and still placed 3rd at a hackathon. If you want someone who does all of the above — you just met her.</p>
-      </div>
-
-      <div class="win-divider"></div>
-      <h3>► ACADEMIC</h3>
-      <ul>
-        <li>SHS — La Salle University Integrated School</li>
-        <li>BS Information Technology · University of San Carlos · 1st Year</li>
-        <li>Track: Information Management &amp; Web Development</li>
-        <li>Coursework: ERDs, BPMN, HTML/CSS, C, Networking</li>
-      </ul>
-
-      <div class="win-divider"></div>
-      <h3>► INTERESTS</h3>
-      <ul>
-        <li>📖 Avid reader — fiction, tech, and everything between</li>
-        <li>✍️ Creative writer — fanfiction, worldbuilding, storytelling</li>
-        <li>🎸 Guitar player</li>
-        <li>🗺️ Building civic tech (ZoneGuide / ZoneLens)</li>
-        <li>🎮 Designing interactive experiences in code</li>
-      </ul>
-
-      <div class="win-divider"></div>
-      <h3>► CAREER GOALS</h3>
-      <ul>
-        <li>🎯 Pursue a Doctorate in Cybersecurity</li>
-        <li>🔐 Specialize in digital security &amp; ethical hacking</li>
-        <li>💡 Build tech that matters for communities</li>
-        <li>📝 Keep writing — code and prose alike</li>
-      </ul>
-
-      <div class="win-divider"></div>
-      <h3>► EXTRACURRICULARS</h3>
-      <ul>
-        <li>Class Secretary — 3 years running</li>
-        <li>House of Ben Ambassador — 3 years running</li>
-        <li>House of Ben President — led 400+ member org for 3 years</li>
-        <li>Creative Writer's Guild — Lead Creative for 3 years</li>
-      </ul>
-
-      <div class="win-divider"></div>
-      <h3>► CURRENT STATUS</h3>
-      <p>2nd Semester AY 2025 · 27 units loaded</p>
-      <div class="win-progress-outer"><div class="win-progress-inner" style="width:40%"></div></div>
-      <p style="font-family:'Press Start 2P',monospace;font-size:6px;color:#666;">SEMESTER PROGRESS: ~40%</p>
     </div>
     <div class="win-statusbar">
       <span>BSIT · 1st Year · USC</span>
@@ -978,7 +1321,7 @@
     <div class="win-titlebar" onmousedown="startDrag(event,'win-projects')">
       <div class="win-title"><span class="win-title-icon">💾</span> Projects</div>
       <div class="win-controls">
-        <button class="win-btn">_</button>
+        <button class="win-btn" onclick="minimizeWindow('win-projects')">_</button>
         <button class="win-btn">□</button>
         <button class="win-btn win-btn-close" onclick="closeWindow('win-projects')">✕</button>
       </div>
@@ -992,25 +1335,25 @@
     <div class="win-body" style="max-height:480px;">
 
       <div class="project-card">
-        <h3>🥉 ZONELENS / ZONEGUIDE</h3>
-        <p>Interactive civic mapping platform for Mandaue City. Built to help residents understand zoning, land use, and city planning data in an accessible way.</p>
-        <div><span class="tag">Civic Tech</span><span class="tag">Maps</span><span class="tag">JavaScript</span></div>
+        <h3>🗺️ <a href="https://github.com/AlexanderTheBored/Zone-Lens" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px dotted #888;">ZONE|LENS</a> <span style="font-family:'VT323';font-size:15px;color:#c8a000;">🥉 Sinulog Hackathon 2026</span></h3>
+        <p>Civic mapping platform for Mandaue City. As the youngest participant, placed 3rd at Sinulog Hackathon 2026.</p>
+        <div><span class="tag">Civic Tech</span><span class="tag">JavaScript</span><span class="tag">₱30,000 Prize</span></div>
       </div>
 
       <div class="project-card">
-        <h3>🏆 USC FOODCHAIN <span style="font-family:'VT323';font-size:15px;color:#c00;">🥉 OneHack 3.0</span></h3>
-        <p>Blockchain-based campus food marketplace built for OneHack 3.0. Competed as the youngest participant and placed 3rd, winning ₱30,000 under extreme time pressure.</p>
-        <div><span class="tag">Blockchain</span><span class="tag">Hackathon</span><span class="tag">₱30,000 Prize</span></div>
+        <h3>USC FOODCHAIN <span style="font-family:'VT323';font-size:15px;color:#c00;">OneHack 3.0</span></h3>
+        <p>Blockchain-based campus food marketplace built for OneHack 3.0. Placed 3rd under extreme time pressure.</p>
+        <div><span class="tag">Blockchain</span><span class="tag">Hackathon</span><span class="tag">Node.js</span></div>
       </div>
 
       <div class="project-card">
-        <h3>📖 MANGAVIEW <span style="font-family:'VT323';font-size:15px;color:#888;">(In Progress)</span></h3>
+        <h3>📖 <a href="https://github.com/AlexanderTheBored/MangaView" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px dotted #888;">MANGAVIEW</a> <span style="font-family:'VT323';font-size:15px;color:#888;">(In Progress)</span></h3>
         <p>Full-stack manga reading platform. Building a clean, fast reading experience with proper chapter management and reader UX.</p>
-        <div><span class="tag">Full-Stack</span><span class="tag">WIP</span></div>
+        <div><span class="tag">Full-Stack</span><span class="tag">JavaScript</span><span class="tag">WIP</span></div>
       </div>
 
       <div class="project-card">
-        <h3>✅ TASKMASTER</h3>
+        <h3>✅ <a href="https://github.com/AlexanderTheBored/TaskMaster" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px dotted #888;">TASKMASTER</a></h3>
         <p>HTML-based task management application. Clean, functional, no-fluff todo system built to actually get things done.</p>
         <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
       </div>
@@ -1023,20 +1366,20 @@
 
       <div class="project-card">
         <h3>✍️ SPOILED AND SHIELDED <span style="font-family:'VT323';font-size:15px;color:#888;">(RWBY Fanfic)</span></h3>
-        <p>Long-form creative writing project — a RWBY fanfiction exploring character dynamics through worldbuilding and original story arcs. Because not all projects are code.</p>
+        <p>Long-form creative writing project — a RWBY fanfiction exploring character dynamics through worldbuilding and original story arcs. Because not all projects are code. <span style="color:#888;font-size:0.9em;">(AO3 link coming soon)</span></p>
         <div><span class="tag">Creative Writing</span><span class="tag">Worldbuilding</span><span class="tag">RWBY</span></div>
       </div>
 
       <div class="project-card">
         <h3>💼 THIS PORTFOLIO</h3>
         <p>Windows 95-style portfolio with draggable windows, live class schedule, pixel art desktop, and zero frameworks. Raw HTML, CSS, JS + too much caffeine.</p>
-        <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span><span class="tag">No Frameworks</span></div>
+        <div><span class="tag">HTML/CSS/JS</span><span class="tag">No Frameworks</span><span class="tag">Win95</span></div>
       </div>
 
     </div>
     <div class="win-statusbar">
       <span>7 items</span>
-      <span>Sinulog Hackathon 2026 · 3rd Place · ₱30,000</span>
+      <span>Sinulog Hackathon 2026 🥇 · OneHack 3.0 🥉</span>
     </div>
     <div class="win-resize" onmousedown="startResize(event,'win-projects')"></div>
   </div>
@@ -1046,7 +1389,7 @@
     <div class="win-titlebar" onmousedown="startDrag(event,'win-weekly')">
       <div class="win-title"><span class="win-title-icon">📋</span> Weekly Outputs & Skills</div>
       <div class="win-controls">
-        <button class="win-btn">_</button>
+        <button class="win-btn" onclick="minimizeWindow('win-weekly')">_</button>
         <button class="win-btn">□</button>
         <button class="win-btn win-btn-close" onclick="closeWindow('win-weekly')">✕</button>
       </div>
@@ -1129,22 +1472,22 @@
           <div class="output-card-desc">Benefits in diagnosis/tutoring vs. risks: misinformation, privacy, bias.</div>
         </div>
       </div>
-      <!-- SKILLS TAB -->
+            <!-- SKILLS TAB -->
       <div id="tab-skills" style="display:none;">
         <h3 style="margin-bottom:10px;">► TECHNICAL SKILLS</h3>
-        <div class="skill-row"><label>JavaScript</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:90%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">specialty</span></div>
-        <div class="skill-row"><label>HTML5</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:80%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">proficient</span></div>
-        <div class="skill-row"><label>CSS3</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:80%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">proficient</span></div>
-        <div class="skill-row"><label>C</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:60%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">learning</span></div>
-        <div class="skill-row"><label>Blender</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:60%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">3D modelling</span></div>
-        <div class="skill-row"><label>Node.js</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:55%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">growing</span></div>
+        <div class="skill-row"><label>JavaScript</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div></div><span class="skill-level">specialty</span></div>
+        <div class="skill-row"><label>HTML5</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">proficient</span></div>
+        <div class="skill-row"><label>CSS3</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">proficient</span></div>
+        <div class="skill-row"><label>C</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">learning</span></div>
+        <div class="skill-row"><label>Blender</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">3D modelling</span></div>
+        <div class="skill-row"><label>Node.js</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">growing</span></div>
 
         <div class="win-divider"></div>
         <h3 style="margin-bottom:10px;">► SOFT SKILLS</h3>
-        <div class="skill-row"><label>Creative Writing</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:100%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">★★★★★</span></div>
-        <div class="skill-row"><label>Leadership</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:100%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">★★★★★</span></div>
-        <div class="skill-row"><label>Organization</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:100%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">★★★★★</span></div>
-        <div class="skill-row"><label>Public Speaking</label><div class="win-progress-outer"><div class="win-progress-inner" style="width:80%"></div></div><span style="font-family:'Press Start 2P',monospace;font-size:5px;margin-left:4px;color:#666;">★★★★☆</span></div>
+        <div class="skill-row"><label>Creative Writing</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+        <div class="skill-row"><label>Leadership</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+        <div class="skill-row"><label>Organization</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+        <div class="skill-row"><label>Public Speaking</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">strong</span></div>
 
         <div class="win-divider"></div>
         <h3 style="margin-bottom:10px;">► TOOLS & PLATFORMS</h3>
@@ -1177,7 +1520,7 @@
         <span class="live-badge" id="live-badge">● LIVE</span>
       </div>
       <div class="win-controls">
-        <button class="win-btn">_</button>
+        <button class="win-btn" onclick="minimizeWindow('win-schedule')">_</button>
         <button class="win-btn">□</button>
         <button class="win-btn win-btn-close" onclick="closeWindow('win-schedule')">✕</button>
       </div>
@@ -1233,7 +1576,7 @@
     <div class="win-titlebar" onmousedown="startDrag(event,'win-contact')">
       <div class="win-title"><span class="win-title-icon">📧</span> Contact</div>
       <div class="win-controls">
-        <button class="win-btn">_</button>
+        <button class="win-btn" onclick="minimizeWindow('win-contact')">_</button>
         <button class="win-btn">□</button>
         <button class="win-btn win-btn-close" onclick="closeWindow('win-contact')">✕</button>
       </div>
@@ -1297,7 +1640,27 @@
         <button class="win95-btn" onclick="dismissWelcome();openWindow('win-about')">View About</button>
       </div>
     </div>
+  </div>  <!-- CMD WINDOW -->
+  <div class="win-window" id="win-cmd" style="width:560px;top:80px;left:120px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-cmd')">
+      <div class="win-title"><span class="win-title-icon">🖥️</span> C:\ROVEL\cmd.exe</div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-cmd')">_</button>
+        <button class="win-btn">□</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-cmd')">✕</button>
+      </div>
+    </div>
+    <div id="cmd-body" style="background:#000;color:#c0c0c0;font-family:'Courier New',monospace;font-size:13px;height:340px;overflow-y:auto;padding:8px;cursor:text;" onclick="document.getElementById('cmd-input').focus()">
+      <div id="cmd-output"></div>
+      <div style="display:flex;align-items:center;margin-top:2px;">
+        <span id="cmd-prompt" style="color:#c0c0c0;white-space:nowrap;">C:\ROVEL&gt;&nbsp;</span>
+        <input id="cmd-input" type="text" autocomplete="off" spellcheck="false"
+          style="background:transparent;border:none;outline:none;color:#c0c0c0;font-family:'Courier New',monospace;font-size:13px;flex:1;caret-color:#c0c0c0;"
+          onkeydown="cmdKeyDown(event)">
+      </div>
+    </div>
   </div>
+
 </div><!-- /desktop -->
 
 <!-- ===================== TASKBAR ===================== -->
@@ -1319,6 +1682,7 @@
     <div class="start-item" onclick="openWindow('win-weekly');closeStartMenu()"><span>📋</span> Weekly Outputs</div>
     <div class="start-item" onclick="openWindow('win-schedule');closeStartMenu()"><span>🕐</span> Schedule</div>
     <div class="start-item" onclick="openWindow('win-contact');closeStartMenu()"><span>📧</span> Contact</div>
+    <div class="start-item" onclick="openWindow('win-cmd');closeStartMenu()"><span>🖥️</span> cmd.exe</div>
     <div class="start-sep"></div>
     <div class="start-item" onclick="closeAllWindows();closeStartMenu()"><span>🔲</span> Close All</div>
     <div class="start-sep"></div>
@@ -1390,6 +1754,7 @@ function toggleWidgetMode() {
   } else {
     if (clockRaf) { cancelAnimationFrame(clockRaf); clockRaf = null; }
   }
+  pinWidget();
 }
 
 // ── Analog clock ──
@@ -1567,19 +1932,35 @@ function openWindow(id) {
 function closeWindow(id) {
   var el = document.getElementById(id);
   if (!el) return;
-  el.classList.remove('open', 'active', 'inactive');
+  el.classList.remove('open', 'active', 'inactive', 'minimized');
   delete openSet[id];
+  delete minimizedSet[id];
+  updateTaskbar();
+  if (id === 'win-asteroids') stopAsteroids();
+}
+function closeAllWindows() {
+  ['win-about','win-projects','win-weekly','win-schedule','win-contact','win-cmd','win-asteroids'].forEach(closeWindow);
+}
+
+var minimizedSet = {};
+
+function minimizeWindow(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('minimized');
+  el.classList.remove('active');
+  el.classList.add('inactive');
+  minimizedSet[id] = true;
   updateTaskbar();
 }
 
-function closeAllWindows() {
-  ['win-about','win-projects','win-weekly','win-schedule','win-contact'].forEach(closeWindow);
-}
-
 function focusWindow(id) {
-  zCounter++;
   var el = document.getElementById(id);
   if (!el) return;
+  // Restore if minimized
+  el.classList.remove('minimized');
+  delete minimizedSet[id];
+  zCounter++;
   el.style.zIndex = zCounter;
   document.querySelectorAll('.win-window').forEach(function(w) {
     w.classList.remove('active');
@@ -1595,20 +1976,33 @@ function updateTaskbar() {
   if (!tb) return;
   tb.innerHTML = '';
   var wins = [
-    { id:'win-about',    label:'About Me' },
-    { id:'win-projects', label:'Projects' },
-    { id:'win-weekly',   label:'Outputs' },
-    { id:'win-schedule', label:'Schedule' },
-    { id:'win-contact',  label:'Contact' },
+    { id:'win-about',     label:'About Me' },
+    { id:'win-projects',  label:'Projects' },
+    { id:'win-weekly',    label:'Outputs' },
+    { id:'win-schedule',  label:'Schedule' },
+    { id:'win-contact',   label:'Contact' },
+    { id:'win-cmd',       label:'🖥️ cmd.exe' },
+    { id:'win-asteroids', label:'🚀 Asteroids' },
   ];
   wins.forEach(function(w) {
     if (!openSet[w.id]) return;
     var btn = document.createElement('button');
     btn.className = 'taskbar-btn';
     var el = document.getElementById(w.id);
-    if (el && el.classList.contains('active')) btn.classList.add('active');
+    var isMinimized = !!minimizedSet[w.id];
+    var isActive = el && el.classList.contains('active');
+    if (isActive) btn.classList.add('active');
+    if (isMinimized) btn.classList.add('minimized-btn');
     btn.textContent = w.label;
-    btn.onclick = function() { focusWindow(w.id); };
+    btn.onclick = function() {
+      if (minimizedSet[w.id]) {
+        focusWindow(w.id); // restore
+      } else if (el && el.classList.contains('active')) {
+        minimizeWindow(w.id); // minimize if already focused
+      } else {
+        focusWindow(w.id); // just focus
+      }
+    };
     tb.appendChild(btn);
   });
 }
@@ -1821,10 +2215,1218 @@ function showTab(name) {
   var ws=document.getElementById('weekly-status'); if(ws) ws.textContent = name==='outputs'?'14 outputs':'5 skills tracked';
 }
 
-// ===================== WELCOME =====================
+// ===================== LIVE WEATHER (Mandaue City) =====================
+// Uses Open-Meteo — free, no API key, coordinates for Mandaue City PH
+// ===================== WEATHER ENGINE =====================
+function fetchWeather() {
+  var url = 'https://api.open-meteo.com/v1/forecast' +
+    '?latitude=10.3236&longitude=123.9223' +
+    '&current=temperature_2m,weathercode,is_day' +
+    '&timezone=Asia%2FManila&forecast_days=1';
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var c = data.current;
+      applyWeather(c.weathercode, Math.round(c.temperature_2m), c.is_day);
+    })
+    .catch(function() {});
+}
+
+function applyWeather(code, temp, isDay) {
+  var body = document.body;
+  body.classList.remove('wx-cloudy','wx-rain','wx-storm','wx-night','wx-fog');
+
+  var icon, label, wxClass;
+  if (!isDay)        { wxClass='wx-night';  icon='🌙'; label='Night'; }
+  else if (code===0) {                       icon='☀️'; label='Clear'; }
+  else if (code<=2)  { wxClass='wx-cloudy'; icon='⛅'; label='Cloudy'; }
+  else if (code===3) { wxClass='wx-cloudy'; icon='☁️'; label='Overcast'; }
+  else if (code<=49) { wxClass='wx-fog';    icon='🌫️'; label='Foggy'; }
+  else if (code<=67) { wxClass='wx-rain';   icon='🌧️'; label='Rain'; }
+  else if (code<=77) { wxClass='wx-rain';   icon='🌨️'; label='Sleet'; }
+  else if (code<=82) { wxClass='wx-rain';   icon='🌦️'; label='Showers'; }
+  else if (code<=99) { wxClass='wx-storm';  icon='⛈️'; label='Storm'; }
+  else               {                       icon='🌤️'; label='Partly Cloudy'; }
+
+  if (wxClass) body.classList.add(wxClass);
+
+  var badge = document.getElementById('wx-badge');
+  if (badge) badge.textContent = icon + ' ' + temp + '°C ' + label + ' · Mandaue';
+
+  // CSS clouds
+  var clouds = document.querySelectorAll('.pixel-cloud');
+  var showCount = (code===0) ? 4 : (code<=2) ? 6 : 7;
+  clouds.forEach(function(c,i){ c.style.opacity = i < showCount ? '1' : '0'; });
+
+  // Start canvas particle engine
+  startWxCanvas(wxClass || 'wx-clear', isDay);
+}
+
+// ── CANVAS WEATHER PARTICLES ──
+var WX_RAF = null;
+var WX_PARTICLES = [];
+var WX_LIGHTNING = { active:false, timer:0, next:0 };
+var WX_MODE = 'wx-clear';
+
+function startWxCanvas(mode, isDay) {
+  WX_MODE = mode;
+  WX_PARTICLES = [];
+  WX_LIGHTNING = { active:false, timer:0, next:180 + Math.random()*300 };
+
+  var canvas = document.getElementById('wx-canvas');
+  if (!canvas) return;
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  if (WX_RAF) { cancelAnimationFrame(WX_RAF); WX_RAF = null; }
+
+  // Static states - no animation loop needed
+  if (mode === 'wx-clear') { clearWxCanvas(); return; }
+  if (mode === 'wx-cloudy') { clearWxCanvas(); return; }
+  if (mode === 'wx-night') { clearWxCanvas(); startStars(canvas); return; }
+
+  function loop() {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    spawnParticles(mode, canvas);
+    updateAndDraw(ctx, canvas, mode);
+    if (mode === 'wx-storm') handleLightning(ctx, canvas);
+
+    WX_RAF = requestAnimationFrame(loop);
+  }
+  WX_RAF = requestAnimationFrame(loop);
+}
+
+function clearWxCanvas() {
+  var canvas = document.getElementById('wx-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function spawnParticles(mode, canvas) {
+  var W = canvas.width, H = canvas.height;
+
+  if (mode === 'wx-rain' || mode === 'wx-storm') {
+    // Rain drops — spawn from top in bursts
+    var count = mode === 'wx-storm' ? 12 : 6;
+    for (var i = 0; i < count; i++) {
+      WX_PARTICLES.push({
+        type: 'rain',
+        x: Math.random() * W,
+        y: -20 - Math.random() * 60,
+        vx: -1.5 + Math.random() * 0.5,  // slight wind angle
+        vy: 14 + Math.random() * 8,
+        len: 12 + Math.random() * 10,
+        alpha: 0.5 + Math.random() * 0.4
+      });
+    }
+  }
+
+  if (mode === 'wx-fog') {
+    // Fog wisps — large slow horizontal blobs
+    if (WX_PARTICLES.length < 40 && Math.random() < 0.15) {
+      WX_PARTICLES.push({
+        type: 'fog',
+        x: -200,
+        y: Math.random() * H * 0.7,
+        vx: 0.3 + Math.random() * 0.4,
+        vy: (Math.random() - 0.5) * 0.2,
+        r: 80 + Math.random() * 120,
+        alpha: 0.04 + Math.random() * 0.06,
+        life: 1
+      });
+    }
+  }
+}
+
+function updateAndDraw(ctx, canvas, mode) {
+  var W = canvas.width, H = canvas.height;
+
+  for (var i = WX_PARTICLES.length - 1; i >= 0; i--) {
+    var p = WX_PARTICLES[i];
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.type === 'rain') {
+      // Draw raindrop as a line
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.strokeStyle = mode === 'wx-storm' ? '#99bbff' : '#aaccff';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x + p.vx * (p.len / p.vy), p.y + p.len);
+      ctx.stroke();
+
+      // Splat on ground
+      if (p.y > H - 40) {
+        // spawn splat
+        for (var s = 0; s < 3; s++) {
+          WX_PARTICLES.push({
+            type: 'splat',
+            x: p.x, y: p.y,
+            vx: (Math.random() - 0.5) * 3,
+            vy: -Math.random() * 2,
+            alpha: 0.6,
+            r: 2 + Math.random() * 2,
+            life: 1
+          });
+        }
+        WX_PARTICLES.splice(i, 1);
+        ctx.restore();
+        continue;
+      }
+      if (p.y > H + 20) { WX_PARTICLES.splice(i, 1); ctx.restore(); continue; }
+      ctx.restore();
+
+    } else if (p.type === 'splat') {
+      p.life -= 0.08;
+      p.alpha = p.life * 0.6;
+      if (p.life <= 0) { WX_PARTICLES.splice(i, 1); continue; }
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle = mode === 'wx-storm' ? '#99bbff' : '#aaccff';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+    } else if (p.type === 'fog') {
+      // Fog wisps drift across
+      if (p.x > W + 300) { WX_PARTICLES.splice(i, 1); continue; }
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      grad.addColorStop(0, 'rgba(220,220,230,1)');
+      grad.addColorStop(1, 'rgba(220,220,230,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Cap particle count
+  if (WX_PARTICLES.length > 600) WX_PARTICLES.splice(0, 50);
+}
+
+function handleLightning(ctx, canvas) {
+  WX_LIGHTNING.timer++;
+  if (WX_LIGHTNING.timer >= WX_LIGHTNING.next) {
+    WX_LIGHTNING.timer = 0;
+    WX_LIGHTNING.next = 180 + Math.random() * 400;
+    flashLightning(ctx, canvas);
+  }
+}
+
+function flashLightning(ctx, canvas) {
+  var W = canvas.width, H = canvas.height;
+  var x = W * 0.2 + Math.random() * W * 0.6;
+
+  // Draw jagged bolt
+  ctx.save();
+  ctx.globalAlpha = 0.9;
+  ctx.strokeStyle = '#ddeeff';
+  ctx.lineWidth = 2;
+  ctx.shadowColor = '#aaddff';
+  ctx.shadowBlur = 20;
+  ctx.beginPath();
+  var cy = 0;
+  ctx.moveTo(x, cy);
+  while (cy < H * 0.65) {
+    var nx = x + (Math.random() - 0.5) * 80;
+    var ny = cy + 40 + Math.random() * 40;
+    ctx.lineTo(nx, ny);
+    x = nx; cy = ny;
+  }
+  ctx.stroke();
+
+  // Branch
+  ctx.lineWidth = 1;
+  ctx.globalAlpha = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(x, cy);
+  ctx.lineTo(x + (Math.random()-0.5)*100, cy + 60 + Math.random()*60);
+  ctx.stroke();
+  ctx.restore();
+
+  // Screen flash
+  var desktop = document.getElementById('desktop');
+  if (desktop) {
+    desktop.style.filter = 'brightness(1.6)';
+    setTimeout(function() { desktop.style.filter = ''; }, 80);
+    setTimeout(function() { desktop.style.filter = 'brightness(1.3)'; }, 120);
+    setTimeout(function() { desktop.style.filter = ''; }, 180);
+  }
+}
+
+function startStars(canvas) {
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Draw static stars for night mode
+  for (var i = 0; i < 120; i++) {
+    var x = Math.random() * canvas.width;
+    var y = Math.random() * canvas.height * 0.6;
+    var r = Math.random() * 1.5;
+    var a = 0.4 + Math.random() * 0.6;
+    ctx.globalAlpha = a;
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+// Resize canvas on window resize
+window.addEventListener('resize', function() {
+  var canvas = document.getElementById('wx-canvas');
+  if (canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+});
+
+// Fetch on load, refresh every 10 minutes
+fetchWeather();
+setInterval(fetchWeather, 600000);
+
+
+// ── ABOUT BIG MODE ──
+var aboutBig = false;
+function toggleAboutMode() {
+  aboutBig = !aboutBig;
+  var win = document.getElementById('win-about');
+  var compact = document.getElementById('about-compact');
+  var big = document.getElementById('about-big');
+  var btn = document.getElementById('about-expand-btn');
+  if (aboutBig) {
+    compact.style.display = 'none';
+    big.style.display = 'block';
+    win.style.width = '760px';
+    btn.textContent = '⊠';
+    btn.title = 'Compact';
+  } else {
+    compact.style.display = 'block';
+    big.style.display = 'none';
+    win.style.width = '420px';
+    btn.textContent = '⊡';
+    btn.title = 'Expand';
+  }
+}
+
+function switchAboutTab(tab) {
+  ['bio','academic','goals','extra'].forEach(function(t) {
+    document.getElementById('about-tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.about-tab').forEach(function(btn) {
+    btn.classList.toggle('active-tab', btn.getAttribute('onclick').includes("'" + tab + "'"));
+  });
+}
+
 function dismissWelcome() {
   closeWindow('welcome-win');
 }
+
+// ===================== CMD CONSOLE =====================
+var cmdHistory = [];
+var cmdHistIdx = -1;
+
+var userEvents = JSON.parse(localStorage.getItem('rovel_events') || '[]');
+var stickyNotes = JSON.parse(localStorage.getItem('rovel_notes') || '[]');
+
+var DAYS_MAP = {
+  monday:1, mon:1, tuesday:2, tue:2, wednesday:3, wed:3,
+  thursday:4, thu:4, friday:5, fri:5, saturday:6, sat:6, sunday:0, sun:0
+};
+
+function cmdPrint(text, cls) {
+  var out = document.getElementById('cmd-output');
+  if (!out) return;
+  var line = document.createElement('div');
+  if (cls) line.className = cls;
+  line.innerHTML = text;
+  out.appendChild(line);
+  var body = document.getElementById('cmd-body');
+  if (body) body.scrollTop = body.scrollHeight;
+}
+
+function cmdBlank() { cmdPrint('&nbsp;'); }
+
+function cmdKeyDown(e) {
+  var inp = document.getElementById('cmd-input');
+  if (e.key === 'Enter') {
+    var val = inp.value.trim();
+    cmdPrint('C:\\ROVEL&gt;&nbsp;' + escHtml(val), 'cmd-dim');
+    if (val) { cmdHistory.unshift(val); cmdHistIdx = -1; }
+    inp.value = '';
+    runCmd(val);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (cmdHistIdx < cmdHistory.length - 1) { cmdHistIdx++; inp.value = cmdHistory[cmdHistIdx]; }
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (cmdHistIdx > 0) { cmdHistIdx--; inp.value = cmdHistory[cmdHistIdx]; }
+    else { cmdHistIdx = -1; inp.value = ''; }
+  }
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function runCmd(raw) {
+  var parts = parseCmd(raw);
+  var cmd = (parts[0] || '').toLowerCase();
+
+  switch(cmd) {
+    case '': break;
+    case 'help': cmdHelp(); break;
+    case 'clear': case 'cls': document.getElementById('cmd-output').innerHTML = ''; break;
+    case 'about': cmdAbout(); break;
+    case 'event': cmdEvent(parts.slice(1)); break;
+    case 'note': cmdNote(parts.slice(1)); break;
+    case 'rovel': cmdEasterEgg(); break;
+    case 'wx': cmdWx(parts.slice(1)); break;
+    case 'exit': closeWindow('win-cmd'); break;
+    default:
+      cmdPrint('<span class="cmd-error">\'' + escHtml(cmd) + '\' is not recognized as an internal or external command.</span>');
+      cmdPrint('<span class="cmd-dim">Type HELP for available commands.</span>');
+  }
+  cmdBlank();
+}
+
+function parseCmd(raw) {
+  var parts = [];
+  var re = /(?:[^\s"]+|"[^"]*")+/g;
+  var m;
+  while ((m = re.exec(raw)) !== null) {
+    parts.push(m[0].replace(/^"|"$/g, ''));
+  }
+  return parts;
+}
+
+function cmdHelp() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-info">ROVEL OS — Available Commands</span>');
+  cmdPrint('<span class="cmd-dim">──────────────────────────────────────</span>');
+  cmdPrint('  <span class="cmd-success">help</span>                      Show this list');
+  cmdPrint('  <span class="cmd-success">about</span>                     About this system');
+  cmdPrint('  <span class="cmd-success">clear</span>                     Clear the terminal');
+  cmdPrint('  <span class="cmd-success">event add &lt;day&gt; &lt;HH:MM&gt; "&lt;title&gt;"</span>');
+  cmdPrint('                            Add personal event to schedule');
+  cmdPrint('  <span class="cmd-success">event list</span>                List all your events');
+  cmdPrint('  <span class="cmd-success">event remove &lt;id&gt;</span>         Remove an event by ID');
+  cmdPrint('  <span class="cmd-success">note "&lt;text&gt;"</span>             Pin a sticky note to desktop');
+  cmdPrint('  <span class="cmd-success">note list</span>                  List all sticky notes');
+  cmdPrint('  <span class="cmd-success">note remove &lt;id&gt;</span>          Remove a sticky note by ID');
+  cmdPrint('  <span class="cmd-success">exit</span>                      Close this window');
+  cmdPrint('  <span class="cmd-success">wx &lt;state&gt;</span>               Force weather state for testing');
+  cmdPrint('<span class="cmd-dim">                            states: clear cloudy overcast rain storm fog night auto</span>');
+  cmdPrint('<span class="cmd-dim">──────────────────────────────────────</span>');
+  cmdPrint('<span class="cmd-dim">  ??? There may be other commands...</span>');
+}
+
+function cmdAbout() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-info">ROVEL OS v1.0 — Built by Rovel Floriane S. Lumapas</span>');
+  cmdPrint('<span class="cmd-dim">BSIT Student · University of San Carlos · Cebu, PH</span>');
+  cmdPrint('<span class="cmd-dim">Raw HTML/CSS/JS. No frameworks. Pure student energy.</span>');
+}
+
+// ── EVENT COMMANDS ──
+function cmdEvent(args) {
+  var sub = (args[0] || '').toLowerCase();
+  if (sub === 'list') {
+    cmdBlank();
+    if (!userEvents.length) { cmdPrint('<span class="cmd-dim">No personal events. Use: event add &lt;day&gt; &lt;HH:MM&gt; "title"</span>'); return; }
+    cmdPrint('<span class="cmd-info">Your Events:</span>');
+    userEvents.forEach(function(ev) {
+      cmdPrint('  [<span class="cmd-success">' + ev.id + '</span>] ' + ev.day.toUpperCase() + ' ' + ev.time + ' — ' + escHtml(ev.title));
+    });
+    return;
+  }
+  if (sub === 'remove') {
+    var id = parseInt(args[1]);
+    var before = userEvents.length;
+    userEvents = userEvents.filter(function(e) { return e.id !== id; });
+    if (userEvents.length < before) {
+      saveEvents();
+      cmdPrint('<span class="cmd-success">Event removed.</span>');
+      updateSchedule();
+    } else {
+      cmdPrint('<span class="cmd-error">No event with ID ' + id + '.</span>');
+    }
+    return;
+  }
+  if (sub === 'add') {
+    var day = (args[1] || '').toLowerCase();
+    var time = args[2] || '';
+    var title = args[3] || '';
+    if (!DAYS_MAP.hasOwnProperty(day)) {
+      cmdPrint('<span class="cmd-error">Unknown day: ' + escHtml(day) + '</span>');
+      cmdPrint('<span class="cmd-dim">Use: monday, tuesday, wednesday, thursday, friday, saturday, sunday</span>');
+      return;
+    }
+    if (!/^\d{1,2}:\d{2}$/.test(time)) {
+      cmdPrint('<span class="cmd-error">Invalid time. Use HH:MM format (e.g. 18:00)</span>');
+      return;
+    }
+    if (!title) {
+      cmdPrint('<span class="cmd-error">Missing title. Usage: event add friday 18:00 "Date night 🌙"</span>');
+      return;
+    }
+    var newId = Date.now() % 100000;
+    userEvents.push({ id: newId, day: day, dayNum: DAYS_MAP[day], time: time, title: title });
+    saveEvents();
+    updateSchedule();
+    cmdPrint('<span class="cmd-success">✓ Event added!</span> [ID: ' + newId + ']');
+    cmdPrint('  <span class="cmd-info">' + day.toUpperCase() + ' ' + time + ' — ' + escHtml(title) + '</span>');
+    return;
+  }
+  cmdPrint('<span class="cmd-error">Usage: event add &lt;day&gt; &lt;HH:MM&gt; "&lt;title&gt;"</span>');
+  cmdPrint('<span class="cmd-dim">       event list</span>');
+  cmdPrint('<span class="cmd-dim">       event remove &lt;id&gt;</span>');
+}
+
+function saveEvents() {
+  localStorage.setItem('rovel_events', JSON.stringify(userEvents));
+}
+
+// ── NOTE COMMANDS ──
+function cmdNote(args) {
+  var sub = (args[0] || '').toLowerCase();
+  if (sub === 'list') {
+    cmdBlank();
+    if (!stickyNotes.length) { cmdPrint('<span class="cmd-dim">No sticky notes. Use: note "your text here"</span>'); return; }
+    cmdPrint('<span class="cmd-info">Sticky Notes:</span>');
+    stickyNotes.forEach(function(n) {
+      cmdPrint('  [<span class="cmd-success">' + n.id + '</span>] ' + escHtml(n.text.substring(0,60)) + (n.text.length>60?'…':''));
+    });
+    return;
+  }
+  if (sub === 'remove') {
+    var id = parseInt(args[1]);
+    var el = document.getElementById('sticky-' + id);
+    if (el) el.remove();
+    var before = stickyNotes.length;
+    stickyNotes = stickyNotes.filter(function(n) { return n.id !== id; });
+    if (stickyNotes.length < before) {
+      saveNotes();
+      cmdPrint('<span class="cmd-success">Note removed.</span>');
+    } else {
+      cmdPrint('<span class="cmd-error">No note with ID ' + id + '.</span>');
+    }
+    return;
+  }
+  // treat first arg as the text (already parsed, quotes stripped)
+  var text = args[0] || '';
+  if (!text) {
+    cmdPrint('<span class="cmd-error">Usage: note "your text here"</span>');
+    cmdPrint('<span class="cmd-dim">       note list</span>');
+    cmdPrint('<span class="cmd-dim">       note remove &lt;id&gt;</span>');
+    return;
+  }
+  var newId = Date.now() % 100000;
+  var note = { id: newId, text: text, x: 200 + Math.random()*200, y: 100 + Math.random()*150 };
+  stickyNotes.push(note);
+  saveNotes();
+  renderNote(note);
+  cmdPrint('<span class="cmd-success">✓ Note pinned to desktop!</span> [ID: ' + newId + ']');
+}
+
+function saveNotes() {
+  localStorage.setItem('rovel_notes', JSON.stringify(stickyNotes));
+}
+
+function renderNote(note) {
+  var desktop = document.getElementById('desktop');
+  if (!desktop) return;
+  var el = document.createElement('div');
+  el.className = 'sticky-note';
+  el.id = 'sticky-' + note.id;
+  el.style.left = note.x + 'px';
+  el.style.top  = note.y + 'px';
+  el.innerHTML =
+    '<div class="sticky-titlebar" onmousedown="startDrag(event,\'sticky-' + note.id + '\')">' +
+      '<span>📌 NOTE</span>' +
+      '<span class="sticky-close" onclick="removeNote(' + note.id + ')">✕</span>' +
+    '</div>' +
+    '<div class="sticky-body">' + escHtml(note.text) + '</div>' +
+    '<div class="sticky-id">id:' + note.id + '</div>';
+  desktop.appendChild(el);
+}
+
+function removeNote(id) {
+  var el = document.getElementById('sticky-' + id);
+  if (el) el.remove();
+  stickyNotes = stickyNotes.filter(function(n) { return n.id !== id; });
+  saveNotes();
+}
+
+function loadStickyNotes() {
+  stickyNotes.forEach(renderNote);
+}
+
+// ── EASTER EGG ──
+var eggState = null;
+
+function cmdEasterEgg() {
+  // Phase 1: BSOD
+  var bsod = document.getElementById('bsod-overlay');
+  bsod.classList.add('show');
+
+  function dismissBsod() {
+    bsod.classList.remove('show');
+    document.removeEventListener('keydown', dismissBsod);
+    bsod.removeEventListener('click', dismissBsod);
+    setTimeout(showAsciiAndGame, 300);
+  }
+  document.addEventListener('keydown', dismissBsod);
+  bsod.addEventListener('click', dismissBsod);
+}
+
+function showAsciiAndGame() {
+  openWindow('win-cmd');
+  var out = document.getElementById('cmd-output');
+  if (out) out.innerHTML = '';
+
+  cmdPrint('<span class="cmd-error">FATAL ERROR: identity.exe has stopped working</span>');
+  cmdBlank();
+
+  // Typewriter ASCII art
+  var ascii = [
+    ' ____   _____  _    _ _____  _',
+    '|  _ \\ / ___ || |  | |  ___|| |',
+    '| |_) | |   | | |  | | |__  | |',
+    '|    /| |   | | |  | |  __| | |',
+    '| |\\ \\| |___| | |__| | |___  \\___',
+    '|_| \\_|\\_____/ |_____/|_____|  ___/',
+    '',
+    '       Floriane · Lumapas · USC · BSIT',
+    '   "Ships code. Leads teams. Writes stories."',
+    '      3rd place hackathon. First in CS. 🏆',
+  ];
+
+  var i = 0;
+  function typeNext() {
+    if (i < ascii.length) {
+      cmdPrint('<span class="cmd-ascii">' + escHtml(ascii[i]) + '</span>');
+      i++;
+      setTimeout(typeNext, 60);
+    } else {
+      setTimeout(startGame, 400);
+    }
+  }
+  typeNext();
+}
+
+// ── MINI GAME: ASTEROIDS ──
+function startGame() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-success">  🚀 Launching ASTEROIDS.EXE...</span>');
+  cmdBlank();
+  setTimeout(function() { openAsteroids(); }, 400);
+}
+
+function openAsteroids() {
+  // Create window if not exists
+  if (!document.getElementById('win-asteroids')) {
+    var win = document.createElement('div');
+    win.className = 'win-window';
+    win.id = 'win-asteroids';
+    win.style.cssText = 'width:480px;top:60px;left:160px;';
+    win.innerHTML =
+      '<div class="win-titlebar" onmousedown="startDrag(event,\'win-asteroids\')">' +
+        '<div class="win-title"><span class="win-title-icon">🚀</span> ASTEROIDS.EXE</div>' +
+        '<div class="win-controls">' +
+          '<button class="win-btn" onclick="minimizeWindow(\'win-asteroids\')">_</button>' +
+          '<button class="win-btn">□</button>' +
+          '<button class="win-btn win-btn-close" onclick="closeAsteroids()">✕</button>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:#000;display:flex;flex-direction:column;align-items:center;padding:8px;gap:6px;">' +
+        '<canvas id="asteroids-canvas" width="460" height="340" style="display:block;background:#000;border:1px solid #333;"></canvas>' +
+        '<div style="display:flex;gap:16px;align-items:center;">' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#0f0;">SCORE: <span id="ast-score">0</span></span>' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#0f0;">LIVES: <span id="ast-lives">3</span></span>' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#ff0;">LEVEL: <span id="ast-level">1</span></span>' +
+        '</div>' +
+        '<div style="font-family:\'Press Start 2P\',monospace;font-size:6px;color:#555;text-align:center;line-height:2;">' +
+          'ARROWS/WASD: MOVE &nbsp;|&nbsp; Q/E: STRAFE &nbsp;|&nbsp; CLICK: SHOOT &nbsp;|&nbsp; SPACE: DODGE &nbsp;|&nbsp; P: PAUSE' +
+        '</div>' +
+      '</div>';
+    document.getElementById('desktop').appendChild(win);
+  }
+  openWindow('win-asteroids');
+  setTimeout(initAsteroids, 100);
+}
+
+function closeAsteroids() {
+  stopAsteroids();
+  closeWindow('win-asteroids');
+}
+
+// ── ASTEROIDS ENGINE ──
+var AST = null;
+
+function stopAsteroids() {
+  if (AST && AST.raf) { cancelAnimationFrame(AST.raf); }
+  if (AST) {
+    document.removeEventListener('keydown', AST.keydown);
+    document.removeEventListener('keyup', AST.keyup);
+    var c = document.getElementById('asteroids-canvas');
+    if (c && AST.mousedown) c.removeEventListener('mousedown', AST.mousedown);
+  }
+  AST = null;
+}
+
+function initAsteroids() {
+  stopAsteroids();
+  var canvas = document.getElementById('asteroids-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+
+  AST = {
+    raf: null, paused: false, over: false, started: false,
+    score: 0, lives: 3, level: 1,
+    keys: {},
+    ship: null, bullets: [], asteroids: [], particles: [],
+    invTimer: 0, dodgeCool: 0, dodgeTimer: 0,
+    ctx: ctx, W: W, H: H,
+    keydown: null, keyup: null
+  };
+
+  function mkShip() {
+    return {
+      x: W/2, y: H/2, vx: 0, vy: 0,
+      angle: -Math.PI/2,
+      thrusting: false, reversing: false, strafingL: false, strafingR: false
+    };
+  }
+
+  function mkAsteroid(x, y, r) {
+    var ang = Math.random() * Math.PI * 2;
+    // fairer: slower base speed, gentler level scaling
+    var spd = (0.6 + Math.random() * 0.9) * (1 + (AST.level - 1) * 0.08);
+    var pts = [];
+    var n = 10 + Math.floor(Math.random() * 5);
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * Math.PI * 2;
+      var jitter = r * (0.72 + Math.random() * 0.32);
+      pts.push({ x: Math.cos(a) * jitter, y: Math.sin(a) * jitter });
+    }
+    // orbit bias: each asteroid slowly curves toward the player
+    var orbitDir = Math.random() > 0.5 ? 1 : -1;
+    return {
+      x: x, y: y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd,
+      r: r, pts: pts, rot: 0, rotSpd: (Math.random()-0.5)*0.04,
+      orbitDir: orbitDir, orbitStrength: 0.004 + Math.random() * 0.004
+    };
+  }
+
+  function spawnWave() {
+    AST.asteroids = [];
+    // cap at 8 max so late levels don't become impossible
+    var count = Math.min(3 + AST.level, 8);
+    for (var i = 0; i < count; i++) {
+      var x, y, tries = 0;
+      do {
+        // spawn from edges to give player breathing room
+        var edge = Math.floor(Math.random() * 4);
+        if (edge === 0) { x = Math.random()*W; y = -50; }
+        else if (edge === 1) { x = Math.random()*W; y = H+50; }
+        else if (edge === 2) { x = -50; y = Math.random()*H; }
+        else { x = W+50; y = Math.random()*H; }
+        tries++;
+      } while (tries < 20 && Math.hypot(x - W/2, y - H/2) < 150);
+      AST.asteroids.push(mkAsteroid(x, y, 36));
+    }
+  }
+
+  function mkParticles(x, y, n, col) {
+    for (var i = 0; i < n; i++) {
+      var ang = Math.random() * Math.PI * 2;
+      var spd = 1 + Math.random() * 3;
+      AST.particles.push({ x:x, y:y, vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd, life:1, col:col||'#fff' });
+    }
+  }
+
+  AST.ship = mkShip();
+  spawnWave();
+
+  // Mouse shoot
+  AST.mousedown = function(e) {
+    if (e.button !== 0) return;
+    if (!AST.started) { AST.started = true; return; }
+    if (!AST.paused && !AST.over) shoot();
+  };
+  canvas.addEventListener('mousedown', AST.mousedown);
+
+  // Controls
+  AST.keydown = function(e) {
+    AST.keys[e.code] = true;
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)) e.preventDefault();
+    if (e.code === 'KeyP') AST.paused = !AST.paused;
+    if (e.code === 'Space' && !AST.paused && !AST.over && AST.started) dodge();
+    if (e.code === 'Enter' && AST.over) { initAsteroids(); return; }
+    if (e.code === 'Space' && !AST.started) { AST.started = true; }
+  };
+  AST.keyup = function(e) { delete AST.keys[e.code]; };
+  document.addEventListener('keydown', AST.keydown);
+  document.addEventListener('keyup', AST.keyup);
+
+  var shootCool = 0;
+
+  function shoot() {
+    if (shootCool > 0) return;
+    var s = AST.ship;
+    var bvx = Math.cos(s.angle) * 10 + s.vx * 0.5;
+    var bvy = Math.sin(s.angle) * 10 + s.vy * 0.5;
+    AST.bullets.push({
+      x: s.x + Math.cos(s.angle)*14,
+      y: s.y + Math.sin(s.angle)*14,
+      vx: bvx, vy: bvy, life: 52
+    });
+    shootCool = 9;
+  }
+
+  function dodge() {
+    if (AST.dodgeCool > 0) return;
+    var s = AST.ship;
+    // dash in current velocity direction, or forward if still
+    var spd = Math.hypot(s.vx, s.vy);
+    var dx, dy;
+    if (spd > 0.5) {
+      dx = s.vx / spd; dy = s.vy / spd;
+    } else {
+      dx = Math.cos(s.angle); dy = Math.sin(s.angle);
+    }
+    s.vx = dx * 9; s.vy = dy * 9;
+    AST.dodgeTimer = 22;  // i-frames
+    AST.invTimer = Math.max(AST.invTimer, 22);
+    AST.dodgeCool = 90;   // 1.5s cooldown at 60fps
+    // dash trail particles
+    for (var i = 0; i < 8; i++) {
+      AST.particles.push({
+        x: s.x - dx*i*3 + (Math.random()-0.5)*6,
+        y: s.y - dy*i*3 + (Math.random()-0.5)*6,
+        vx: -dx*(1+Math.random()) + (Math.random()-0.5),
+        vy: -dy*(1+Math.random()) + (Math.random()-0.5),
+        life: 0.7, col: '#0ff'
+      });
+    }
+  }
+
+  function wrap(obj) {
+    if (obj.x < -50)  obj.x += W + 100;
+    if (obj.x > W+50) obj.x -= W + 100;
+    if (obj.y < -50)  obj.y += H + 100;
+    if (obj.y > H+50) obj.y -= H + 100;
+  }
+
+  function update() {
+    if (AST.paused || AST.over || !AST.started) return;
+    shootCool      = Math.max(0, shootCool - 1);
+    AST.dodgeCool  = Math.max(0, AST.dodgeCool - 1);
+    AST.dodgeTimer = Math.max(0, AST.dodgeTimer - 1);
+    if (AST.invTimer > 0) AST.invTimer--;
+
+    var s = AST.ship;
+
+    // ── DIRECTIONAL CONTROLS ──
+    // Left/Right: rotate ship facing
+    if (AST.keys['ArrowLeft']  || AST.keys['KeyA']) s.angle -= 0.07;
+    if (AST.keys['ArrowRight'] || AST.keys['KeyD']) s.angle += 0.07;
+
+    // Up: thrust FORWARD along facing
+    s.thrusting = !!(AST.keys['ArrowUp'] || AST.keys['KeyW']);
+    if (s.thrusting) {
+      s.vx += Math.cos(s.angle) * 0.28;
+      s.vy += Math.sin(s.angle) * 0.28;
+    }
+    // Down: thrust BACKWARD (reverse)
+    s.reversing = !!(AST.keys['ArrowDown'] || AST.keys['KeyS']);
+    if (s.reversing) {
+      s.vx -= Math.cos(s.angle) * 0.18;
+      s.vy -= Math.sin(s.angle) * 0.18;
+    }
+    // Q/E: strafe left/right perpendicular to facing
+    s.strafingL = !!AST.keys['KeyQ'];
+    s.strafingR = !!AST.keys['KeyE'];
+    if (s.strafingL) {
+      s.vx += Math.cos(s.angle - Math.PI/2) * 0.18;
+      s.vy += Math.sin(s.angle - Math.PI/2) * 0.18;
+    }
+    if (s.strafingR) {
+      s.vx += Math.cos(s.angle + Math.PI/2) * 0.18;
+      s.vy += Math.sin(s.angle + Math.PI/2) * 0.18;
+    }
+
+    // Friction & speed cap
+    s.vx *= 0.982; s.vy *= 0.982;
+    var spd = Math.hypot(s.vx, s.vy);
+    if (spd > 7) { s.vx = s.vx/spd*7; s.vy = s.vy/spd*7; }
+    s.x += s.vx; s.y += s.vy;
+    wrap(s);
+
+    // ── BULLETS ──
+    for (var i = AST.bullets.length-1; i >= 0; i--) {
+      var b = AST.bullets[i];
+      b.x += b.vx; b.y += b.vy; b.life--;
+      wrap(b);
+      if (b.life <= 0) { AST.bullets.splice(i,1); continue; }
+      var hit = false;
+      for (var j = AST.asteroids.length-1; j >= 0; j--) {
+        var a = AST.asteroids[j];
+        if (Math.hypot(b.x-a.x, b.y-a.y) < a.r * 0.88) {
+          AST.bullets.splice(i,1);
+          hitAsteroid(j);
+          hit = true; break;
+        }
+      }
+    }
+
+    // ── ASTEROIDS ──
+    for (var i = 0; i < AST.asteroids.length; i++) {
+      var a = AST.asteroids[i];
+
+      // Orbit bias: nudge velocity gently toward player, circling
+      var dx = s.x - a.x, dy = s.y - a.y;
+      var dist = Math.hypot(dx, dy) || 1;
+      // perpendicular component (orbit) + tiny inward pull
+      var perpX = -dy/dist * a.orbitDir;
+      var perpY =  dx/dist * a.orbitDir;
+      a.vx += (perpX * 0.7 + dx/dist * 0.15) * a.orbitStrength;
+      a.vy += (perpY * 0.7 + dy/dist * 0.15) * a.orbitStrength;
+
+      // re-clamp asteroid speed so orbit doesn't rocket them
+      var aspd = Math.hypot(a.vx, a.vy);
+      var maxAspd = (0.8 + Math.random()*0.3) * (1 + (AST.level-1)*0.08);
+      if (aspd > maxAspd + 1) { a.vx = a.vx/aspd*(maxAspd+1); a.vy = a.vy/aspd*(maxAspd+1); }
+
+      a.x += a.vx; a.y += a.vy; a.rot += a.rotSpd;
+      wrap(a);
+
+      // Only kill if asteroid is visibly on screen
+      var onScreen = a.x > -a.r && a.x < W+a.r && a.y > -a.r && a.y < H+a.r;
+      if (onScreen && AST.invTimer === 0 && Math.hypot(s.x-a.x, s.y-a.y) < a.r * 0.55) {
+        killShip();
+      }
+    }
+
+    // ── PARTICLES ──
+    for (var i = AST.particles.length-1; i >= 0; i--) {
+      var p = AST.particles[i];
+      p.x += p.vx; p.y += p.vy; p.life -= 0.025;
+      if (p.life <= 0) AST.particles.splice(i,1);
+    }
+
+    // Level clear
+    if (AST.asteroids.length === 0) {
+      AST.level++;
+      document.getElementById('ast-level').textContent = AST.level;
+      mkParticles(W/2, H/2, 30, '#ff0');
+      // brief pause before spawning next wave
+      setTimeout(spawnWave, 800);
+    }
+
+    document.getElementById('ast-score').textContent = AST.score;
+    document.getElementById('ast-lives').textContent = AST.lives;
+  }
+
+  function hitAsteroid(j) {
+    var a = AST.asteroids[j];
+    var pts = a.r > 22 ? 20 : a.r > 12 ? 50 : 100;
+    AST.score += pts * AST.level;
+    mkParticles(a.x, a.y, 10, '#fa0');
+    AST.asteroids.splice(j, 1);
+    if (a.r > 20) {
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*20, a.y + (Math.random()-0.5)*20, Math.round(a.r*0.52)));
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*20, a.y + (Math.random()-0.5)*20, Math.round(a.r*0.52)));
+    } else if (a.r > 11) {
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*14, a.y + (Math.random()-0.5)*14, Math.round(a.r*0.52)));
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*14, a.y + (Math.random()-0.5)*14, Math.round(a.r*0.52)));
+    }
+  }
+
+  function killShip() {
+    mkParticles(AST.ship.x, AST.ship.y, 22, '#f44');
+    AST.lives--;
+    document.getElementById('ast-lives').textContent = AST.lives;
+    if (AST.lives <= 0) { AST.over = true; return; }
+    AST.ship = mkShip();
+    AST.invTimer = 240; // 4s respawn invincibility
+  }
+
+  // ── DRAW ──
+  function drawShip(s) {
+    // blink during normal inv, solid cyan during dodge
+    if (AST.invTimer > 0 && AST.dodgeTimer === 0 && Math.floor(AST.invTimer/6)%2===0) return;
+    ctx.save();
+    ctx.translate(s.x, s.y);
+    ctx.rotate(s.angle);
+
+    // dodge glow
+    if (AST.dodgeTimer > 0) {
+      ctx.shadowColor = '#0ff';
+      ctx.shadowBlur = 12;
+    }
+
+    ctx.strokeStyle = AST.dodgeTimer > 0 ? '#fff' : '#0ff';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(14, 0);
+    ctx.lineTo(-10, 8);
+    ctx.lineTo(-6, 0);
+    ctx.lineTo(-10, -8);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+
+    // Forward thrust flame
+    if (s.thrusting && Math.random() > 0.3) {
+      ctx.strokeStyle = Math.random() > 0.5 ? '#f80' : '#ff0';
+      ctx.beginPath();
+      ctx.moveTo(-6, 4);
+      ctx.lineTo(-14 - Math.random()*8, 0);
+      ctx.lineTo(-6, -4);
+      ctx.stroke();
+    }
+    // Reverse thrust (small front jets)
+    if (s.reversing && Math.random() > 0.4) {
+      ctx.strokeStyle = '#88f';
+      ctx.beginPath();
+      ctx.moveTo(10, 4);
+      ctx.lineTo(18 + Math.random()*4, 6);
+      ctx.moveTo(10, -4);
+      ctx.lineTo(18 + Math.random()*4, -6);
+      ctx.stroke();
+    }
+    // Strafe jets
+    if (s.strafingL && Math.random() > 0.4) {
+      ctx.strokeStyle = '#0a8';
+      ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(0, -11 - Math.random()*4); ctx.stroke();
+    }
+    if (s.strafingR && Math.random() > 0.4) {
+      ctx.strokeStyle = '#0a8';
+      ctx.beginPath(); ctx.moveTo(0, 5); ctx.lineTo(0, 11 + Math.random()*4); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawAsteroid(a) {
+    ctx.save();
+    ctx.translate(a.x, a.y);
+    ctx.rotate(a.rot);
+    ctx.strokeStyle = '#888';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(a.pts[0].x, a.pts[0].y);
+    for (var i = 1; i < a.pts.length; i++) ctx.lineTo(a.pts[i].x, a.pts[i].y);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawHUD() {
+    // Dodge cooldown bar bottom-left
+    var barW = 60, barH = 6;
+    var bx = 8, by = H - 18;
+    ctx.fillStyle = '#222';
+    ctx.fillRect(bx, by, barW, barH);
+    var pct = 1 - (AST.dodgeCool / 90);
+    ctx.fillStyle = pct >= 1 ? '#0ff' : '#088';
+    ctx.fillRect(bx, by, Math.round(barW * pct), barH);
+    ctx.strokeStyle = '#444';
+    ctx.strokeRect(bx, by, barW, barH);
+    ctx.fillStyle = '#0ff';
+    ctx.font = '5px "Press Start 2P", monospace';
+    ctx.fillText('DODGE', bx, by - 3);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, H);
+
+    // Static stars
+    ctx.fillStyle = '#fff';
+    for (var i = 0; i < 60; i++) {
+      var sx = (i * 137 + 17) % W;
+      var sy = (i * 97  + 31) % H;
+      ctx.globalAlpha = 0.15 + (i%3)*0.1;
+      ctx.fillRect(sx, sy, 1, 1);
+    }
+    ctx.globalAlpha = 1;
+
+    if (!AST.started) {
+      ctx.fillStyle = '#0f0';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('ASTEROIDS', W/2, H/2 - 30);
+      ctx.font = '6px "Press Start 2P", monospace';
+      ctx.fillStyle = '#ff0';
+      ctx.fillText('PRESS SPACE TO START', W/2, H/2);
+      ctx.fillStyle = '#0ff';
+      ctx.fillText('ARROWS/WASD: MOVE  |  Q/E: STRAFE', W/2, H/2 + 18);
+      ctx.fillText('CLICK: SHOOT  |  SPACE: DODGE  |  P: PAUSE', W/2, H/2 + 32);
+      ctx.fillStyle = '#333';
+      ctx.fillText('type  rovel  in cmd to unlock', W/2, H/2 + 52);
+      ctx.textAlign = 'left';
+      return;
+    }
+
+    // Particles
+    AST.particles.forEach(function(p) {
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.col;
+      ctx.fillRect(p.x-1, p.y-1, 3, 3);
+    });
+    ctx.globalAlpha = 1;
+
+    AST.bullets.forEach(function(b) {
+      ctx.fillStyle = '#ff0';
+      ctx.fillRect(b.x-2, b.y-2, 4, 4);
+    });
+
+    AST.asteroids.forEach(drawAsteroid);
+    drawShip(AST.ship);
+    drawHUD();
+
+    if (AST.paused) {
+      ctx.fillStyle = 'rgba(0,0,0,0.55)';
+      ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#ff0';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('PAUSED', W/2, H/2);
+      ctx.textAlign = 'left';
+    }
+
+    if (AST.over) {
+      ctx.fillStyle = 'rgba(0,0,0,0.65)';
+      ctx.fillRect(0,0,W,H);
+      ctx.textAlign = 'center';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.fillStyle = '#f44';
+      ctx.fillText('GAME OVER', W/2, H/2 - 28);
+      ctx.font = '7px "Press Start 2P", monospace';
+      ctx.fillStyle = '#fff';
+      ctx.fillText('SCORE: ' + AST.score, W/2, H/2);
+      ctx.fillStyle = '#0f0';
+      ctx.fillText('PRESS ENTER TO RETRY', W/2, H/2 + 24);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  function loop() { update(); draw(); AST.raf = requestAnimationFrame(loop); }
+  AST.raf = requestAnimationFrame(loop);
+}
+
+// Patch runCmd to not intercept during asteroids (game uses keyboard directly)
+var _origRunCmd = runCmd;
+runCmd = function(raw) {
+  _origRunCmd(raw);
+};
+
+// ── WX TEST COMMAND ──
+var WX_STATES = {
+  clear:    { code: 0,  isDay: 1, temp: 32 },
+  cloudy:   { code: 2,  isDay: 1, temp: 30 },
+  overcast: { code: 3,  isDay: 1, temp: 29 },
+  fog:      { code: 45, isDay: 1, temp: 27 },
+  rain:     { code: 61, isDay: 1, temp: 26 },
+  storm:    { code: 95, isDay: 1, temp: 25 },
+  night:    { code: 0,  isDay: 0, temp: 28 },
+};
+
+function cmdWx(args) {
+  var state = (args[0] || '').toLowerCase();
+  if (!state) {
+    cmdPrint('<span class="cmd-error">Usage: wx &lt;state&gt;</span>');
+    cmdPrint('<span class="cmd-dim">States: clear  cloudy  overcast  fog  rain  storm  night  auto</span>');
+    return;
+  }
+  if (state === 'auto') {
+    fetchWeather();
+    cmdPrint('<span class="cmd-success">✓ Fetching live weather from Mandaue...</span>');
+    return;
+  }
+  var wx = WX_STATES[state];
+  if (!wx) {
+    cmdPrint('<span class="cmd-error">Unknown state: ' + escHtml(state) + '</span>');
+    cmdPrint('<span class="cmd-dim">Try: clear  cloudy  overcast  fog  rain  storm  night  auto</span>');
+    return;
+  }
+  applyWeather(wx.code, wx.temp, wx.isDay);
+  cmdPrint('<span class="cmd-success">✓ Weather set to: ' + state.toUpperCase() + ' (' + wx.temp + '°C)</span>');
+}
+
+// ── CMD BOOT MESSAGE ──
+function cmdBoot() {
+  var out = document.getElementById('cmd-output');
+
+  if (!out || out.children.length > 0) return;
+  cmdPrint('<span class="cmd-info">ROVEL OS [Version 1.0.0]</span>');
+  cmdPrint('<span class="cmd-dim">(C) 2025 Rovel Floriane S. Lumapas. All rights reserved.</span>');
+  cmdBlank();
+  cmdPrint('<span class="cmd-dim">Type HELP for available commands.</span>');
+  cmdBlank();
+}
+
+// ── INTEGRATE USER EVENTS INTO SCHEDULE ──
+var _origUpdateSchedule = updateSchedule;
+updateSchedule = function() {
+  _origUpdateSchedule();
+  // Also show user events in the widget day list if renderDayList exists
+  if (typeof renderDayList === 'function' && document.getElementById('sw-big') &&
+      document.getElementById('sw-big').style.display !== 'none') {
+    renderDayList();
+  }
+};
+
+// Patch schedule to include user events
+var _origSchedule = schedule;
+Object.defineProperty(window, 'schedule', {
+  get: function() {
+    var base = _origSchedule.slice();
+    userEvents.forEach(function(ev) {
+      base.push({
+        days: [ev.dayNum],
+        start: ev.time,
+        end: padEndTime(ev.time),
+        code: ev.title,
+        room: '📌 Personal',
+        isPersonal: true
+      });
+    });
+    return base;
+  }
+});
+
+function padEndTime(t) {
+  var p = t.split(':');
+  var h = parseInt(p[0]), m = parseInt(p[1]) + 60;
+  if (m >= 60) { h++; m -= 60; }
+  if (h >= 24) h = 23;
+  return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+}
+
+// ── INIT ──
+// Open CMD boots the terminal
+var _origOpenWindow = openWindow;
+openWindow = function(id) {
+  _origOpenWindow(id);
+  if (id === 'win-cmd') cmdBoot();
+};
+
+// Load saved notes on startup
+document.addEventListener('DOMContentLoaded', function() {
+  loadStickyNotes();
+});
+
 </script>
 </body>
 </html>
