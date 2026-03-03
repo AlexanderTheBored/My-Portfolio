@@ -94,8 +94,8 @@
       animation: sun-pulse 4s ease-in-out infinite;
     }
     @keyframes sun-pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.85; }
+      0%, 100% { transform: scale(1.0); filter: brightness(1.0); }
+      50% { transform: scale(0.96); filter: brightness(0.9); }
     }
 
     /* Pixel clouds - base */
@@ -141,13 +141,35 @@
     .cloud-7::before { width:50px; height:20px; top:-16px; left:16px; }
     .cloud-7::after  { width:26px; height:10px; top:-24px; left:28px; }
 
-    /* Weather states - cloud colors only, canvas handles particles */
-    body.wx-cloudy  .pixel-cloud { background: #c8c8c8; }
-    body.wx-rain    .pixel-cloud { background: #909090; }
-    body.wx-storm   .pixel-cloud { background: #585858; }
-    body.wx-night   #desktop { background: linear-gradient(180deg, #06061a 0%, #0e0e2a 60%, #0a1a0a 100%); }
-    body.wx-night   .pixel-sun { opacity: 0; }
-    body.wx-night   .pixel-cloud { background: #1a1a3a; opacity: 0.5; }
+    /* ── SUN / MOON ── */
+    body.sky-day  .pixel-sun  { display:block !important; }
+    body.sky-night .pixel-sun  { display:none  !important; }
+    body.sky-day  .pixel-moon { display:none  !important; }
+    body.sky-night .pixel-moon { display:block !important; opacity:1 !important; }
+
+    /* ── CLOUD COLOURS ── */
+    body.wx-cloudy   .pixel-cloud { background:#b0b5c0; }
+    body.wx-overcast .pixel-cloud { background:#8a9098; }
+    body.wx-fog      .pixel-cloud { display:none !important; }
+    body.wx-rain     .pixel-cloud { background:#72808c; }
+    body.wx-storm    .pixel-cloud { background:#404448; }
+    body.wx-night    .pixel-cloud { background:#1a1a3a; opacity:0.35; }
+
+    /* ── SKY GRADIENTS — DAY ── */
+    body.wx-clear    #desktop { background:linear-gradient(180deg,#1a6dc5 0%,#4a9de0 40%,#7dbfee 70%,#a8d8f0 100%); }
+    body.wx-cloudy   #desktop { background:linear-gradient(180deg,#4a6070 0%,#607888 40%,#7a9aaa 70%,#98b4c0 100%); }
+    body.wx-overcast #desktop { background:linear-gradient(180deg,#484e56 0%,#626870 40%,#7c8288 70%,#96989e 100%); }
+    body.wx-fog      #desktop { background:linear-gradient(180deg,#888f9a 0%,#9ea4ae 40%,#b4bac0 70%,#c8ccd2 100%); }
+    body.wx-rain     #desktop { background:linear-gradient(180deg,#243040 0%,#344050 40%,#445060 70%,#546070 100%); }
+    body.wx-storm    #desktop { background:linear-gradient(180deg,#10141a 0%,#181e26 40%,#202830 70%,#2a3038 100%); }
+
+    /* ── SKY GRADIENTS — NIGHT (higher specificity wins) ── */
+    body.sky-night.wx-clear    #desktop { background:linear-gradient(180deg,#06061a 0%,#0e0e2a 60%,#0a1a0a 100%) !important; }
+    body.sky-night.wx-cloudy   #desktop { background:linear-gradient(180deg,#080818 0%,#101828 60%,#0c160e 100%) !important; }
+    body.sky-night.wx-overcast #desktop { background:linear-gradient(180deg,#090a12 0%,#111520 60%,#0e120e 100%) !important; }
+    body.sky-night.wx-fog      #desktop { background:linear-gradient(180deg,#0c0e18 0%,#14181e 60%,#101412 100%) !important; }
+    body.sky-night.wx-rain     #desktop { background:linear-gradient(180deg,#04060e 0%,#090d16 60%,#060a08 100%) !important; }
+    body.sky-night.wx-storm    #desktop { background:linear-gradient(180deg,#020308 0%,#05060e 60%,#030504 100%) !important; }
 
     /* Weather canvas — sits above desktop but below windows */
     #wx-canvas {
@@ -2418,65 +2440,78 @@ function fetchWeather() {
 
 function applyWeather(code, temp, isDay) {
   var body = document.body;
-  body.classList.remove('wx-cloudy','wx-rain','wx-storm','wx-night','wx-fog');
+  // Remove ALL previous weather + sky classes
+  ['wx-clear','wx-cloudy','wx-overcast','wx-rain','wx-storm','wx-night','wx-fog',
+   'sky-day','sky-night'].forEach(function(cl){ body.classList.remove(cl); });
 
   var icon, label, wxClass;
-  if (!isDay)        { wxClass='wx-night';  icon='🌙'; label='Night'; }
-  else if (code===0) {                       icon='☀️'; label='Clear'; }
-  else if (code<=2)  { wxClass='wx-cloudy'; icon='⛅'; label='Cloudy'; }
-  else if (code===3) { wxClass='wx-cloudy'; icon='☁️'; label='Overcast'; }
-  else if (code<=49) { wxClass='wx-fog';    icon='🌫️'; label='Foggy'; }
-  else if (code<=67) { wxClass='wx-rain';   icon='🌧️'; label='Rain'; }
-  else if (code<=77) { wxClass='wx-rain';   icon='🌨️'; label='Sleet'; }
-  else if (code<=82) { wxClass='wx-rain';   icon='🌦️'; label='Showers'; }
-  else if (code<=99) { wxClass='wx-storm';  icon='⛈️'; label='Storm'; }
-  else               {                       icon='🌤️'; label='Partly Cloudy'; }
+  if      (code === 0)  { wxClass = 'wx-clear';    icon = isDay ? '☀️' : '🌙';        label = isDay ? 'Clear' : 'Clear Night'; }
+  else if (code <= 2)   { wxClass = 'wx-cloudy';   icon = isDay ? '⛅'      : '🌙☁️'; label = 'Cloudy'; }
+  else if (code === 3)  { wxClass = 'wx-overcast'; icon = '☁️';                              label = 'Overcast'; }
+  else if (code <= 49)  { wxClass = 'wx-fog';      icon = '🌫️';                          label = 'Foggy'; }
+  else if (code <= 67)  { wxClass = 'wx-rain';     icon = '🌧️';                          label = 'Rain'; }
+  else if (code <= 77)  { wxClass = 'wx-rain';     icon = '🌨️';                          label = 'Sleet'; }
+  else if (code <= 82)  { wxClass = 'wx-rain';     icon = '🌦️';                          label = 'Showers'; }
+  else if (code <= 99)  { wxClass = 'wx-storm';    icon = '⛈️';                              label = 'Storm'; }
+  else                  { wxClass = 'wx-cloudy';   icon = '🌤️';                          label = 'Partly Cloudy'; }
 
-  if (wxClass) body.classList.add(wxClass);
+  // Apply weather class + day/night class
+  body.classList.add(wxClass);
+  body.classList.add(isDay ? 'sky-day' : 'sky-night');
+  // Legacy class so old canvas checks still work
+  if (!isDay) body.classList.add('wx-night');
 
+  // Update badge
   var badge = document.getElementById('wx-badge');
-  if (badge) badge.textContent = icon + ' ' + temp + '°C · ' + label + ' · Mandaue';
+  if (badge) badge.textContent = icon + ' ' + temp + '°C · ' + label + (isDay ? '' : ' (Night)') + ' · Mandaue';
 
-  // CSS clouds
+  // CSS pixel clouds
   var clouds = document.querySelectorAll('.pixel-cloud');
-  var showCount = (code===0) ? 4 : (code<=2) ? 6 : 7;
-  clouds.forEach(function(c,i){ c.style.opacity = i < showCount ? '1' : '0'; });
+  var showCount = (wxClass === 'wx-fog') ? 0 : (wxClass === 'wx-clear') ? (isDay ? 2 : 1) : 7;
+  clouds.forEach(function(cl, i) { cl.style.opacity = i < showCount ? '1' : '0'; });
 
-  // Start canvas particle engine
-  startWxCanvas(wxClass || 'wx-clear', isDay);
+  // Canvas particle engine
+  startWxCanvas(wxClass, isDay);
 }
 
 // ── CANVAS WEATHER PARTICLES ──
 var WX_RAF = null;
 var WX_PARTICLES = [];
-var WX_LIGHTNING = { active:false, timer:0, next:0 };
+var WX_LIGHTNING = { timer:0, next:0 };
 var WX_MODE = 'wx-clear';
+var WX_STARS = [];
 
 function startWxCanvas(mode, isDay) {
   WX_MODE = mode;
   WX_PARTICLES = [];
-  WX_LIGHTNING = { active:false, timer:0, next:180 + Math.random()*300 };
-
+  WX_STARS = [];
+  WX_LIGHTNING = { timer:0, next:200 + Math.random()*300 };
   var canvas = document.getElementById('wx-canvas');
   if (!canvas) return;
   canvas.width  = window.innerWidth;
   canvas.height = window.innerHeight;
-
   if (WX_RAF) { cancelAnimationFrame(WX_RAF); WX_RAF = null; }
-
-  // Static states - no animation loop needed
-  if (mode === 'wx-clear') { clearWxCanvas(); return; }
-  if (mode === 'wx-cloudy') { clearWxCanvas(); return; }
-  if (mode === 'wx-night') { clearWxCanvas(); startStars(canvas); return; }
-
+  if (mode === 'wx-clear') {
+    clearWxCanvas(); drawClearOverlay(canvas);
+    if (!isDay) startNightLoop(canvas);
+    return;
+  }
+  if (mode === 'wx-cloudy' || mode === 'wx-overcast') {
+    clearWxCanvas(); startCloudyLoop(canvas, isDay); return;
+  }
+  if (mode === 'wx-fog') {
+    clearWxCanvas(); startFogLoop(canvas, isDay); return;
+  }
+  if (mode === 'wx-night') {
+    clearWxCanvas(); startNightLoop(canvas); return;
+  }
   function loop() {
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    spawnParticles(mode, canvas);
-    updateAndDraw(ctx, canvas, mode);
+    if (mode === 'wx-storm') drawStormOverlay(ctx, canvas);
+    spawnRain(mode, canvas);
+    drawRain(ctx, canvas, mode);
     if (mode === 'wx-storm') handleLightning(ctx, canvas);
-
     WX_RAF = requestAnimationFrame(loop);
   }
   WX_RAF = requestAnimationFrame(loop);
@@ -2485,184 +2520,260 @@ function startWxCanvas(mode, isDay) {
 function clearWxCanvas() {
   var canvas = document.getElementById('wx-canvas');
   if (!canvas) return;
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// CLEAR: warm sun glare top-right
+function drawClearOverlay(canvas) {
   var ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  var W = canvas.width, H = canvas.height;
+  var g = ctx.createRadialGradient(W*0.87, 40, 0, W*0.87, 40, W*0.55);
+  g.addColorStop(0,   'rgba(255,245,120,0.16)');
+  g.addColorStop(0.4, 'rgba(255,210,60,0.06)');
+  g.addColorStop(1,   'rgba(255,200,50,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
 }
 
-function spawnParticles(mode, canvas) {
-  var W = canvas.width, H = canvas.height;
-
-  if (mode === 'wx-rain' || mode === 'wx-storm') {
-    // Rain drops — spawn from top in bursts
-    var count = mode === 'wx-storm' ? 12 : 6;
-    for (var i = 0; i < count; i++) {
-      WX_PARTICLES.push({
-        type: 'rain',
-        x: Math.random() * W,
-        y: -20 - Math.random() * 60,
-        vx: -1.5 + Math.random() * 0.5,  // slight wind angle
-        vy: 14 + Math.random() * 8,
-        len: 12 + Math.random() * 10,
-        alpha: 0.5 + Math.random() * 0.4
-      });
+// CLOUDY: animated canvas wisps drifting across
+function startCloudyLoop(canvas, isDay) {
+  for (var i = 0; i < 9; i++) WX_PARTICLES.push(makeCanvasCloud(canvas, true));
+  function loop() {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(150,160,190,0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (WX_PARTICLES.length < 11 && Math.random() < 0.007)
+      WX_PARTICLES.push(makeCanvasCloud(canvas, false));
+    for (var i = WX_PARTICLES.length-1; i >= 0; i--) {
+      var p = WX_PARTICLES[i];
+      p.x += p.vx;
+      if (p.x > canvas.width + p.r * p.stretch + 100) { WX_PARTICLES.splice(i,1); continue; }
+      drawCloudWisp(ctx, p);
     }
+    WX_RAF = requestAnimationFrame(loop);
   }
-
-  if (mode === 'wx-fog') {
-    // Fog wisps — large slow horizontal blobs
-    if (WX_PARTICLES.length < 40 && Math.random() < 0.15) {
-      WX_PARTICLES.push({
-        type: 'fog',
-        x: -200,
-        y: Math.random() * H * 0.7,
-        vx: 0.3 + Math.random() * 0.4,
-        vy: (Math.random() - 0.5) * 0.2,
-        r: 80 + Math.random() * 120,
-        alpha: 0.04 + Math.random() * 0.06,
-        life: 1
-      });
-    }
-  }
+  WX_RAF = requestAnimationFrame(loop);
+}
+function makeCanvasCloud(canvas, scatter) {
+  return { x: scatter ? Math.random()*canvas.width : -220-Math.random()*200,
+    y: 20 + Math.random()*canvas.height*0.42,
+    vx: 0.15+Math.random()*0.28, r: 90+Math.random()*150,
+    alpha: 0.07+Math.random()*0.09, stretch: 1.9+Math.random()*1.4 };
+}
+function drawCloudWisp(ctx, p) {
+  ctx.save(); ctx.globalAlpha = p.alpha;
+  var g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+  g.addColorStop(0,   'rgba(225,230,250,1)');
+  g.addColorStop(0.55,'rgba(210,218,240,0.5)');
+  g.addColorStop(1,   'rgba(200,210,235,0)');
+  ctx.fillStyle = g;
+  ctx.save(); ctx.scale(p.stretch,1);
+  ctx.beginPath(); ctx.arc(p.x/p.stretch,p.y,p.r,0,Math.PI*2); ctx.fill();
+  ctx.restore(); ctx.restore();
 }
 
-function updateAndDraw(ctx, canvas, mode) {
+// FOG: layered undulating fog banks
+function startFogLoop(canvas, isDay) {
+  for (var i = 0; i < 16; i++) WX_PARTICLES.push(makeFogLayer(canvas, true));
+  function loop() {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = isDay ? 'rgba(175,180,200,0.09)' : 'rgba(20,22,40,0.18)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (WX_PARTICLES.length < 18 && Math.random() < 0.04)
+      WX_PARTICLES.push(makeFogLayer(canvas, false));
+    for (var i = WX_PARTICLES.length-1; i >= 0; i--) {
+      var p = WX_PARTICLES[i];
+      p.x += p.vx;
+      p.y += Math.sin(performance.now()*0.0003 + p.phase)*0.12;
+      p.alpha += p.alphaDir*0.0004;
+      if (p.alpha > p.alphaMax) p.alphaDir = -1;
+      if (p.alpha < 0.005) { WX_PARTICLES.splice(i,1); continue; }
+      if (p.x > canvas.width + p.rw + 100) { WX_PARTICLES.splice(i,1); continue; }
+      drawFogLayer(ctx, p);
+    }
+    var veil = ctx.createLinearGradient(0,0,0,canvas.height*0.55);
+    veil.addColorStop(0,   'rgba(185,190,215,0.28)');
+    veil.addColorStop(0.35,'rgba(185,190,215,0.10)');
+    veil.addColorStop(1,   'rgba(185,190,215,0)');
+    ctx.fillStyle = veil; ctx.fillRect(0,0,canvas.width,canvas.height*0.55);
+    WX_RAF = requestAnimationFrame(loop);
+  }
+  WX_RAF = requestAnimationFrame(loop);
+}
+function makeFogLayer(canvas, scatter) {
+  var yBands = [0.08,0.2,0.35,0.5,0.65,0.78,0.90];
+  var band = yBands[Math.floor(Math.random()*yBands.length)];
+  return { x: scatter ? Math.random()*canvas.width : -450,
+    y: canvas.height*band + (Math.random()-0.5)*50,
+    vx: 0.1+Math.random()*0.2, rw: 280+Math.random()*240, rh: 55+Math.random()*70,
+    alpha: 0.04+Math.random()*0.07, alphaMax: 0.07+Math.random()*0.09,
+    alphaDir: 1, phase: Math.random()*Math.PI*2 };
+}
+function drawFogLayer(ctx, p) {
+  ctx.save(); ctx.globalAlpha = p.alpha;
+  var g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.rw);
+  g.addColorStop(0,  'rgba(210,215,232,1)');
+  g.addColorStop(0.5,'rgba(200,207,228,0.55)');
+  g.addColorStop(1,  'rgba(195,202,225,0)');
+  ctx.fillStyle = g; ctx.scale(1, p.rh/p.rw);
+  ctx.beginPath(); ctx.arc(p.x, p.y*(p.rw/p.rh), p.rw, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+// NIGHT: twinkling stars + shooting stars + moon glow
+function startNightLoop(canvas) {
   var W = canvas.width, H = canvas.height;
-
-  for (var i = WX_PARTICLES.length - 1; i >= 0; i--) {
-    var p = WX_PARTICLES[i];
-    p.x += p.vx;
-    p.y += p.vy;
-
-    if (p.type === 'rain') {
-      // Draw raindrop as a line
-      ctx.save();
-      ctx.globalAlpha = p.alpha;
-      ctx.strokeStyle = mode === 'wx-storm' ? '#99bbff' : '#aaccff';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(p.x, p.y);
-      ctx.lineTo(p.x + p.vx * (p.len / p.vy), p.y + p.len);
-      ctx.stroke();
-
-      // Splat on ground
-      if (p.y > H - 40) {
-        // spawn splat
-        for (var s = 0; s < 3; s++) {
-          WX_PARTICLES.push({
-            type: 'splat',
-            x: p.x, y: p.y,
-            vx: (Math.random() - 0.5) * 3,
-            vy: -Math.random() * 2,
-            alpha: 0.6,
-            r: 2 + Math.random() * 2,
-            life: 1
-          });
-        }
-        WX_PARTICLES.splice(i, 1);
-        ctx.restore();
-        continue;
+  WX_STARS = [];
+  for (var i = 0; i < 190; i++) {
+    WX_STARS.push({ x: Math.random()*W, y: Math.random()*H*0.68,
+      r: 0.35+Math.random()*1.5, base: 0.25+Math.random()*0.72,
+      phase: Math.random()*Math.PI*2, speed: 0.01+Math.random()*0.022,
+      col: Math.random()>0.82 ? '#ffeeaa' : (Math.random()>0.65 ? '#aaccff' : '#ffffff') });
+  }
+  var shooting = [], shootTimer = 0, shootNext = 200+Math.random()*450;
+  function loop() {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, W, H);
+    var mx = W*0.78, my = H*0.11;
+    var mg = ctx.createRadialGradient(mx,my,0,mx,my,130);
+    mg.addColorStop(0,   'rgba(255,252,225,0.20)');
+    mg.addColorStop(0.35,'rgba(230,240,255,0.08)');
+    mg.addColorStop(1,   'rgba(200,220,255,0)');
+    ctx.fillStyle = mg; ctx.fillRect(0,0,W,H);
+    var t = performance.now()*0.001;
+    for (var i = 0; i < WX_STARS.length; i++) {
+      var s = WX_STARS[i];
+      var a = s.base*(0.5+0.5*Math.sin(t*s.speed*60+s.phase));
+      ctx.globalAlpha = a; ctx.fillStyle = s.col;
+      if (s.r > 1.0) {
+        ctx.fillRect(Math.round(s.x)-Math.round(s.r), Math.round(s.y), Math.round(s.r)*2, 1);
+        ctx.fillRect(Math.round(s.x), Math.round(s.y)-Math.round(s.r), 1, Math.round(s.r)*2);
       }
-      if (p.y > H + 20) { WX_PARTICLES.splice(i, 1); ctx.restore(); continue; }
-      ctx.restore();
-
-    } else if (p.type === 'splat') {
-      p.life -= 0.08;
-      p.alpha = p.life * 0.6;
-      if (p.life <= 0) { WX_PARTICLES.splice(i, 1); continue; }
-      ctx.save();
-      ctx.globalAlpha = p.alpha;
-      ctx.fillStyle = mode === 'wx-storm' ? '#99bbff' : '#aaccff';
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+      ctx.arc(s.x, s.y, s.r*(0.65+0.35*Math.sin(t*s.speed*38+s.phase+1)), 0, Math.PI*2);
       ctx.fill();
-      ctx.restore();
-
-    } else if (p.type === 'fog') {
-      // Fog wisps drift across
-      if (p.x > W + 300) { WX_PARTICLES.splice(i, 1); continue; }
-      ctx.save();
-      ctx.globalAlpha = p.alpha;
-      var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-      grad.addColorStop(0, 'rgba(220,220,230,1)');
-      grad.addColorStop(1, 'rgba(220,220,230,0)');
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    shootTimer++;
+    if (shootTimer >= shootNext) {
+      shootTimer = 0; shootNext = 240+Math.random()*500;
+      var spd = 5+Math.random()*5, ang = 0.25+Math.random()*0.35;
+      shooting.push({ x:Math.random()*W*0.6, y:Math.random()*H*0.28,
+        vx:spd*Math.cos(ang), vy:spd*Math.sin(ang), life:1, len:55+Math.random()*70 });
+    }
+    for (var i = shooting.length-1; i >= 0; i--) {
+      var sh = shooting[i];
+      sh.x += sh.vx; sh.y += sh.vy; sh.life -= 0.026;
+      if (sh.life <= 0 || sh.x > W+50) { shooting.splice(i,1); continue; }
+      var tx = sh.x - sh.vx*(sh.len/sh.vx), ty = sh.y - sh.vy*(sh.len/sh.vx);
+      ctx.save(); ctx.globalAlpha = sh.life*0.9;
+      var sg = ctx.createLinearGradient(tx,ty,sh.x,sh.y);
+      sg.addColorStop(0,'rgba(255,255,255,0)'); sg.addColorStop(1,'rgba(255,255,235,0.95)');
+      ctx.strokeStyle = sg; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(sh.x,sh.y); ctx.stroke();
+      ctx.globalAlpha = sh.life; ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(sh.x,sh.y,1.5,0,Math.PI*2); ctx.fill();
       ctx.restore();
     }
+    WX_RAF = requestAnimationFrame(loop);
   }
-
-  // Cap particle count
-  if (WX_PARTICLES.length > 600) WX_PARTICLES.splice(0, 50);
+  WX_RAF = requestAnimationFrame(loop);
 }
 
+// RAIN
+function spawnRain(mode, canvas) {
+  var W = canvas.width, isStorm = mode==='wx-storm';
+  var count = isStorm ? 15 : 7;
+  var windX = isStorm ? -4.5+Math.random()*1.0 : -1.5+Math.random()*0.4;
+  for (var i = 0; i < count; i++) {
+    WX_PARTICLES.push({ type:'rain', x:Math.random()*(W+300)-100, y:-20-Math.random()*100,
+      vx:windX, vy:isStorm?20+Math.random()*10:13+Math.random()*6,
+      len:isStorm?20+Math.random()*14:10+Math.random()*8,
+      alpha:isStorm?0.55+Math.random()*0.4:0.3+Math.random()*0.3,
+      width:isStorm?1.5+Math.random()*0.5:1.0 });
+  }
+}
+function drawStormOverlay(ctx, canvas) {
+  ctx.fillStyle = 'rgba(15,15,35,0.20)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+function drawRain(ctx, canvas, mode) {
+  var H = canvas.height, isStorm = mode==='wx-storm';
+  var col = isStorm ? '#7aaae8' : '#88aacc';
+  for (var i = WX_PARTICLES.length-1; i >= 0; i--) {
+    var p = WX_PARTICLES[i];
+    p.x += p.vx; p.y += p.vy;
+    if (p.type === 'rain') {
+      if (p.y > H+10) { WX_PARTICLES.splice(i,1); continue; }
+      if (p.y > H-70) {
+        for (var s=0; s<2; s++) WX_PARTICLES.push({ type:'splat', x:p.x, y:H-8,
+          vx:(Math.random()-0.5)*4, vy:-0.8-Math.random()*2.5, alpha:0.6, r:1.8+Math.random()*2.2, life:1 });
+        WX_PARTICLES.splice(i,1); continue;
+      }
+      ctx.save(); ctx.globalAlpha = p.alpha; ctx.strokeStyle = col; ctx.lineWidth = p.width;
+      ctx.beginPath(); ctx.moveTo(p.x,p.y);
+      ctx.lineTo(p.x+p.vx*(p.len/p.vy),p.y+p.len); ctx.stroke(); ctx.restore();
+    } else if (p.type === 'splat') {
+      p.life -= 0.065; if (p.life <= 0) { WX_PARTICLES.splice(i,1); continue; }
+      p.x += p.vx*0.35; p.vy += 0.18; p.y += p.vy;
+      ctx.save(); ctx.globalAlpha = p.life*0.5; ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2); ctx.fill(); ctx.restore();
+    }
+  }
+  if (WX_PARTICLES.length > 900) WX_PARTICLES.splice(0,80);
+}
+
+// LIGHTNING
 function handleLightning(ctx, canvas) {
   WX_LIGHTNING.timer++;
   if (WX_LIGHTNING.timer >= WX_LIGHTNING.next) {
     WX_LIGHTNING.timer = 0;
-    WX_LIGHTNING.next = 180 + Math.random() * 400;
+    WX_LIGHTNING.next = 150+Math.random()*360;
     flashLightning(ctx, canvas);
+    if (Math.random() > 0.5) setTimeout(function() {
+      var c2 = document.getElementById('wx-canvas');
+      if (c2) flashLightning(c2.getContext('2d'), c2);
+    }, 90+Math.random()*90);
   }
 }
-
 function flashLightning(ctx, canvas) {
   var W = canvas.width, H = canvas.height;
-  var x = W * 0.2 + Math.random() * W * 0.6;
-
-  // Draw jagged bolt
+  var bx = W*0.12+Math.random()*W*0.76;
   ctx.save();
-  ctx.globalAlpha = 0.9;
-  ctx.strokeStyle = '#ddeeff';
-  ctx.lineWidth = 2;
-  ctx.shadowColor = '#aaddff';
-  ctx.shadowBlur = 20;
-  ctx.beginPath();
-  var cy = 0;
-  ctx.moveTo(x, cy);
-  while (cy < H * 0.65) {
-    var nx = x + (Math.random() - 0.5) * 80;
-    var ny = cy + 40 + Math.random() * 40;
-    ctx.lineTo(nx, ny);
-    x = nx; cy = ny;
-  }
-  ctx.stroke();
-
-  // Branch
-  ctx.lineWidth = 1;
-  ctx.globalAlpha = 0.5;
-  ctx.beginPath();
-  ctx.moveTo(x, cy);
-  ctx.lineTo(x + (Math.random()-0.5)*100, cy + 60 + Math.random()*60);
-  ctx.stroke();
+  ctx.globalAlpha = 0.35; ctx.strokeStyle = '#88bbff';
+  ctx.lineWidth = 7; ctx.shadowColor = '#aaddff'; ctx.shadowBlur = 35;
+  drawBolt(ctx, bx, 0, H*0.72, 95);
+  ctx.globalAlpha = 1.0; ctx.strokeStyle = '#e8f4ff';
+  ctx.lineWidth = 1.5; ctx.shadowBlur = 10;
+  drawBolt(ctx, bx, 0, H*0.72, 65);
   ctx.restore();
-
-  // Screen flash
   var desktop = document.getElementById('desktop');
   if (desktop) {
-    desktop.style.filter = 'brightness(1.6)';
-    setTimeout(function() { desktop.style.filter = ''; }, 80);
-    setTimeout(function() { desktop.style.filter = 'brightness(1.3)'; }, 120);
-    setTimeout(function() { desktop.style.filter = ''; }, 180);
+    desktop.style.filter = 'brightness(1.75)';
+    setTimeout(function(){ desktop.style.filter=''; },55);
+    setTimeout(function(){ desktop.style.filter='brightness(1.3)'; },95);
+    setTimeout(function(){ desktop.style.filter=''; },160);
   }
 }
-
-function startStars(canvas) {
-  var ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // Draw static stars for night mode
-  for (var i = 0; i < 120; i++) {
-    var x = Math.random() * canvas.width;
-    var y = Math.random() * canvas.height * 0.6;
-    var r = Math.random() * 1.5;
-    var a = 0.4 + Math.random() * 0.6;
-    ctx.globalAlpha = a;
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fill();
+function drawBolt(ctx, x, y, maxY, jitter) {
+  var cx = x;
+  ctx.beginPath(); ctx.moveTo(cx, y);
+  while (y < maxY) {
+    var nx = cx+(Math.random()-0.5)*jitter, ny = y+28+Math.random()*32;
+    ctx.lineTo(nx, ny);
+    if (Math.random()>0.68 && y < maxY*0.65) {
+      ctx.save(); ctx.globalAlpha *= 0.38; ctx.lineWidth = Math.max(0.5,ctx.lineWidth*0.45);
+      ctx.beginPath(); ctx.moveTo(nx,ny);
+      var bx2=nx+(Math.random()-0.5)*90, by2=ny+35+Math.random()*55;
+      ctx.lineTo(bx2,by2); ctx.lineTo(bx2+(Math.random()-0.5)*45,by2+22+Math.random()*28);
+      ctx.stroke(); ctx.restore();
+      ctx.beginPath(); ctx.moveTo(nx,ny);
+    }
+    cx=nx; y=ny;
   }
-  ctx.globalAlpha = 1;
+  ctx.stroke();
 }
 
 // Resize canvas on window resize
@@ -3516,13 +3627,20 @@ runCmd = function(raw) {
 
 // ── WX TEST COMMAND ──
 var WX_STATES = {
-  clear:    { code: 0,  isDay: 1, temp: 32 },
-  cloudy:   { code: 2,  isDay: 1, temp: 30 },
-  overcast: { code: 3,  isDay: 1, temp: 29 },
-  fog:      { code: 45, isDay: 1, temp: 27 },
-  rain:     { code: 61, isDay: 1, temp: 26 },
-  storm:    { code: 95, isDay: 1, temp: 25 },
-  night:    { code: 0,  isDay: 0, temp: 28 },
+  // Day variants
+  clear:         { code: 0,  isDay: 1, temp: 32 },
+  cloudy:        { code: 2,  isDay: 1, temp: 30 },
+  overcast:      { code: 3,  isDay: 1, temp: 29 },
+  fog:           { code: 45, isDay: 1, temp: 27 },
+  rain:          { code: 61, isDay: 1, temp: 26 },
+  storm:         { code: 95, isDay: 1, temp: 25 },
+  // Night variants
+  night:         { code: 0,  isDay: 0, temp: 28 },
+  'night-cloudy':  { code: 2,  isDay: 0, temp: 26 },
+  'night-overcast':{ code: 3,  isDay: 0, temp: 25 },
+  'night-fog':     { code: 45, isDay: 0, temp: 24 },
+  'night-rain':    { code: 61, isDay: 0, temp: 23 },
+  'night-storm':   { code: 95, isDay: 0, temp: 22 },
 };
 
 function cmdWx(args) {
