@@ -2,511 +2,3612 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Rovel Floriane S. Lumapas | Portfolio</title>
+  <title>Rovel Lumapas | Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- External stylesheet -->
-  <link rel="stylesheet" href="main.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    /* ===================== RESET & BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --win-bg: #c0c0c0;
+      --win-border-light: #ffffff;
+      --win-border-dark: #808080;
+      --win-border-darker: #404040;
+      --win-titlebar: #000080;
+      --win-titlebar-text: #ffffff;
+      --win-titlebar-inactive: #808080;
+      --win-body: #c0c0c0;
+      --win-inset-bg: #ffffff;
+      --desktop-bg: #008080;
+      --accent: #000080;
+      --text: #000000;
+      --pixel: 'Press Start 2P', monospace;
+      --vt: 'VT323', monospace;
+      --taskbar-h: 36px;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--desktop-bg);
+      font-family: var(--vt);
+      font-size: 16px;
+      color: var(--text);
+      cursor: default;
+      user-select: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ===================== DESKTOP ===================== */
+    #desktop {
+      width: 100vw;
+      height: calc(100vh - var(--taskbar-h));
+      position: relative;
+      overflow: visible;
+    }
+
+    /* Pixel art tiling background using CSS */
+    #desktop::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(0,0,0,0.08) 1px, transparent 1px),
+        radial-gradient(circle at 60% 70%, rgba(0,0,0,0.05) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 40px 40px, 60px 60px, 80px 80px;
+      pointer-events: none;
+    }
+
+    /* Pixel "hills" at the bottom via a layered gradient */
+    #desktop::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background:
+        linear-gradient(to bottom, transparent 0%, rgba(0,60,0,0.4) 100%);
+      clip-path: polygon(
+        0% 100%, 0% 60%, 5% 50%, 10% 55%, 15% 40%, 20% 48%,
+        25% 35%, 30% 42%, 35% 28%, 40% 36%, 45% 22%, 50% 32%,
+        55% 18%, 60% 28%, 65% 15%, 70% 25%, 75% 20%, 80% 30%,
+        85% 16%, 90% 26%, 95% 18%, 100% 30%, 100% 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Pixel sun */
+    .pixel-sun {
+      position: absolute;
+      top: 24px; right: 80px;
+      width: 48px; height: 48px;
+      background: #ffff00;
+      box-shadow:
+        8px 0 0 #ffff00, -8px 0 0 #ffff00,
+        0 8px 0 #ffff00, 0 -8px 0 #ffff00,
+        8px 8px 0 #ffff00, -8px 8px 0 #ffff00,
+        8px -8px 0 #ffff00, -8px -8px 0 #ffff00,
+        16px 0 0 #ffee00, -16px 0 0 #ffee00,
+        0 16px 0 #ffee00, 0 -16px 0 #ffee00;
+      image-rendering: pixelated;
+      animation: sun-pulse 4s ease-in-out infinite;
+    }
+    @keyframes sun-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* Pixel clouds - base */
+    .pixel-cloud {
+      position: absolute;
+      background: #ffffff;
+      animation: cloud-drift linear infinite;
+      transition: opacity 1.5s;
+    }
+    .pixel-cloud::before, .pixel-cloud::after {
+      content: '';
+      position: absolute;
+      background: inherit;
+    }
+
+    /* Cloud shape variations */
+    .cloud-1 { width:48px; height:16px; top:60px; left:-100px; animation-duration:40s; animation-delay:0s; }
+    .cloud-1::before { width:32px; height:16px; top:-12px; left:8px; }
+    .cloud-1::after  { width:16px; height:8px;  top:-20px; left:16px; }
+
+    .cloud-2 { width:64px; height:16px; top:90px; left:-120px; animation-duration:55s; animation-delay:-20s; }
+    .cloud-2::before { width:40px; height:16px; top:-14px; left:10px; }
+    .cloud-2::after  { width:20px; height:8px;  top:-22px; left:22px; }
+
+    .cloud-3 { width:40px; height:14px; top:40px; left:-80px; animation-duration:48s; animation-delay:-35s; }
+    .cloud-3::before { width:28px; height:14px; top:-10px; left:6px; }
+    .cloud-3::after  { width:14px; height:8px;  top:-16px; left:13px; }
+
+    /* Extra clouds */
+    .cloud-4 { width:72px; height:18px; top:110px; left:-140px; animation-duration:62s; animation-delay:-10s; }
+    .cloud-4::before { width:44px; height:18px; top:-14px; left:14px; }
+    .cloud-4::after  { width:24px; height:10px; top:-22px; left:28px; }
+
+    .cloud-5 { width:32px; height:12px; top:30px; left:-60px; animation-duration:35s; animation-delay:-28s; }
+    .cloud-5::before { width:20px; height:12px; top:-8px; left:6px; }
+    .cloud-5::after  { width:10px; height:6px;  top:-14px; left:11px; }
+
+    .cloud-6 { width:56px; height:14px; top:75px; left:-110px; animation-duration:50s; animation-delay:-42s; }
+    .cloud-6::before { width:36px; height:14px; top:-10px; left:10px; }
+    .cloud-6::after  { width:18px; height:8px;  top:-17px; left:19px; }
+
+    .cloud-7 { width:80px; height:20px; top:50px; left:-160px; animation-duration:70s; animation-delay:-55s; }
+    .cloud-7::before { width:50px; height:20px; top:-16px; left:16px; }
+    .cloud-7::after  { width:26px; height:10px; top:-24px; left:28px; }
+
+    /* Weather states - cloud colors only, canvas handles particles */
+    body.wx-cloudy  .pixel-cloud { background: #c8c8c8; }
+    body.wx-rain    .pixel-cloud { background: #909090; }
+    body.wx-storm   .pixel-cloud { background: #585858; }
+    body.wx-night   #desktop { background: linear-gradient(180deg, #06061a 0%, #0e0e2a 60%, #0a1a0a 100%); }
+    body.wx-night   .pixel-sun { opacity: 0; }
+    body.wx-night   .pixel-cloud { background: #1a1a3a; opacity: 0.5; }
+
+    /* Weather canvas — sits above desktop but below windows */
+    #wx-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @keyframes cloud-drift {
+      from { transform: translateX(0); }
+      to   { transform: translateX(calc(100vw + 200px)); }
+    }
+
+    /* ===================== DESKTOP ICONS ===================== */
+    .desktop-icons {
+      position: absolute;
+      top: 20px; left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .desktop-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 72px;
+      cursor: pointer;
+      padding: 4px;
+      border: 2px solid transparent;
+    }
+    .desktop-icon:hover { border-color: var(--win-titlebar); background: rgba(0,0,128,0.2); }
+    .desktop-icon.selected { border: 1px dotted #fff; background: rgba(0,0,128,0.4); }
+
+    .icon-img {
+      width: 40px; height: 40px;
+      image-rendering: pixelated;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      position: relative;
+    }
+
+    /* Pixel-art icon faces using box-shadow pixel technique */
+    .icon-folder {
+      background: #ffcc00;
+      width: 38px; height: 28px;
+      border: 2px solid #000;
+      position: relative;
+      margin-top: 8px;
+    }
+    .icon-folder::before {
+      content: '';
+      position: absolute;
+      top: -8px; left: 0;
+      width: 16px; height: 8px;
+      background: #ffcc00;
+      border: 2px solid #000;
+      border-bottom: none;
+    }
+
+    .icon-label {
+      font-family: var(--pixel);
+      font-size: 6px;
+      color: #fff;
+      text-align: center;
+      text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+      line-height: 1.4;
+      max-width: 70px;
+      word-break: break-word;
+    }
+
+    /* ===================== WIN95 WINDOW ===================== */
+    .win-window {
+      position: absolute;
+      min-width: 280px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      visibility: hidden;
+      pointer-events: none;
+      /* Win95 raised border: 2px light top-left, 2px dark bottom-right */
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      box-shadow: 2px 2px 0 var(--win-border-dark), inset 1px 1px 0 var(--win-border-light);
+      background: var(--win-body);
+      z-index: 10;
+    }
+    .win-window.open {
+      visibility: visible;
+      pointer-events: all;
+    }
+    .win-window.active { z-index: 100; }
+
+    .win-titlebar {
+      background: var(--win-titlebar);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3px 4px;
+      cursor: move;
+      flex-shrink: 0;
+    }
+    .win-window.inactive .win-titlebar { background: var(--win-titlebar-inactive); }
+
+    .win-title {
+      font-family: var(--pixel);
+      font-size: 7px;
+      color: var(--win-titlebar-text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .win-title-icon { font-size: 12px; }
+
+    .win-controls {
+      display: flex;
+      gap: 2px;
+    }
+
+    .win-btn {
+      width: 16px; height: 14px;
+      background: var(--win-body);
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px;
+      cursor: pointer;
+      font-family: var(--pixel);
+      line-height: 1;
+      color: #000;
+    }
+    .win-btn:active {
+      border-color: var(--win-border-darker) var(--win-border-light) var(--win-border-light) var(--win-border-darker);
+    }
+    .win-btn-close { font-size: 9px; }
+
+    .win-menubar {
+      display: flex;
+      gap: 0;
+      padding: 2px 4px;
+      border-bottom: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      flex-shrink: 0;
+    }
+    .win-menu-item {
+      font-family: var(--pixel);
+      font-size: 6px;
+      padding: 2px 6px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #000;
+    }
+    .win-menu-item:hover { background: var(--win-titlebar); color: #fff; }
+
+    .win-body {
+      flex: 1;
+      overflow: auto;
+      padding: 8px;
+    }
+
+    /* Inset / sunken area */
+    .win-inset {
+      background: var(--win-inset-bg);
+      border: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      padding: 8px;
+    }
+
+    /* Win95 status bar */
+    .win-statusbar {
+      display: flex;
+      align-items: center;
+      padding: 2px 4px;
+      border-top: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      flex-shrink: 0;
+    }
+    .win-statusbar span {
+      font-family: var(--pixel);
+      font-size: 6px;
+      padding: 1px 6px;
+      border-right: 2px solid var(--win-border-dark);
+    }
+
+    /* Resize handle */
+    .win-resize {
+      position: absolute;
+      right: 0; bottom: 0;
+      width: 14px; height: 14px;
+      cursor: se-resize;
+    }
+    .win-resize::before {
+      content: '';
+      position: absolute;
+      right: 2px; bottom: 2px;
+      width: 10px; height: 10px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--win-border-dark) 0, var(--win-border-dark) 1px,
+        transparent 1px, transparent 3px
+      );
+    }
+
+    /* ===================== WINDOW CONTENT STYLES ===================== */
+    .win-body h2 {
+      font-family: var(--pixel);
+      font-size: 9px;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+    .win-body h3 {
+      font-family: var(--pixel);
+      font-size: 7px;
+      margin-bottom: 6px;
+      color: #000;
+    }
+    .win-body p {
+      font-family: var(--vt);
+      font-size: 18px;
+      line-height: 1.5;
+      color: #000;
+      margin-bottom: 8px;
+    }
+    .win-body ul {
+      list-style: none;
+      margin-bottom: 8px;
+    }
+    .win-body li {
+      font-family: var(--vt);
+      font-size: 18px;
+      line-height: 1.6;
+      padding-left: 16px;
+      position: relative;
+    }
+    .win-body li::before {
+      content: '►';
+      position: absolute;
+      left: 0;
+      font-size: 10px;
+      top: 4px;
+      color: var(--accent);
+    }
+    .win-body a { color: var(--accent); }
+
+    /* Win95 progress bar */
+    /* ── SKILL PIPS (10-block RPG style) ── */
+    .skill-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .skill-row label {
+      font-family: var(--pixel);
+      font-size: 6px;
+      width: 100px;
+      min-width: 100px;
+      color: #000;
+    }
+    .skill-pips {
+      display: flex;
+      gap: 3px;
+    }
+    .skill-pip {
+      width: 18px;
+      height: 14px;
+      border: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      background: var(--win-inset-bg);
+      flex-shrink: 0;
+    }
+    .skill-pip.filled {
+      background: var(--accent);
+      border-color: var(--win-border-light) var(--win-border-dark) var(--win-border-dark) var(--win-border-light);
+    }
+    .skill-level {
+      font-family: var(--pixel);
+      font-size: 6px;
+      color: #000080;
+      min-width: 70px;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    /* About big mode tabs */
+    .about-tab {
+      font-family: var(--pixel);
+      font-size: 7px;
+      padding: 7px 14px;
+      background: var(--win-body);
+      border: none;
+      border-right: 1px solid #888;
+      cursor: pointer;
+      color: #000;
+    }
+    .about-tab:hover { background: #d0d0d0; }
+    .about-tab.active-tab {
+      background: var(--win-body);
+      border-bottom: 2px solid var(--win-body);
+      margin-bottom: -2px;
+      color: #000080;
+      font-weight: bold;
+    }
+    .about-tab-panel {
+      padding: 10px;
+      overflow-y: auto;
+      height: 380px;
+      font-family: var(--pixel);
+      font-size: 7px;
+      line-height: 2;
+    }
+    .about-tab-panel ul { padding-left: 14px; }
+    .about-tab-panel li { margin-bottom: 4px; }
+
+    /* Tag chip */
+    .tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--pixel);
+      font-size: 6px;
+      padding: 3px 6px;
+      margin: 2px;
+      border: 2px solid;
+      border-color: #4444cc #000020 #000020 #4444cc;
+    }
+
+    /* Project card */
+    .project-card {
+      background: var(--win-body);
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .project-card h3 { margin-bottom: 6px; }
+    .project-card p { margin-bottom: 6px; }
+
+    /* About header row */
+    .about-header {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .about-avatar {
+      width: 64px; height: 64px;
+      background: var(--accent);
+      border: 3px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+    }
+    .about-name {
+      font-family: var(--pixel);
+      font-size: 8px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .about-sub {
+      font-family: var(--vt);
+      font-size: 16px;
+      color: #444;
+    }
+
+    /* Divider */
+    .win-divider {
+      height: 4px;
+      border-top: 2px solid var(--win-border-dark);
+      border-bottom: 2px solid var(--win-border-light);
+      margin: 10px 0;
+    }
+
+    /* Schedule table */
+    .sched-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--pixel);
+      font-size: 6px;
+    }
+    .sched-table th {
+      background: var(--accent);
+      color: #fff;
+      padding: 4px 6px;
+      text-align: left;
+      border: 1px solid #000;
+    }
+    .sched-table td {
+      padding: 3px 6px;
+      border: 1px solid var(--win-border-dark);
+      background: var(--win-inset-bg);
+      vertical-align: top;
+    }
+    .sched-table tr:hover td { background: #d0d8ff; }
+    .sched-now td { background: #ffffaa !important; font-weight: bold; }
+
+    /* Contact form style */
+    .win-field {
+      display: block;
+      width: 100%;
+      font-family: var(--vt);
+      font-size: 18px;
+      padding: 4px;
+      margin-bottom: 8px;
+      border: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      background: var(--win-inset-bg);
+      outline: none;
+    }
+    .win-field:focus { outline: 2px dotted var(--accent); }
+
+    .win95-btn {
+      font-family: var(--pixel);
+      font-size: 7px;
+      padding: 6px 12px;
+      background: var(--win-body);
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .win95-btn:active {
+      border-color: var(--win-border-darker) var(--win-border-light) var(--win-border-light) var(--win-border-darker);
+      transform: translate(1px, 1px);
+    }
+    .win95-btn:focus { outline: 1px dotted #000; outline-offset: 2px; }
+    .win95-btn.primary { background: var(--accent); color: #fff;
+      border-color: #4444cc var(--win-border-darker) var(--win-border-darker) #4444cc; }
+
+    /* ===================== TASKBAR ===================== */
+    #taskbar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--taskbar-h);
+      background: var(--win-body);
+      border-top: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0 4px;
+      z-index: 1000;
+    }
+
+    #start-btn {
+      font-family: var(--pixel);
+      font-size: 8px;
+      padding: 4px 8px;
+      background: var(--win-body);
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      cursor: pointer;
+      display: flex; align-items: center; gap: 4px;
+      height: 28px;
+      font-weight: bold;
+    }
+    #start-btn:active {
+      border-color: var(--win-border-darker) var(--win-border-light) var(--win-border-light) var(--win-border-darker);
+    }
+
+    .taskbar-divider {
+      width: 4px; height: 28px;
+      border-left: 2px solid var(--win-border-dark);
+      border-right: 2px solid var(--win-border-light);
+      margin: 0 2px;
+    }
+
+    .taskbar-btn {
+      font-family: var(--pixel);
+      font-size: 6px;
+      padding: 4px 8px;
+      background: var(--win-body);
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      cursor: pointer;
+      height: 28px;
+      max-width: 130px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .taskbar-btn.minimized-btn { border-style: inset; color: #555; }
+    .taskbar-btn.active {
+      border-color: var(--win-border-darker) var(--win-border-light) var(--win-border-light) var(--win-border-darker);
+      background: #b0b0b0;
+    }
+
+/* ── SYSTEM TRAY ── */
+    #wx-badge {
+      font-family: var(--pixel);
+      font-size: 8px;
+      color: #000;
+      padding: 0 8px;
+      white-space: nowrap;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      flex-shrink: 0;
+      border: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      border-right: none;
+    }
+
+    .taskbar-clock {
+      font-family: var(--pixel);
+      font-size: 11px;
+      color: #000;
+      padding: 0 10px;
+      white-space: nowrap;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      border: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+    }
+
+    /* Start menu */
+    #start-menu {
+      position: fixed;
+      bottom: var(--taskbar-h);
+      left: 0;
+      width: 200px;
+      background: var(--win-body);
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      display: none;
+      flex-direction: row;
+      z-index: 2000;
+    }
+    #start-menu.open { display: flex; }
+
+    .start-sidebar {
+      width: 28px;
+      background: var(--accent);
+      display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 8px;
+    }
+    .start-sidebar span {
+      font-family: var(--pixel);
+      font-size: 8px;
+      color: #fff;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      letter-spacing: 2px;
+    }
+
+    .start-items {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 4px 0;
+    }
+    .start-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-family: var(--pixel);
+      font-size: 7px;
+    }
+    .start-item:hover { background: var(--accent); color: #fff; }
+    .start-item span { font-size: 14px; }
+    .start-sep {
+      height: 4px;
+      border-top: 2px solid var(--win-border-dark);
+      border-bottom: 2px solid var(--win-border-light);
+      margin: 4px 8px;
+    }
+
+    /* ===================== SCROLLBAR (Win95 style) ===================== */
+    ::-webkit-scrollbar { width: 16px; }
+    ::-webkit-scrollbar-track { background: #c0c0c0; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--win-body);
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+    }
+
+    /* ===================== SCHEDULE WIDGET ===================== */
+    #schedule-widget {
+      position: fixed;
+      bottom: 36px;
+      right: 0;
+      top: auto;
+      left: auto;
+      width: 210px;
+      background: var(--win-body);
+      border: 2px solid;
+      border-color: var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+      box-shadow: 2px 2px 0 var(--win-border-dark);
+      z-index: 999;
+      font-family: var(--pixel);
+    }
+    #schedule-widget .sw-titlebar {
+      background: var(--win-titlebar);
+      padding: 3px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: move;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    #schedule-widget .sw-title {
+      font-size: 6px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sw-ctrl-btn {
+      font-size: 8px;
+      color: #aaf;
+      font-family: var(--pixel);
+      cursor: pointer;
+      padding: 0 3px;
+      line-height: 1;
+    }
+    .sw-ctrl-btn:hover { color: #fff; }
+    #schedule-widget .sw-body {
+      padding: 6px 8px;
+    }
+    /* compact mode */
+    .sw-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .sw-label { font-size: 5px; color: #666; text-transform: uppercase; }
+    .sw-value { font-size: 7px; color: var(--accent); }
+    .sw-room  { font-family: var(--vt); font-size: 15px; color: #444; }
+    .sw-divider {
+      height: 3px;
+      border-top: 1px solid var(--win-border-dark);
+      border-bottom: 1px solid var(--win-border-light);
+      margin: 5px 0;
+    }
+    .sw-next-row { display: flex; align-items: baseline; justify-content: space-between; }
+    .sw-next-label { font-size: 5px; color: #888; }
+    .sw-next-val   { font-family: var(--vt); font-size: 14px; color: #555; }
+    .sw-free { font-family: var(--vt); font-size: 18px; color: #080; text-align: center; padding: 4px 0; }
+    .sw-blink {
+      display: inline-block; width: 6px; height: 6px; background: #0f0;
+      animation: blink-badge 1s step-start infinite;
+    }
+    .sw-statusbar {
+      border-top: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      padding: 2px 6px; font-size: 5px; color: #555;
+      display: flex; justify-content: space-between;
+    }
+    /* big mode */
+    #sw-big { display: none; }
+    #schedule-widget.big-mode #sw-compact { display: none; }
+    #schedule-widget.big-mode {
+      width: 260px;
+      max-height: calc(100vh - 44px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      bottom: 36px !important;
+      top: auto !important;
+    }
+    #schedule-widget.big-mode #sw-big {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+    .sw-day-list {
+      overflow-y: auto;
+      max-height: 160px;
+      padding: 0 8px 4px;
+    }
+    .sw-clock-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 0 4px;
+    }
+    #sw-clock-canvas {
+      image-rendering: pixelated;
+    }
+    .sw-digital {
+      font-family: var(--pixel);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-top: 6px;
+    }
+    .sw-digital-ampm {
+      font-family: var(--pixel);
+      font-size: 6px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .sw-day-list-inner {
+      margin: 0 0 4px;
+      padding: 0 8px;
+    }
+    .sw-day-row {
+      display: flex;
+      align-items: center;
+      padding: 3px 4px;
+      border-bottom: 1px solid #b0b0b0;
+      gap: 4px;
+    }
+    .sw-day-row:last-child { border-bottom: none; }
+    .sw-day-row.sw-current-class {
+      background: #ffffaa;
+    }
+    .sw-day-row.sw-done-class {
+      opacity: 0.45;
+    }
+    .sw-day-code {
+      font-family: var(--pixel);
+      font-size: 5px;
+      color: var(--accent);
+      min-width: 58px;
+    }
+    .sw-day-time {
+      font-family: var(--vt);
+      font-size: 13px;
+      color: #555;
+      flex: 1;
+    }
+    .sw-day-room {
+      font-family: var(--vt);
+      font-size: 12px;
+      color: #888;
+    }
+    .sw-noclass-big {
+      font-family: var(--vt);
+      font-size: 17px;
+      color: #080;
+      text-align: center;
+      padding: 6px 0;
+    }
+
+    #welcome-win {
+      width: 360px;
+      top: calc(50vh - 160px);
+      left: calc(50vw - 180px);
+      z-index: 9999 !important;
+    }
+    #welcome-dialog .win-body {
+      text-align: center;
+      padding: 16px;
+    }
+    .welcome-icon { font-size: 48px; margin-bottom: 12px; display: block; }
+    .welcome-title {
+      font-family: var(--pixel);
+      font-size: 9px;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .welcome-p {
+      font-family: var(--vt);
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+    .welcome-btns { display: flex; gap: 8px; justify-content: center; }
+
+    /* ===================== ABOUT WINDOW ===================== */
+    #win-about { width: 420px; top: 60px; left: 100px; }
+
+    /* ===================== PROJECTS WINDOW ===================== */
+    #win-projects { width: 500px; top: 40px; left: 180px; }
+
+    /* ===================== WEEKLY/SKILLS WINDOW ===================== */
+    #win-weekly { width: 460px; top: 80px; left: 250px; }
+
+    /* ===================== SCHEDULE WINDOW ===================== */
+    #win-schedule { width: 480px; top: 50px; left: 160px; }
+
+    /* ===================== CONTACT WINDOW ===================== */
+    #win-contact { width: 340px; top: 70px; left: 320px; }
+
+    /* ===================== WEEKLY OUTPUTS CARDS ===================== */
+    .output-card {
+      background: var(--win-inset-bg);
+      border: 2px solid;
+      border-color: var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+    .output-card-num {
+      font-family: var(--pixel);
+      font-size: 6px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    .output-card-title {
+      font-family: var(--pixel);
+      font-size: 7px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .output-card-desc {
+      font-family: var(--vt);
+      font-size: 16px;
+      color: #333;
+    }
+
+    /* live now badge */
+    .live-badge {
+      display: inline-block;
+      background: #ff0000;
+      color: #fff;
+      font-family: var(--pixel);
+      font-size: 6px;
+      padding: 2px 5px;
+      animation: blink-badge 1s step-start infinite;
+    }
+    @keyframes blink-badge { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    /* ===================== STICKY NOTES ===================== */
+    .sticky-note {
+      position: absolute;
+      width: 180px;
+      min-height: 80px;
+      background: #ffff88;
+      border: 2px solid;
+      border-color: #e8e800 #a0a000 #a0a000 #e8e800;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+      z-index: 50;
+      font-family: var(--vt);
+      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sticky-titlebar {
+      background: #e8c800;
+      padding: 2px 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+      font-family: var(--pixel);
+      font-size: 6px;
+    }
+    .sticky-close {
+      cursor: pointer;
+      font-size: 10px;
+      line-height: 1;
+      padding: 1px 3px;
+      background: var(--win-body);
+      border: 1px solid #888;
+    }
+    .sticky-body {
+      padding: 6px 8px;
+      flex: 1;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #333;
+      line-height: 1.4;
+    }
+    .sticky-id {
+      font-family: var(--pixel);
+      font-size: 5px;
+      color: #999;
+      padding: 2px 4px;
+      text-align: right;
+    }
+
+    /* CMD blinking cursor */
+    @keyframes cmd-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    #cmd-input { animation: cmd-blink 1s step-start infinite; }
+    #cmd-input:focus { animation: none; }
+
+    /* BSOD overlay */
+    #bsod-overlay {
+      position: fixed; inset: 0;
+      background: #0000aa;
+      color: #fff;
+      font-family: var(--pixel);
+      font-size: 8px;
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 40px;
+      text-align: center;
+      line-height: 2;
+    }
+    #bsod-overlay.show { display: flex; }
+
+    /* ASCII art easter egg */
+    .cmd-ascii {
+      color: #00ff00;
+      font-size: 11px;
+      line-height: 1.2;
+      white-space: pre;
+    }
+    .cmd-error { color: #ff4444; }
+    .cmd-success { color: #00ff00; }
+    .cmd-info { color: #ffff00; }
+    .cmd-dim { color: #888; }
+
+    /* Mini game */
+    #cmd-game-area {
+      display: none;
+      margin-top: 4px;
+      border: 1px solid #444;
+      padding: 4px;
+      background: #001a00;
+    }
+
+  </style>
 </head>
 <body>
-<canvas id="background-canvas"></canvas>
-<header class="nav">
-  <div class="nav-inner">
-    <!-- LEFT: logo, name, subtitle -->
-    <div class="nav-left">
-      <div class="nav-logo">
-        <span>RL</span>
-      </div>
-      <div class="nav-title">
-        <div class="nav-title-main">Rovel Floriane S. Lumapas</div>
-        <div class="nav-title-sub">BSIT Student • University of San Carlos</div>
-      </div>
+
+<!-- BSOD OVERLAY -->
+<div id="bsod-overlay">
+  <div style="background:#fff;color:#0000aa;padding:2px 8px;font-size:9px;">Windows</div>
+  <div style="font-size:9px;max-width:500px;">
+    A fatal exception 0E has occurred at 0028:C0034B2F in VXD VMM(01) +<br>
+    00034B2F. The current application will be terminated.<br><br>
+    * Press any key to terminate the current application.<br>
+    * Press CTRL+ALT+DEL to restart your computer. You will<br>
+    lose any unsaved information in all applications.<br><br>
+    <span style="animation:cmd-blink 1s step-start infinite;display:inline-block;">Press any key to continue_</span>
+  </div>
+</div>
+
+<!-- WEATHER CANVAS -->
+<canvas id="wx-canvas"></canvas>
+
+<!-- ===================== DESKTOP ===================== -->
+<div id="desktop">
+  <div class="pixel-sun"></div>
+  <div class="pixel-cloud cloud-1"></div>
+  <div class="pixel-cloud cloud-2"></div>
+  <div class="pixel-cloud cloud-3"></div>
+  <div class="pixel-cloud cloud-4"></div>
+  <div class="pixel-cloud cloud-5"></div>
+  <div class="pixel-cloud cloud-6"></div>
+  <div class="pixel-cloud cloud-7"></div>
+
+  <!-- Desktop Icons -->
+  <div class="desktop-icons">
+    <div class="desktop-icon" data-window="win-about">
+      <div class="icon-img">🗂️</div>
+      <div class="icon-label">About Me</div>
     </div>
-
-    <!-- CENTER: nav links -->
-    <nav class="nav-links">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#weekly">Weekly Outputs</a>
-      <a href="#skills">Skills</a>
-    </nav>
-
-    <!-- RIGHT: pill + burger -->
-    <div class="nav-right">
-      <div class="nav-pill">
-        <span>Student Portfolio</span>
-        <small>@AlexanderTheBored</small>
-      </div>
-
-      <label
-        class="burger"
-        id="notesBurger"
-        aria-label="Open lesson notes"
-        aria-expanded="false"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
+    <div class="desktop-icon" data-window="win-projects">
+      <div class="icon-img">💾</div>
+      <div class="icon-label">Projects</div>
+    </div>
+    <div class="desktop-icon" data-window="win-weekly">
+      <div class="icon-img">📋</div>
+      <div class="icon-label">Weekly Outputs</div>
+    </div>
+    <div class="desktop-icon" data-window="win-schedule">
+      <div class="icon-img">🕐</div>
+      <div class="icon-label">My Schedule</div>
+    </div>
+    <div class="desktop-icon" data-window="win-contact">
+      <div class="icon-img">📧</div>
+      <div class="icon-label">Contact</div>
+    </div>
+    <div class="desktop-icon" data-window="win-cmd">
+      <div class="icon-img">🖥️</div>
+      <div class="icon-label">cmd.exe</div>
+    </div>
+    <div class="desktop-icon" data-window="win-readme">
+      <div class="icon-img">📄</div>
+      <div class="icon-label">README.txt</div>
     </div>
   </div>
-</header>
 
-<!-- LESSON NOTES SIDEBAR -->
-<div class="notes-sidebar-overlay" id="notesOverlay"></div>
+  <!-- ===================== WINDOWS ===================== -->
 
-<aside class="notes-sidebar" id="notesSidebar" aria-hidden="true">
-  <div class="notes-sidebar-header">
-    <h3>Lesson Notes</h3>
-    <button class="notes-close" id="notesClose" aria-label="Close notes">×</button>
-  </div>
-
-  <div class="notes-sidebar-body">
-    <!-- LESSON 1 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-1-data-information-knowledge.html">
-          Lesson 1: Data, Information, and Knowledge
-        </a>
-      </h4>
-      <ul>
-        <li>Definitions and short examples</li>
-        <li>Key terms to remember for essays</li>
-        <li>Any formulas or diagrams</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 2 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-2-artificial-intelligence.html">
-          Lesson 2: Artificial Intelligence & Cybersecurity
-        </a>
-      </h4>
-      <ul>
-        <li>What AI is and is not</li>
-        <li>Everyday examples you can mention</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 3 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-3-healthcare.html">
-          Lesson 3: Computer Systems in Healthcare
-        </a>
-      </h4>
-      <ul>
-        <li>Electronic health records, medical imaging, patient monitoring</li>
-        <li>Telemedicine and improved accuracy & accessibility</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 4 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-4-vending-machine.html">
-          Lesson 4: Vending Machine Algorithm
-        </a>
-      </h4>
-      <ul>
-        <li>Pseudocode and flowchart for a vending machine transaction</li>
-        <li>Sequence, selection, and iteration in algorithms</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 5 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-5-number-systems.html">
-          Lesson 5: Number Systems & Conversions
-        </a>
-      </h4>
-      <ul>
-        <li>Converting 25 to binary (11001₂) and hexadecimal (19₁₆)</li>
-        <li>Why computers use binary and hex</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 6 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-6-software-types.html">
-          Lesson 6: General vs. Specific Software
-        </a>
-      </h4>
-      <ul>
-        <li>Differences between everyday and specialised applications</li>
-        <li>Examples from student life (e.g., word processors vs. school systems)</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 7 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-7-ipos-devices.html">
-          Lesson 7: IPOS Devices & Hardware Components
-        </a>
-      </h4>
-      <ul>
-        <li>Input, processing, output, and storage devices</li>
-        <li>How components work together in a system</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 8 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-8-utility-software.html">
-          Lesson 8: Utility Software & Benefits
-        </a>
-      </h4>
-      <ul>
-        <li>Antivirus, backup tools, file compression, disk cleanup</li>
-        <li>How utilities keep systems fast and secure</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 9 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-9-student-database.html">
-          Lesson 9: Student Information Database
-        </a>
-      </h4>
-      <ul>
-        <li>Organising personal, academic, enrolment and grade records</li>
-        <li>Table relationships via a primary key</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 10 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-10-network-topologies.html">
-          Lesson 10: Network Topologies
-        </a>
-      </h4>
-      <ul>
-        <li>Bus, star, ring, mesh topologies with pros & cons</li>
-        <li>Reliability, cost, and scalability considerations</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 11 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-11-ethical-issues.html">
-          Lesson 11: Ethical Issues in IT & Code of Ethics
-        </a>
-      </h4>
-      <ul>
-        <li>Privacy, piracy, plagiarism, cyberbullying</li>
-        <li>Guiding principles like confidentiality and integrity</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 12 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-12-html-structure.html">
-          Lesson 12: Simple HTML Structure
-        </a>
-      </h4>
-      <ul>
-        <li>Basic tags like doctype, head, body, headings and paragraphs</li>
-        <li>Semantic grouping of content</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 13 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-13-css-styles.html">
-          Lesson 13: CSS for Colours, Fonts & Layout
-        </a>
-      </h4>
-      <ul>
-        <li>Selectors, properties, values, and external style sheets</li>
-        <li>Using colour palettes, typography, spacing and layout</li>
-      </ul>
-    </section>
-
-    <!-- LESSON 14 -->
-    <section class="notes-section">
-      <h4>
-        <a class="notes-link" href="ITC%20notes/lesson-14-generative-ai.html">
-          Lesson 14: Generative AI in Healthcare & Education
-        </a>
-      </h4>
-      <ul>
-        <li>Potential benefits in diagnosis and tutoring</li>
-        <li>Risks such as misinformation, privacy and bias</li>
-      </ul>
-    </section>
-  </div>
-</aside>
-
-<main class="page-shell">
-  <!-- HERO stays in the main file -->
-  <section class="hero" id="top">
-    <div>
-      <div class="hero-tag">
-        <div class="hero-tag-icon">★</div>
-        <div class="hero-tag-text">
-          <span class="hero-tag-handle">@AlexanderTheBored</span>
-          &nbsp;|&nbsp; Turning class requirements into finished projects
-        </div>
+  <!-- ABOUT WINDOW -->
+  <div class="win-window" id="win-about" style="width:420px; top:60px; left:100px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-about')">
+      <div class="win-title"><span class="win-title-icon">🗂️</span> About Me</div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-about')">_</button>
+        <button class="win-btn" id="about-expand-btn" onclick="toggleAboutMode()" title="Expand">⊡</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-about')">✕</button>
       </div>
-
-      <h1>
-        Hi, I'm <span>Rovel Lumapas</span>
-      </h1>
-      <p class="hero-subtitle">
-        A first year <strong>BSIT student</strong> specializing in taking
-        chaotic deadlines, broken ideas, and half written drafts
-        and turning them into
-        <strong>clean, working experiences</strong> on screen.
-      </p>
-
-      <div class="hero-meta">
-        <div class="chip">
-          <span class="chip-dot"></span>
-          Live from Cebu • Always in dev mode
-        </div>
-        <div class="chip chip-ghost">
-          Focus: HTML, CSS, JavaScript, C, basic ML, and way too many drafts
-        </div>
-      </div>
-
-      <div class="hero-cta-row">
-        <button class="btn btn-primary" data-scroll-to="#projects">
-          <span>▸</span> View Featured Work
-        </button>
-        <button class="btn btn-ghost" data-scroll-to="#weekly">
-          Weekly Outputs
-        </button>
-      </div>
-
-      <p class="hero-note">
-        <strong>Note:</strong> This portfolio is built in raw HTML, CSS, and
-        JavaScript. No frameworks, just student brain and caffeine.
-      </p>
+    </div>
+    <div class="win-menubar">
+      <span class="win-menu-item">File</span>
+      <span class="win-menu-item">View</span>
+      <span class="win-menu-item">Help</span>
     </div>
 
-    <!-- HERO VISUAL CARD STACK -->
-    <div class="hero-visual">
-      <div class="stack-orbit">
-        <div class="stack-orbit-glow"></div>
+    <!-- COMPACT MODE -->
+    <div id="about-compact">
+      <div class="win-body" style="max-height:480px;">
+        <div class="about-header">
+          <div class="about-avatar">👤</div>
+          <div>
+            <div class="about-name">ROVEL FLORIANE S. LUMAPAS</div>
+            <div class="about-sub">19 · Feb 1, 2007 · Eldest of 3 · Cebu, PH</div>
+            <div class="about-sub" style="color:#000080;">@AlexanderTheBored</div>
+          </div>
+        </div>
+        <div class="win-inset" style="margin-bottom:10px;">
+          <p>The eyes are the windows to the soul, what do you make of that?</p>
+        </div>
+        <div class="win-divider"></div>
+        <h3>► ACADEMIC</h3>
+        <ul>
+          <li>SHS — La Salle University Integrated School</li>
+          <li>BS Information Technology · University of San Carlos · 1st Year</li>
+          <li>Track: Information Management &amp; Web Development</li>
+          <li>Coursework: ERDs, BPMN, HTML/CSS, C, Networking</li>
+        </ul>
+        <div class="win-divider"></div>
+        <h3>► INTERESTS</h3>
+        <ul>
+          <li>📖 Avid reader — fiction, tech, and everything between</li>
+          <li>✍️ Creative writer — fanfiction, worldbuilding, storytelling</li>
+          <li>🎸 Guitar player</li>
+          <li>🗺️ Building civic tech (ZoneLens — Sinulog Hackathon 2026, 3rd Place)</li>
+          <li>🎮 Designing interactive experiences in code</li>
+        </ul>
+        <div class="win-divider"></div>
+        <h3>► CAREER GOALS</h3>
+        <ul>
+          <li>🎯 Pursue a Doctorate in Cybersecurity</li>
+          <li>🔐 Specialize in digital security &amp; ethical hacking</li>
+          <li>💡 Build tech that matters for communities</li>
+          <li>📝 Keep writing — code and prose alike</li>
+        </ul>
+        <div class="win-divider"></div>
+        <h3>► EXTRACURRICULARS</h3>
+        <ul>
+          <li>Class Secretary — 3 years running</li>
+          <li>House of Ben Ambassador — 3 years running</li>
+          <li>House of Ben President — led 400+ member org for 3 years</li>
+          <li>Creative Writer's Guild — Lead Creative for 3 years</li>
+        </ul>
+        <div class="win-divider"></div>
+        <h3>► CURRENT STATUS</h3>
+        <p>2nd Semester AY 2025 · 27 units loaded</p>
+        <div class="win-progress-outer"><div class="win-progress-inner" style="width:40%"></div></div>
+        <p style="font-family:'Press Start 2P',monospace;font-size:6px;color:#666;">SEMESTER PROGRESS: ~40%</p>
+      </div>
+    </div>
 
-        <article class="stack-card stack-card-tertiary">
-          <div class="stack-card-header">
-            <div class="stack-card-title">Snapshot</div>
-            <div class="stack-card-status">
-              <span class="stack-card-status-badge"></span>
-              v1.0 Online
-            </div>
-          </div>
-          <div class="stack-card-grid">
-            <div class="stack-metrics">
-              <div>
-                <div class="stack-metric-label">Semester</div>
-                <div class="stack-metric-value">2nd Sem AY 2025</div>
-              </div>
-              <div class="stack-metric-tag">
-                <span class="stack-pill-dot"></span>
-                <span id="now-subject">--</span>
-              </div>
-            </div>
-            <div class="stack-timeline">
-              <div class="stack-timeline-item">
-                <span class="stack-timeline-dot"></span>
-                <div>
-                  <div class="stack-timeline-label" id="now-label">Now</div>
-                  <div class="stack-timeline-desc" id="now-desc">--</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
+    <!-- BIG MODE -->
+    <div id="about-big" style="display:none;">
+      <div style="display:flex;height:420px;">
 
-        <article class="stack-card stack-card-secondary">
-          <div class="stack-card-header">
-            <div class="stack-card-title">Progress</div>
-            <div class="stack-card-status">
-              <span class="stack-card-status-badge"></span>
-              Tracking
-            </div>
+        <!-- LEFT: Stat card -->
+        <div style="width:200px;min-width:200px;background:#000080;color:#fff;padding:16px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
+          <div style="text-align:center;font-size:48px;line-height:1;margin-bottom:4px;">👤</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-align:center;line-height:2;border-bottom:1px solid #4466cc;padding-bottom:10px;">
+            ROVEL F.<br>LUMAPAS
           </div>
-          <div class="stack-card-grid">
-            <div class="stack-metrics">
-              <div>
-                <div class="stack-metric-label">Sub-outputs</div>
-                <div class="stack-metric-value">0 / ?</div>
-              </div>
-              <div class="stack-metric-tag">
-                <span class="stack-pill-dot"></span>
-                Auto updates as I add more
-              </div>
-            </div>
-            <div class="stack-timeline">
-              <div class="stack-timeline-item">
-                <span class="stack-timeline-dot"></span>
-                <div>
-                  <div class="stack-timeline-label">Goal</div>
-                  <div class="stack-timeline-desc">
-                    One clean card per requirement
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div style="font-family:'VT323',monospace;font-size:16px;line-height:1.9;color:#aaccff;">
+            <div>AGE &nbsp;&nbsp;&nbsp; 19</div>
+            <div>BORN &nbsp;&nbsp; FEB 1, 2007</div>
+            <div>CITY &nbsp;&nbsp; CEBU, PH</div>
+            <div>SCHOOL &nbsp; USC</div>
+            <div>YEAR &nbsp;&nbsp; 1ST</div>
+            <div>MAJOR &nbsp; BSIT</div>
           </div>
-        </article>
+          <div style="border-top:1px solid #4466cc;padding-top:10px;font-family:'VT323',monospace;font-size:16px;color:#ffff88;line-height:1.9;">
+            <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#aaccff;margin-bottom:4px;">ACHIEVEMENTS</div>
+            <div>🥉 Sinulog Hackathon 2026</div>
+            <div>🥉 OneHack 3.0</div>
+            <div>🏛️ Pres. House of Ben</div>
+            <div>✍️ CWG Lead Creative</div>
+            <div>📋 Class Secretary</div>
+          </div>
+          <div style="margin-top:auto;font-family:'VT323',monospace;font-size:15px;color:#aaccff;line-height:1.8;">
+            <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#fff;margin-bottom:4px;">SEM PROGRESS</div>
+            <div style="background:#000033;border:1px solid #4466cc;height:10px;">
+              <div style="background:#00ff00;width:40%;height:100%;"></div>
+            </div>
+            <div style="color:#00ff00;font-size:14px;">2nd Sem · 40%</div>
+          </div>
+        </div>
 
-        <article class="stack-card stack-card-main">
-          <div class="stack-card-header">
-            <div class="stack-card-title">Current Focus</div>
-            <div class="stack-card-status">
-              <span class="stack-card-status-badge"></span>
-              Portfolio Build
+        <!-- RIGHT: Tabbed content -->
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="display:flex;border-bottom:2px solid #888;background:var(--win-body);" id="about-tabs">
+            <button class="about-tab active-tab" onclick="switchAboutTab('bio')">Bio</button>
+            <button class="about-tab" onclick="switchAboutTab('academic')">Academic</button>
+            <button class="about-tab" onclick="switchAboutTab('goals')">Goals</button>
+            <button class="about-tab" onclick="switchAboutTab('extra')">Extra</button>
+          </div>
+
+          <!-- Tab: Bio -->
+          <div class="about-tab-panel" id="about-tab-bio" style="display:block;">
+            <div class="win-inset" style="margin:12px 12px 10px;">
+              <p style="font-size:9px;line-height:1.8;">"The eldest child who decided to speak in code." Ships code, leads teams, writes stories — and still placed 3rd at a hackathon. If you want someone who does all of the above, you just met her.</p>
+            </div>
+            <div style="padding:0 12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
+              <div>📖 &nbsp;Avid reader — fiction, tech, and everything between</div>
+              <div>✍️ &nbsp;Creative writer — fanfiction, worldbuilding, storytelling</div>
+              <div>🎸 &nbsp;Guitar player</div>
+              <div>🗺️ &nbsp;Civic tech builder — ZoneLens, Sinulog 2026</div>
+              <div>🎮 &nbsp;Designs interactive experiences in code</div>
+              <div style="margin-top:10px;color:#000080;font-family:'Press Start 2P',monospace;font-size:7px;">@AlexanderTheBored</div>
             </div>
           </div>
-          <div class="stack-card-grid">
-            <div class="stack-metrics">
-              <div>
-                <div class="stack-metric-label">This page</div>
-                <div class="stack-metric-value">HTML • CSS • JS</div>
+
+          <!-- Tab: Academic -->
+          <div class="about-tab-panel" id="about-tab-academic" style="display:none;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► EDUCATION</div>
+              <div>🏫 &nbsp;SHS — La Salle University Integrated School</div>
+              <div>🎓 &nbsp;BS Information Technology</div>
+              <div style="padding-left:24px;color:#444;">University of San Carlos · 1st Year</div>
+              <div style="padding-left:24px;color:#444;">Track: Info Management &amp; Web Dev</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► COURSEWORK</div>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;">
+                <span class="tag">ERDs</span><span class="tag">BPMN</span><span class="tag">HTML/CSS</span>
+                <span class="tag">C</span><span class="tag">Networking</span><span class="tag">Algorithms</span>
+                <span class="tag">Databases</span><span class="tag">Cybersecurity</span>
               </div>
-              <div class="stack-metric-tag">
-                <span class="stack-pill-dot"></span>
-                Card based layout with shimmer animations
-              </div>
-            </div>
-            <div class="stack-timeline">
-              <div class="stack-timeline-item">
-                <span class="stack-timeline-dot"></span>
-                <div>
-                  <div class="stack-timeline-label">Up next</div>
-                  <div class="stack-timeline-desc">
-                    Fill in weekly outputs and upload to Canvas as PDF
-                  </div>
-                </div>
-              </div>
-              <div class="stack-timeline-item">
-                <span class="stack-timeline-dot"></span>
-                <div>
-                  <div class="stack-timeline-label">Long term</div>
-                  <div class="stack-timeline-desc">
-                    Connect to future projects like MangaView and hackathon
-                    builds
-                  </div>
-                </div>
-              </div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:6px;">► CURRENT LOAD</div>
+              <div>27 units · 2nd Semester AY 2025–2026</div>
             </div>
           </div>
-        </article>
+
+          <!-- Tab: Goals -->
+          <div class="about-tab-panel" id="about-tab-goals" style="display:none;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► SHORT TERM</div>
+              <div>📚 &nbsp;Complete BSIT with strong academic standing</div>
+              <div>🛠️ &nbsp;Ship more open-source civic tech projects</div>
+              <div>🔐 &nbsp;Get into cybersecurity coursework &amp; certs</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► LONG TERM</div>
+              <div>🎯 &nbsp;Pursue a Doctorate in Cybersecurity</div>
+              <div>🔓 &nbsp;Specialize in ethical hacking &amp; digital security</div>
+              <div>💡 &nbsp;Build technology that genuinely helps communities</div>
+              <div>📝 &nbsp;Keep writing — code and prose alike</div>
+            </div>
+          </div>
+
+          <!-- Tab: Extracurriculars -->
+          <div class="about-tab-panel" id="about-tab-extra" style="display:none;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► LEADERSHIP</div>
+              <div>🏛️ &nbsp;<strong>House of Ben President</strong> — 3 consecutive years</div>
+              <div style="padding-left:24px;color:#444;font-size:15px;">Led and managed 400+ member organization</div>
+              <div>🏛️ &nbsp;House of Ben Ambassador — 3 years</div>
+              <div>📋 &nbsp;Class Secretary — 3 consecutive years</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► CREATIVE</div>
+              <div>✍️ &nbsp;<strong>Creative Writer's Guild</strong> — Lead Creative, 3 years</div>
+              <div style="padding-left:24px;color:#444;font-size:15px;">Directed guild creative direction &amp; outputs</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► HACKATHONS</div>
+              <div>🥉 &nbsp;Sinulog Hackathon 2026 — ZoneLens, 3rd Place</div>
+              <div>🥉 &nbsp;OneHack 3.0 — USC FoodChain, 3rd · ₱30,000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <span>BSIT · 1st Year · USC</span>
+      <span>Cebu, Philippines</span>
+    </div>
+    <div class="win-resize" onmousedown="startResize(event,'win-about')"></div>
+  </div>
+
+  <!-- PROJECTS WINDOW -->
+  <div class="win-window" id="win-projects" style="width:500px; top:40px; left:180px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-projects')">
+      <div class="win-title"><span class="win-title-icon">💾</span> Projects</div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-projects')">_</button>
+        <button class="win-btn">□</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-projects')">✕</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <span class="win-menu-item">File</span>
+      <span class="win-menu-item">Edit</span>
+      <span class="win-menu-item">View</span>
+      <span class="win-menu-item">Help</span>
+    </div>
+    <div class="win-body" style="max-height:480px;">
+
+      <div class="project-card">
+        <h3>🗺️ <a href="https://github.com/AlexanderTheBored/Zone-Lens" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px dotted #888;">ZONE|LENS</a> <span style="font-family:'VT323';font-size:15px;color:#c8a000;">🥉 Sinulog Hackathon 2026</span></h3>
+        <p>Civic mapping platform for Mandaue City. As the youngest participant, placed 3rd at Sinulog Hackathon 2026.</p>
+        <div><span class="tag">Civic Tech</span><span class="tag">JavaScript</span><span class="tag">₱30,000 Prize</span></div>
       </div>
 
-      <button
-        type="button"
-        class="stack-rotate-btn"
-        id="stackRotateBtn"
-        aria-label="Rotate cards"
-        title="Rotate cards"
-      >
-        ⟳
-      </button>
+      <div class="project-card">
+        <h3>USC FOODCHAIN <span style="font-family:'VT323';font-size:15px;color:#c00;">OneHack 3.0</span></h3>
+        <p>Blockchain-based campus food marketplace built for OneHack 3.0. Placed 3rd under extreme time pressure.</p>
+        <div><span class="tag">Blockchain</span><span class="tag">Hackathon</span><span class="tag">Node.js</span></div>
+      </div>
+
+      <div class="project-card">
+        <h3>📖 <a href="https://github.com/AlexanderTheBored/MangaView" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px dotted #888;">MANGAVIEW</a> <span style="font-family:'VT323';font-size:15px;color:#888;">(In Progress)</span></h3>
+        <p>Full-stack manga reading platform. Building a clean, fast reading experience with proper chapter management and reader UX.</p>
+        <div><span class="tag">Full-Stack</span><span class="tag">JavaScript</span><span class="tag">WIP</span></div>
+      </div>
+
+      <div class="project-card">
+        <h3>✅ <a href="https://github.com/AlexanderTheBored/TaskMaster" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px dotted #888;">TASKMASTER</a></h3>
+        <p>HTML-based task management application. Clean, functional, no-fluff todo system built to actually get things done.</p>
+        <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
+      </div>
+
+      <div class="project-card">
+        <h3>🖥️ ROVEL.EXE</h3>
+        <p>An interactive CLI self-introduction built with Node.js — typewriter animations, boot sequence, and a branching menu covering personal info, skills, career goals, and achievements. The one you probably just read.</p>
+        <div><span class="tag">Node.js</span><span class="tag">CLI</span><span class="tag">ANSI Colors</span></div>
+      </div>
+
+      <div class="project-card">
+        <h3>✍️ SPOILED AND SHIELDED <span style="font-family:'VT323';font-size:15px;color:#888;">(RWBY Fanfic)</span></h3>
+        <p>Long-form creative writing project — a RWBY fanfiction exploring character dynamics through worldbuilding and original story arcs. Because not all projects are code. <span style="color:#888;font-size:0.9em;">(AO3 link coming soon)</span></p>
+        <div><span class="tag">Creative Writing</span><span class="tag">Worldbuilding</span><span class="tag">RWBY</span></div>
+      </div>
+
+      <div class="project-card">
+        <h3>💼 THIS PORTFOLIO</h3>
+        <p>Windows 95-style portfolio with draggable windows, live class schedule, pixel art desktop, and zero frameworks. Raw HTML, CSS, JS + too much caffeine.</p>
+        <div><span class="tag">HTML/CSS/JS</span><span class="tag">No Frameworks</span><span class="tag">Win95</span></div>
+      </div>
+
     </div>
-  </section>
+    <div class="win-statusbar">
+      <span>7 items</span>
+      <span>Sinulog Hackathon 2026 🥇 · OneHack 3.0 🥉</span>
+    </div>
+    <div class="win-resize" onmousedown="startResize(event,'win-projects')"></div>
+  </div>
 
-  <!-- ABOUT SECTION PARTIAL -->
-  <section class="section" id="about" data-include="partials/about.html"></section>
+  <!-- WEEKLY OUTPUTS + SKILLS WINDOW -->
+  <div class="win-window" id="win-weekly" style="width:460px; top:80px; left:250px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-weekly')">
+      <div class="win-title"><span class="win-title-icon">📋</span> Weekly Outputs & Skills</div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-weekly')">_</button>
+        <button class="win-btn">□</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-weekly')">✕</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <span class="win-menu-item" onclick="showTab('outputs')" id="tab-outputs-btn" style="background:#000080;color:#fff;">Outputs</span>
+      <span class="win-menu-item" onclick="showTab('skills')" id="tab-skills-btn">Skills</span>
+    </div>
+    <div class="win-body" style="max-height:400px;">
+      <!-- OUTPUTS TAB -->
+      <div id="tab-outputs">
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #01</div>
+          <div class="output-card-title">Data, Information & Knowledge</div>
+          <div class="output-card-desc">Definitions, examples, and key terms for essays on data classification.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #02</div>
+          <div class="output-card-title">AI & Cybersecurity</div>
+          <div class="output-card-desc">What AI is (and isn't), everyday examples, and cybersecurity threats overview.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #03</div>
+          <div class="output-card-title">Computer Systems in Healthcare</div>
+          <div class="output-card-desc">EHR, telemedicine, medical imaging, and patient monitoring systems.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #04</div>
+          <div class="output-card-title">Vending Machine Algorithm</div>
+          <div class="output-card-desc">Pseudocode and flowchart demonstrating sequence, selection, and iteration.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #05</div>
+          <div class="output-card-title">Number Systems & Conversions</div>
+          <div class="output-card-desc">Binary (11001₂) and hex (19₁₆) from decimal 25. Why computers use binary.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #06</div>
+          <div class="output-card-title">General vs. Specific Software</div>
+          <div class="output-card-desc">Word processors vs. specialised apps; student life examples.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #07</div>
+          <div class="output-card-title">IPOS Devices & Hardware</div>
+          <div class="output-card-desc">Input, processing, output, and storage devices and how they interact.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #08</div>
+          <div class="output-card-title">Utility Software & Benefits</div>
+          <div class="output-card-desc">Antivirus, backups, compression, disk cleanup — keeping systems healthy.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #09</div>
+          <div class="output-card-title">Student Information Database</div>
+          <div class="output-card-desc">Personal, academic, enrolment & grade tables linked by primary key.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #10</div>
+          <div class="output-card-title">Network Topologies</div>
+          <div class="output-card-desc">Bus, star, ring, mesh — pros, cons, reliability, cost, scalability.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #11</div>
+          <div class="output-card-title">Ethical Issues in IT</div>
+          <div class="output-card-desc">Privacy, piracy, plagiarism, cyberbullying, and code of ethics principles.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #12</div>
+          <div class="output-card-title">Simple HTML Structure</div>
+          <div class="output-card-desc">doctype, head, body, headings, paragraphs — semantic content grouping.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #13</div>
+          <div class="output-card-title">CSS for Colors, Fonts & Layout</div>
+          <div class="output-card-desc">Selectors, properties, external stylesheets, palette, typography, spacing.</div>
+        </div>
+        <div class="output-card">
+          <div class="output-card-num">OUTPUT #14</div>
+          <div class="output-card-title">Generative AI in Healthcare & Education</div>
+          <div class="output-card-desc">Benefits in diagnosis/tutoring vs. risks: misinformation, privacy, bias.</div>
+        </div>
+      </div>
+            <!-- SKILLS TAB -->
+      <div id="tab-skills" style="display:none;">
+        <h3 style="margin-bottom:10px;">► TECHNICAL SKILLS</h3>
+        <div class="skill-row"><label>JavaScript</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div></div><span class="skill-level">specialty</span></div>
+        <div class="skill-row"><label>HTML5</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">proficient</span></div>
+        <div class="skill-row"><label>CSS3</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">proficient</span></div>
+        <div class="skill-row"><label>C</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">learning</span></div>
+        <div class="skill-row"><label>Blender</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">3D modelling</span></div>
+        <div class="skill-row"><label>Node.js</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">growing</span></div>
 
-  <!-- PROJECTS SECTION PARTIAL -->
-  <section class="section" id="projects" data-include="partials/projects.html"></section>
+        <div class="win-divider"></div>
+        <h3 style="margin-bottom:10px;">► SOFT SKILLS</h3>
+        <div class="skill-row"><label>Creative Writing</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+        <div class="skill-row"><label>Leadership</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+        <div class="skill-row"><label>Organization</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+        <div class="skill-row"><label>Public Speaking</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">strong</span></div>
 
-  <!-- WEEKLY OUTPUTS SECTION PARTIAL -->
-  <section class="section" id="weekly" data-include="partials/weekly.html"></section>
+        <div class="win-divider"></div>
+        <h3 style="margin-bottom:10px;">► TOOLS & PLATFORMS</h3>
+        <div>
+          <span class="tag">VS Code</span><span class="tag">Git</span><span class="tag">GitHub</span>
+          <span class="tag">Figma</span><span class="tag">Blender</span><span class="tag">Node.js</span>
+          <span class="tag">Chrome DevTools</span>
+        </div>
 
-  <!-- SKILLS SECTION PARTIAL -->
-  <section class="section" id="skills" data-include="partials/skills.html"></section>
+        <div class="win-divider"></div>
+        <h3 style="margin-bottom:10px;">► COURSEWORK AREAS</h3>
+        <div>
+          <span class="tag">ERDs</span><span class="tag">BPMN</span><span class="tag">Networking</span>
+          <span class="tag">Algorithms</span><span class="tag">Databases</span><span class="tag">Cybersecurity (learning)</span>
+        </div>
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <span id="weekly-status">14 outputs</span>
+      <span>ITC · 2nd Sem</span>
+    </div>
+    <div class="win-resize" onmousedown="startResize(event,'win-weekly')"></div>
+  </div>
 
-  <!-- FOOTER PARTIAL -->
-  <footer class="section" data-include="partials/footer.html"></footer>
-</main>
+  <!-- SCHEDULE WINDOW -->
+  <div class="win-window" id="win-schedule" style="width:520px; top:50px; left:140px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-schedule')">
+      <div class="win-title">
+        <span class="win-title-icon">🕐</span> Class Schedule · 2nd Sem AY 2025
+        <span class="live-badge" id="live-badge">● LIVE</span>
+      </div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-schedule')">_</button>
+        <button class="win-btn">□</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-schedule')">✕</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <span class="win-menu-item">View</span>
+      <span class="win-menu-item">Refresh</span>
+    </div>
+    <div class="win-body" style="max-height:420px;">
+      <div class="win-inset" style="margin-bottom:10px;padding:8px 12px;">
+        <span style="font-family:'Press Start 2P',monospace;font-size:7px;">NOW: </span>
+        <span id="sched-now-code" style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;">--</span>
+        <span style="font-family:'VT323';font-size:18px;"> · </span>
+        <span id="sched-now-room" style="font-family:'VT323';font-size:18px;color:#444;"></span>
+        <span style="float:right;font-family:'VT323';font-size:16px;color:#888;" id="sched-now-eta"></span>
+      </div>
+      <table class="sched-table" id="sched-table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Day</th>
+            <th>Time</th>
+            <th>Room</th>
+            <th>Units</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-code="GE-FEL TFL"><td>GE-FEL TFL</td><td>M W</td><td>07:30–09:00</td><td>LB485TC</td><td>3.00</td></tr>
+          <tr data-code="TPE 1202"><td>TPE 1202</td><td>T Th</td><td>08:00–09:00</td><td>JBB102TC</td><td>2.00</td></tr>
+          <tr data-code="EDM 2"><td>EDM 2</td><td>T Th</td><td>09:00–10:30</td><td>MR105TC</td><td>3.00</td></tr>
+          <tr data-code="CIS 1205"><td>CIS 1205</td><td>M W</td><td>10:00–12:30</td><td>LB470TC</td><td>3.00</td></tr>
+          <tr data-code="CIS 2106N"><td>CIS 2106N</td><td>Sat</td><td>07:30–10:30</td><td>LB446TC</td><td>1.00</td></tr>
+          <tr data-code="IT 3106"><td>IT 3106</td><td>M W</td><td>13:30–15:00</td><td>LB486TC</td><td>3.00</td></tr>
+          <tr data-code="CIS 1204"><td>CIS 1204</td><td>T Th</td><td>13:30–15:00</td><td>LB484TC</td><td>3.00</td></tr>
+          <tr data-code="CIS 1201"><td>CIS 1201</td><td>M W</td><td>15:00–17:30</td><td>LB467TC</td><td>3.00</td></tr>
+          <tr data-code="CIS 1202"><td>CIS 1202</td><td>T Th</td><td>15:00–17:30</td><td>LB446TC</td><td>3.00</td></tr>
+          <tr data-code="NSTP 2"><td>NSTP 2</td><td>Sat</td><td>12:00–15:00</td><td>1B12c</td><td>3.00</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-family:'Press Start 2P',monospace;font-size:6px;color:#666;">
+        Total: 27.00 units · University of San Carlos
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <span>10 subjects</span>
+      <span id="sched-status">Checking...</span>
+    </div>
+    <div class="win-resize" onmousedown="startResize(event,'win-schedule')"></div>
+  </div>
 
-<!-- BACK TO TOP BUTTON -->
-<button class="back-to-top" aria-label="Back to top" title="Back to top">
-  ↑
-</button>
+  <!-- CONTACT WINDOW -->
+  <div class="win-window" id="win-contact" style="width:340px; top:70px; left:360px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-contact')">
+      <div class="win-title"><span class="win-title-icon">📧</span> Contact</div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-contact')">_</button>
+        <button class="win-btn">□</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-contact')">✕</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <span class="win-menu-item">File</span>
+      <span class="win-menu-item">Help</span>
+    </div>
+    <div class="win-body">
+      <div class="win-inset" style="text-align:center;padding:16px;margin-bottom:12px;">
+        <div style="font-size:40px;margin-bottom:8px;">📬</div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">LET'S CONNECT</div>
+        <div style="font-family:'VT323',monospace;font-size:18px;color:#333;line-height:1.5;">
+          Open to collaborations, projects, and<br>anything that sounds interesting.<br>
+          <span style="color:#000080;">Built with Node.js + too much caffeine.</span>
+        </div>
+      </div>
+      <div class="win-divider"></div>
+      <h3>► FIND ME AT</h3>
+      <ul style="margin-top:6px;">
+        <li>🐦 @AlexanderTheBored</li>
+        <li>🎓 University of San Carlos · BSIT · 1st Year</li>
+        <li>📍 Cebu, Philippines</li>
+      </ul>
+      <div class="win-divider"></div>
+      <h3>► QUICK FACTS</h3>
+      <ul style="margin-top:6px;">
+        <li>🥉 Sinulog Hackathon 2026 — 3rd Place (₱30,000)</li>
+        <li>🏛️ Led a 400+ member student org for 3 years</li>
+        <li>✍️ Creative Writer's Guild Lead Creative</li>
+        <li>📖 Currently writing fanfic and shipping code</li>
+      </ul>
+      <div class="win-divider"></div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
+        <button class="win95-btn primary" onclick="alert('Add your email here!')">📧 Email Me</button>
+        <button class="win95-btn" onclick="closeWindow('win-contact')">Cancel</button>
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <span>rovel.lumapas · BSIT @ USC</span>
+    </div>
+    <div class="win-resize" onmousedown="startResize(event,'win-contact')"></div>
+  </div>
 
-<script src="script.js"></script>
-<script src="background.js"></script>
+  <!-- WELCOME WINDOW -->
+  <div class="win-window open" id="welcome-win">
+    <div class="win-titlebar" onmousedown="startDrag(event,'welcome-win')">
+      <div class="win-title"><span>🖥️</span> Welcome to ROVEL OS v1.0</div>
+      <div class="win-controls">
+        <button class="win-btn win-btn-close" onclick="dismissWelcome()">✕</button>
+      </div>
+    </div>
+    <div class="win-body" style="text-align:center;padding:16px;">
+      <span style="font-size:48px;margin-bottom:12px;display:block;">🖥️</span>
+      <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#000080;margin-bottom:10px;">Welcome!</div>
+      <p style="font-family:'VT323',monospace;font-size:18px;margin-bottom:8px;">You are now viewing the portfolio of<br><strong>Rovel Floriane S. Lumapas</strong><br>BSIT · 1st Year · University of San Carlos</p>
+      <p style="font-family:'VT323',monospace;font-size:16px;color:#000080;margin-bottom:6px;line-height:1.4;">Ships code, leads teams, writes stories,<br>and placed 3rd at a hackathon.</p>
+      <p style="font-family:'VT323',monospace;font-size:14px;color:#666;margin-bottom:14px;">Double-click desktop icons or use Start to explore.</p>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button class="win95-btn primary" onclick="dismissWelcome()">OK &nbsp; ►</button>
+        <button class="win95-btn" onclick="dismissWelcome();openWindow('win-about')">View About</button>
+      </div>
+    </div>
+  </div>  <!-- CMD WINDOW -->
+  <div class="win-window" id="win-cmd" style="width:560px;top:80px;left:120px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-cmd')">
+      <div class="win-title"><span class="win-title-icon">🖥️</span> C:\ROVEL\cmd.exe</div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-cmd')">_</button>
+        <button class="win-btn">□</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-cmd')">✕</button>
+      </div>
+    </div>
+    <div id="cmd-body" style="background:#000;color:#c0c0c0;font-family:'Courier New',monospace;font-size:13px;height:340px;overflow-y:auto;padding:8px;cursor:text;" onclick="document.getElementById('cmd-input').focus()">
+      <div id="cmd-output"></div>
+      <div style="display:flex;align-items:center;margin-top:2px;">
+        <span id="cmd-prompt" style="color:#c0c0c0;white-space:nowrap;">C:\ROVEL&gt;&nbsp;</span>
+        <input id="cmd-input" type="text" autocomplete="off" spellcheck="false"
+          style="background:transparent;border:none;outline:none;color:#c0c0c0;font-family:'Courier New',monospace;font-size:13px;flex:1;caret-color:#c0c0c0;"
+          onkeydown="cmdKeyDown(event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- README WINDOW -->
+  <div class="win-window" id="win-readme" style="width:420px; top:90px; left:200px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-readme')">
+      <div class="win-title"><span class="win-title-icon">📄</span> README.txt - Notepad</div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-readme')">_</button>
+        <button class="win-btn" id="readme-expand-btn" onclick="toggleReadmeMode()" title="Expand">⊡</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-readme')">✕</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <span class="win-menu-item">File</span>
+      <span class="win-menu-item">Edit</span>
+      <span class="win-menu-item">Help</span>
+    </div>
+
+    <!-- COMPACT MODE -->
+    <div id="readme-compact">
+      <div class="win-body" style="overflow:auto;max-height:400px;background:#fff;padding:12px 14px;">
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:10px;line-height:2;">
+          ROVEL OS v1.0 — README.txt
+        </div>
+        <div style="font-family:'VT323',monospace;font-size:17px;color:#333;line-height:1.8;margin-bottom:10px;">
+          Welcome to the portfolio of <strong>Rovel Floriane S. Lumapas</strong>.<br>
+          BSIT · 1st Year · University of San Carlos · Cebu, PH<br><br>
+          Double-click desktop icons or use Start to explore.
+        </div>
+        <div class="win-divider"></div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:8px 0 6px;">► CMD COMMANDS</div>
+        <table style="font-family:'Courier New',monospace;font-size:11px;color:#000;border-collapse:collapse;width:100%;">
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">help</td><td style="padding:2px 0;color:#444;">List all commands</td></tr>
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">about</td><td style="padding:2px 0;color:#444;">About this system</td></tr>
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">clear</td><td style="padding:2px 0;color:#444;">Clear the terminal</td></tr>
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">event add/list/remove</td><td style="padding:2px 0;color:#444;">Manage personal events</td></tr>
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">note "text"/list/remove</td><td style="padding:2px 0;color:#444;">Sticky notes on desktop</td></tr>
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">wx &lt;state&gt;</td><td style="padding:2px 0;color:#444;">Change weather</td></tr>
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">exit</td><td style="padding:2px 0;color:#444;">Close the terminal</td></tr>
+        </table>
+        <div style="font-family:'VT323',monospace;font-size:15px;color:#888;margin-top:6px;">
+          wx states: clear · cloudy · overcast · fog · rain · storm · night · auto
+        </div>
+        <div class="win-divider"></div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:8px 0 6px;">► TIPS</div>
+        <div style="font-family:'VT323',monospace;font-size:17px;color:#333;line-height:1.8;">
+          · Events &amp; notes persist across sessions<br>
+          · wx auto fetches live weather from Mandaue City<br>
+          · Schedule widget is live and updates in real time<br>
+          · Try typing <strong>rovel</strong> in the terminal 👀
+        </div>
+        <div class="win-divider"></div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#888;line-height:2;">
+          ??? There may be hidden commands...
+        </div>
+      </div>
+    </div>
+
+    <!-- BIG MODE -->
+    <div id="readme-big" style="display:none;">
+      <div style="display:flex;height:460px;">
+        <!-- LEFT sidebar -->
+        <div style="width:180px;min-width:180px;background:#000080;color:#fff;padding:14px 12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;">
+          <div style="text-align:center;font-size:40px;line-height:1;margin-bottom:4px;">📄</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:7px;text-align:center;line-height:2;border-bottom:1px solid #4466cc;padding-bottom:8px;">
+            README.txt
+          </div>
+          <div style="font-family:'VT323',monospace;font-size:16px;color:#aaccff;line-height:2;">
+            <div>VERSION &nbsp;1.0</div>
+            <div>AUTHOR &nbsp;&nbsp;Rovel F.</div>
+            <div>SCHOOL &nbsp;&nbsp;USC</div>
+            <div>YEAR &nbsp;&nbsp;&nbsp;&nbsp;1ST BSIT</div>
+            <div>CITY &nbsp;&nbsp;&nbsp;&nbsp;CEBU, PH</div>
+          </div>
+          <div style="border-top:1px solid #4466cc;padding-top:8px;font-family:'VT323',monospace;font-size:15px;color:#ffff88;line-height:1.9;">
+            <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:#aaccff;margin-bottom:4px;">QUICK REFS</div>
+            <div>help</div>
+            <div>about</div>
+            <div>clear / cls</div>
+            <div>event add</div>
+            <div>event list</div>
+            <div>event remove</div>
+            <div>note "text"</div>
+            <div>note list</div>
+            <div>note remove</div>
+            <div>wx &lt;state&gt;</div>
+            <div>exit</div>
+          </div>
+          <div style="margin-top:auto;font-family:'Press Start 2P',monospace;font-size:5px;color:#888;line-height:2;">
+            ??? hidden cmds...
+          </div>
+        </div>
+        <!-- RIGHT content -->
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="display:flex;border-bottom:2px solid #888;background:var(--win-body);" id="readme-tabs">
+            <button class="about-tab active-tab" onclick="switchReadmeTab('commands')">Commands</button>
+            <button class="about-tab" onclick="switchReadmeTab('usage')">Usage</button>
+            <button class="about-tab" onclick="switchReadmeTab('tips')">Tips</button>
+          </div>
+
+          <!-- Tab: Commands -->
+          <div class="about-tab-panel" id="readme-tab-commands" style="display:block;height:390px;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:2;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► GENERAL</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">help</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List all commands</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">about</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About this system</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">clear</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clear the terminal</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">exit</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Close this window</div>
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► EVENTS</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">event add &lt;day&gt; &lt;HH:MM&gt; "title"</span></div>
+              <div style="padding-left:20px;color:#555;font-size:15px;">Add a personal event to the schedule</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">event list</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List all events</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">event remove &lt;id&gt;</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remove by ID</div>
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► NOTES</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">note "your text"</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin sticky to desktop</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">note list</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List all notes</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">note remove &lt;id&gt;</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remove by ID</div>
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► WEATHER</div>
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">wx &lt;state&gt;</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set weather state</div>
+              <div style="padding-left:20px;color:#555;font-size:15px;">clear · cloudy · overcast · fog · rain · storm · night · auto</div>
+            </div>
+          </div>
+
+          <!-- Tab: Usage -->
+          <div class="about-tab-panel" id="readme-tab-usage" style="display:none;height:390px;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:2;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► ADDING AN EVENT</div>
+              <div style="background:#000;color:#0f0;font-family:'Courier New',monospace;font-size:11px;padding:8px;margin-bottom:10px;line-height:1.8;">
+                C:\ROVEL&gt; event add friday 18:00 "Study session"<br>
+                C:\ROVEL&gt; event add monday 12:30 "Lunch w/ friends"<br>
+                C:\ROVEL&gt; event list
+              </div>
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► PINNING A NOTE</div>
+              <div style="background:#000;color:#0f0;font-family:'Courier New',monospace;font-size:11px;padding:8px;margin-bottom:10px;line-height:1.8;">
+                C:\ROVEL&gt; note "Buy coffee before 8AM class"<br>
+                C:\ROVEL&gt; note list<br>
+                C:\ROVEL&gt; note remove 12345
+              </div>
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► CHANGING WEATHER</div>
+              <div style="background:#000;color:#0f0;font-family:'Courier New',monospace;font-size:11px;padding:8px;line-height:1.8;">
+                C:\ROVEL&gt; wx storm<br>
+                C:\ROVEL&gt; wx night<br>
+                C:\ROVEL&gt; wx auto
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Tips -->
+          <div class="about-tab-panel" id="readme-tab-tips" style="display:none;height:390px;">
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:2;color:#000;">
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► TIPS &amp; TRICKS</div>
+              <div>💾 &nbsp;Events and notes <strong>persist across sessions</strong> via localStorage</div>
+              <div>🌦️ &nbsp;<strong>wx auto</strong> fetches live weather from Mandaue City</div>
+              <div>🕐 &nbsp;The schedule widget is <strong>live</strong> — updates every 30 seconds</div>
+              <div>⬆️ &nbsp;Use <strong>arrow keys</strong> in CMD to scroll through command history</div>
+              <div>🖱️ &nbsp;All windows are <strong>draggable and resizable</strong></div>
+              <div>🗂️ &nbsp;<strong>Double-click</strong> a desktop icon to open it</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► SECRETS</div>
+              <div>👀 &nbsp;Try typing <strong>rovel</strong> in the terminal...</div>
+              <div style="color:#888;font-size:15px;">There may be other hidden commands. Explore!</div>
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► AUTHOR</div>
+              <div>Rovel Floriane S. Lumapas</div>
+              <div style="color:#000080;">github.com/AlexanderTheBored</div>
+              <div style="color:#888;font-size:15px;">Built with HTML, CSS, JS. No frameworks.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="win-statusbar">
+      <span>README.txt</span>
+      <span>Read Only</span>
+    </div>
+    <div class="win-resize" onmousedown="startResize(event,'win-readme')"></div>
+  </div>
+
+</div><!-- /desktop -->
+
+<!-- ===================== TASKBAR ===================== -->
+<div id="taskbar">
+  <button id="start-btn" onclick="toggleStartMenu()">
+    <span style="font-size:14px;">🪟</span> Start
+  </button>
+  <div class="taskbar-divider"></div>
+  <div id="taskbar-buttons" style="display:flex;align-items:center;gap:4px;flex:1;overflow:hidden;"></div>
+  <div id="wx-badge">⛅ --°C · Mandaue</div>
+  <div class="taskbar-clock" id="taskbar-clock">00:00</div>
+</div>
+
+<!-- START MENU -->
+<div id="start-menu">
+  <div class="start-sidebar"><span>ROVEL OS</span></div>
+  <div class="start-items">
+    <div class="start-item" onclick="openWindow('win-about');closeStartMenu()"><span>🗂️</span> About Me</div>
+    <div class="start-item" onclick="openWindow('win-projects');closeStartMenu()"><span>💾</span> Projects</div>
+    <div class="start-item" onclick="openWindow('win-weekly');closeStartMenu()"><span>📋</span> Weekly Outputs</div>
+    <div class="start-item" onclick="openWindow('win-schedule');closeStartMenu()"><span>🕐</span> Schedule</div>
+    <div class="start-item" onclick="openWindow('win-contact');closeStartMenu()"><span>📧</span> Contact</div>
+    <div class="start-item" onclick="openWindow('win-cmd');closeStartMenu()"><span>🖥️</span> cmd.exe</div>
+    <div class="start-item" onclick="openWindow('win-readme');closeStartMenu()"><span>📄</span> README.txt</div>
+    <div class="start-sep"></div>
+    <div class="start-item" onclick="closeAllWindows();closeStartMenu()"><span>🔲</span> Close All</div>
+    <div class="start-sep"></div>
+    <div class="start-item" style="color:#800000;"><span>⏻</span> Shut Down...</div>
+  </div>
+</div>
+
+  <!-- SCHEDULE WIDGET -->
+  <div id="schedule-widget">
+    <div class="sw-titlebar" onmousedown="startWidgetDrag(event)">
+      <div class="sw-title"><span class="sw-blink"></span>&nbsp;LIVE SCHEDULE</div>
+      <div style="display:flex;gap:2px;align-items:center;">
+        <span class="sw-ctrl-btn" onclick="toggleWidgetMode()" id="sw-mode-btn" title="Expand">&#x229F;</span>
+        <span class="sw-ctrl-btn" onclick="openWindow('win-schedule')" title="Full schedule">&#x229E;</span>
+      </div>
+    </div>
+    <div id="sw-compact">
+      <div class="sw-body">
+        <div id="sw-content-now">
+          <div class="sw-row">
+            <span class="sw-label">NOW</span>
+            <span class="sw-value" id="sw-code">--</span>
+          </div>
+          <span class="sw-room" id="sw-room"></span>
+          <div class="sw-divider"></div>
+          <div class="sw-next-row">
+            <span class="sw-next-label" id="sw-next-label">UP NEXT</span>
+            <span class="sw-next-val" id="sw-next-val">--</span>
+          </div>
+          <div class="sw-next-row">
+            <span class="sw-next-label" id="sw-eta-label">ETA</span>
+            <span class="sw-next-val" id="sw-eta">--</span>
+          </div>
+        </div>
+        <div class="sw-free" id="sw-free" style="display:none;">No class right now</div>
+      </div>
+    </div>
+    <div id="sw-big">
+      <div class="sw-clock-wrap">
+        <canvas id="sw-clock-canvas" width="100" height="100"></canvas>
+        <div class="sw-digital" id="sw-digital-time">00:00:00</div>
+        <div class="sw-digital-ampm" id="sw-digital-ampm">AM</div>
+      </div>
+      <div class="sw-divider" style="margin:0 8px 4px;"></div>
+      <div class="sw-day-list" id="sw-day-list"></div>
+    </div>
+    <div class="sw-statusbar">
+      <span>2nd Sem AY 2025</span>
+      <span id="sw-time">--:--</span>
+    </div>
+  </div>
+
+
 <script>
-// ===================== LIVE SCHEDULE VIEWER =====================
-(function () {
-  // Schedule: { days: [0=Sun,1=Mon,...,6=Sat], start: "HH:MM", end: "HH:MM", code, room, label }
-  var schedule = [
-    { days:[1,3], start:"07:30", end:"09:00", code:"GE-FEL TFL", room:"LB485TC", label:"GE-FEL TFL" },
-    { days:[2,4], start:"08:00", end:"09:00", code:"TPE 1202",   room:"JBB102TC", label:"TPE 1202" },
-    { days:[2,4], start:"09:00", end:"10:30", code:"EDM 2",      room:"MR105TC",  label:"EDM 2" },
-    { days:[1,3], start:"10:00", end:"12:30", code:"CIS 1205",   room:"LB470TC",  label:"CIS 1205" },
-    { days:[6],   start:"07:30", end:"10:30", code:"CIS 2106N",  room:"LB446TC",  label:"CIS 2106N" },
-    { days:[1,3], start:"13:30", end:"15:00", code:"IT 3106",    room:"LB486TC",  label:"IT 3106" },
-    { days:[2,4], start:"13:30", end:"15:00", code:"CIS 1204",   room:"LB484TC",  label:"CIS 1204" },
-    { days:[1,3], start:"15:00", end:"17:30", code:"CIS 1201",   room:"LB467TC",  label:"CIS 1201" },
-    { days:[2,4], start:"15:00", end:"17:30", code:"CIS 1202",   room:"LB446TC",  label:"CIS 1202" },
-    { days:[6],   start:"12:00", end:"15:00", code:"NSTP 2",     room:"1B12c",    label:"NSTP 2" },
-  ];
+// ===================== WIDGET MODE TOGGLE =====================
+var widgetBig = false;
+var clockRaf = null;
 
-  function toMins(t) {
-    var p = t.split(":"); return parseInt(p[0]) * 60 + parseInt(p[1]);
+function toggleWidgetMode() {
+  widgetBig = !widgetBig;
+  var w = document.getElementById('schedule-widget');
+  var btn = document.getElementById('sw-mode-btn');
+  w.classList.toggle('big-mode', widgetBig);
+  btn.textContent = widgetBig ? '⊟' : '⊡';
+  btn.title = widgetBig ? 'Collapse' : 'Expand';
+  if (widgetBig) {
+    startClock();
+    renderDayList();
+  } else {
+    if (clockRaf) { cancelAnimationFrame(clockRaf); clockRaf = null; }
+  }
+  pinWidget();
+}
+
+// ── Analog clock ──
+function startClock() {
+  function frame() {
+    drawClock();
+    clockRaf = requestAnimationFrame(frame);
+  }
+  if (clockRaf) cancelAnimationFrame(clockRaf);
+  clockRaf = requestAnimationFrame(frame);
+}
+
+function drawClock() {
+  var canvas = document.getElementById('sw-clock-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var cx = W/2, cy = H/2, r = W/2 - 4;
+  var now = new Date();
+  var hr = now.getHours(), min = now.getMinutes(), sec = now.getSeconds();
+
+  // Update digital display
+  var dig = document.getElementById('sw-digital-time');
+  var ampm = document.getElementById('sw-digital-ampm');
+  if (dig) {
+    var h12 = hr % 12 || 12;
+    dig.textContent = String(h12).padStart(2,'0') + ':' + String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+  }
+  if (ampm) ampm.textContent = hr < 12 ? 'AM' : 'PM';
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Face — Win95 sunken inset look
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
+  // outer border
+  ctx.strokeStyle = '#808080'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
+  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(cx, cy, r-2, 0, Math.PI*2); ctx.stroke();
+
+  // Hour ticks (pixelated — draw as rects)
+  ctx.fillStyle = '#000080';
+  for (var i = 0; i < 12; i++) {
+    var a = (i / 12) * Math.PI * 2 - Math.PI/2;
+    var len = i % 3 === 0 ? 6 : 3;
+    var x1 = cx + Math.cos(a) * (r-4);
+    var y1 = cy + Math.sin(a) * (r-4);
+    var x2 = cx + Math.cos(a) * (r-4-len);
+    var y2 = cy + Math.sin(a) * (r-4-len);
+    ctx.beginPath();
+    ctx.lineWidth = i % 3 === 0 ? 2 : 1;
+    ctx.strokeStyle = '#000080';
+    ctx.moveTo(Math.round(x1), Math.round(y1));
+    ctx.lineTo(Math.round(x2), Math.round(y2));
+    ctx.stroke();
   }
 
-  function update() {
-    var now = new Date();
-    var day = now.getDay();
-    var mins = now.getHours() * 60 + now.getMinutes();
+  // Hour hand
+  var haAngle = ((hr % 12) + min/60) / 12 * Math.PI*2 - Math.PI/2;
+  drawHand(ctx, cx, cy, haAngle, r*0.5, 3, '#000080');
 
-    var current = null, next = null, nextDiff = Infinity;
+  // Minute hand
+  var maAngle = (min + sec/60) / 60 * Math.PI*2 - Math.PI/2;
+  drawHand(ctx, cx, cy, maAngle, r*0.72, 2, '#000080');
 
-    schedule.forEach(function(s) {
-      var start = toMins(s.start), end = toMins(s.end);
-      if (s.days.indexOf(day) !== -1 && mins >= start && mins < end) {
-        current = s;
+  // Second hand
+  var saAngle = sec / 60 * Math.PI*2 - Math.PI/2;
+  drawHand(ctx, cx, cy, saAngle, r*0.78, 1, '#cc0000');
+
+  // Center dot
+  ctx.fillStyle = '#000080';
+  ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#cc0000';
+  ctx.beginPath(); ctx.arc(cx, cy, 1.5, 0, Math.PI*2); ctx.fill();
+}
+
+function drawHand(ctx, cx, cy, angle, length, width, color) {
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.lineCap = 'square';
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(
+    Math.round(cx + Math.cos(angle) * length),
+    Math.round(cy + Math.sin(angle) * length)
+  );
+  ctx.stroke();
+  ctx.restore();
+}
+
+// ── Day schedule list ──
+function renderDayList() {
+  var list = document.getElementById('sw-day-list');
+  if (!list) return;
+  var now = new Date();
+  var day = now.getDay();
+  var mins = now.getHours()*60 + now.getMinutes();
+
+  var todayClasses = schedule.filter(function(s) {
+    return s.days.indexOf(day) !== -1;
+  }).sort(function(a,b) { return toMins(a.start) - toMins(b.start); });
+
+  if (todayClasses.length === 0) {
+    list.innerHTML = '<div class="sw-noclass-big">✓ No classes today!</div>';
+    return;
+  }
+
+  list.innerHTML = todayClasses.map(function(s) {
+    var st = toMins(s.start), en = toMins(s.end);
+    var cls = '';
+    if (mins >= st && mins < en) cls = 'sw-current-class';
+    else if (mins >= en) cls = 'sw-done-class';
+    return '<div class="sw-day-row ' + cls + '">' +
+      '<span class="sw-day-code">' + s.code + '</span>' +
+      '<span class="sw-day-time">' + s.start + '–' + s.end + '</span>' +
+      '<span class="sw-day-room">' + s.room + '</span>' +
+    '</div>';
+  }).join('');
+}
+
+// Re-render day list every minute in big mode
+setInterval(function() { if (widgetBig) renderDayList(); }, 60000);
+
+// ===================== WIDGET DRAG (isolated — no resize) =====================
+function pinWidget() {
+  var el = document.getElementById('schedule-widget');
+  if (!el) return;
+  el.style.right = '0px';
+  el.style.bottom = '36px';
+  el.style.left = 'auto';
+  el.style.top = 'auto';
+}
+
+var widgetDrag = null;
+
+function startWidgetDrag(e) {
+  if (e.button !== 0) return;
+  var el = document.getElementById('schedule-widget');
+  var rect = el.getBoundingClientRect();
+  // Convert from right/bottom to top/left for drag
+  el.style.left   = rect.left + 'px';
+  el.style.top    = rect.top  + 'px';
+  el.style.right  = 'auto';
+  el.style.bottom = 'auto';
+  widgetDrag = { ox: e.clientX - rect.left, oy: e.clientY - rect.top };
+  e.preventDefault();
+  e.stopPropagation();
+}
+window.addEventListener('mousemove', function(e) {
+  if (!widgetDrag) return;
+  var el = document.getElementById('schedule-widget');
+  if (!el) return;
+  var x = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  e.clientX - widgetDrag.ox));
+  var y = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, e.clientY - widgetDrag.oy));
+  el.style.left = x + 'px';
+  el.style.top  = y + 'px';
+});
+window.addEventListener('mouseup', function() { widgetDrag = null; });
+
+// ===================== WINDOW MANAGER =====================
+var zCounter = 20;
+var openSet = {};
+
+function openWindow(id) {
+  var el = document.getElementById(id);
+  if (!el) { console.error('No element:', id); return; }
+  el.classList.add('open');
+  focusWindow(id);
+  openSet[id] = true;
+  updateTaskbar();
+}
+
+function closeWindow(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('open', 'active', 'inactive', 'minimized');
+  delete openSet[id];
+  delete minimizedSet[id];
+  updateTaskbar();
+  if (id === 'win-asteroids') stopAsteroids();
+}
+function closeAllWindows() {
+  ['win-about','win-projects','win-weekly','win-schedule','win-contact','win-cmd','win-readme','win-asteroids'].forEach(closeWindow);
+}
+
+var minimizedSet = {};
+
+function minimizeWindow(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('minimized');
+  el.classList.remove('active');
+  el.classList.add('inactive');
+  minimizedSet[id] = true;
+  updateTaskbar();
+}
+
+function focusWindow(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  // Restore if minimized
+  el.classList.remove('minimized');
+  delete minimizedSet[id];
+  zCounter++;
+  el.style.zIndex = zCounter;
+  document.querySelectorAll('.win-window').forEach(function(w) {
+    w.classList.remove('active');
+    w.classList.add('inactive');
+  });
+  el.classList.add('active');
+  el.classList.remove('inactive');
+  updateTaskbar();
+}
+
+function updateTaskbar() {
+  var tb = document.getElementById('taskbar-buttons');
+  if (!tb) return;
+  tb.innerHTML = '';
+  var wins = [
+    { id:'win-about',     label:'About Me' },
+    { id:'win-projects',  label:'Projects' },
+    { id:'win-weekly',    label:'Outputs' },
+    { id:'win-schedule',  label:'Schedule' },
+    { id:'win-contact',   label:'Contact' },
+    { id:'win-cmd',       label:'🖥️ cmd.exe' },
+    { id:'win-readme',    label:'📄 README.txt' },
+    { id:'win-asteroids', label:'🚀 Asteroids' },
+  ];
+  wins.forEach(function(w) {
+    if (!openSet[w.id]) return;
+    var btn = document.createElement('button');
+    btn.className = 'taskbar-btn';
+    var el = document.getElementById(w.id);
+    var isMinimized = !!minimizedSet[w.id];
+    var isActive = el && el.classList.contains('active');
+    if (isActive) btn.classList.add('active');
+    if (isMinimized) btn.classList.add('minimized-btn');
+    btn.textContent = w.label;
+    btn.onclick = function() {
+      if (minimizedSet[w.id]) {
+        focusWindow(w.id); // restore
+      } else if (el && el.classList.contains('active')) {
+        minimizeWindow(w.id); // minimize if already focused
+      } else {
+        focusWindow(w.id); // just focus
       }
-      // find next class today or upcoming
-      if (s.days.indexOf(day) !== -1 && start > mins) {
-        var diff = start - mins;
-        if (diff < nextDiff) { nextDiff = diff; next = s; }
+    };
+    tb.appendChild(btn);
+  });
+}
+
+// ===================== DRAG =====================
+var dragState = null;
+
+function startDrag(e, id) {
+  if (e.button !== 0) return;
+  focusWindow(id);
+  var el = document.getElementById(id);
+  var rect = el.getBoundingClientRect();
+  dragState = { id: id, ox: e.clientX - rect.left, oy: e.clientY - rect.top };
+  e.preventDefault();
+}
+
+window.addEventListener('mousemove', function(e) {
+  if (dragState) {
+    var el = document.getElementById(dragState.id);
+    if (el) {
+      var x = Math.max(0, Math.min(window.innerWidth  - 60, e.clientX - dragState.ox));
+      var y = Math.max(0, Math.min(window.innerHeight - 40, e.clientY - dragState.oy));
+      el.style.left = x + 'px';
+      el.style.top  = y + 'px';
+    }
+  }
+  if (resizeState) {
+    var el = document.getElementById(resizeState.id);
+    if (el) {
+      el.style.width  = Math.max(280, resizeState.sw + e.clientX - resizeState.sx) + 'px';
+      el.style.height = Math.max(150, resizeState.sh + e.clientY - resizeState.sy) + 'px';
+    }
+  }
+});
+
+window.addEventListener('mouseup', function() {
+  dragState   = null;
+  resizeState = null;
+});
+
+// ===================== RESIZE =====================
+var resizeState = null;
+
+function startResize(e, id) {
+  if (e.button !== 0) return;
+  focusWindow(id);
+  var el = document.getElementById(id);
+  resizeState = { id: id, sx: e.clientX, sy: e.clientY, sw: el.offsetWidth, sh: el.offsetHeight };
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+// Focus window on click
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.win-window').forEach(function(w) {
+    w.addEventListener('mousedown', function() { focusWindow(this.id); });
+  });
+
+  // Icon interaction: click on unselected = select; click on already-selected = open
+  document.querySelectorAll('.desktop-icon').forEach(function(icon) {
+    icon.addEventListener('click', function() {
+      var win = this.getAttribute('data-window');
+      if (this.classList.contains('selected')) {
+        // Already selected — open it
+        if (win) openWindow(win);
+      } else {
+        // Not selected — just select it
+        document.querySelectorAll('.desktop-icon').forEach(function(i) { i.classList.remove('selected'); });
+        this.classList.add('selected');
       }
     });
+  });
 
-    var pillEl   = document.getElementById("now-subject");
-    var labelEl  = document.getElementById("now-label");
-    var descEl   = document.getElementById("now-desc");
+  var desk = document.getElementById('desktop');
+  if (desk) {
+    desk.addEventListener('click', function(e) {
+      if (!e.target.closest('.desktop-icon')) {
+        document.querySelectorAll('.desktop-icon').forEach(function(i) { i.classList.remove('selected'); });
+      }
+    });
+  }
 
-    if (!pillEl || !labelEl || !descEl) return;
+  updateSchedule();
+  tickClock();
+  setInterval(updateSchedule, 30000);
+  setInterval(tickClock, 5000);
+});
 
+// ===================== START MENU =====================
+var startOpen = false;
+function toggleStartMenu() {
+  startOpen = !startOpen;
+  document.getElementById('start-menu').classList.toggle('open', startOpen);
+}
+function closeStartMenu() {
+  startOpen = false;
+  document.getElementById('start-menu').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  var sb = document.getElementById('start-btn');
+  var sm = document.getElementById('start-menu');
+  if (sb && sm && !sb.contains(e.target) && !sm.contains(e.target)) closeStartMenu();
+});
+
+// ===================== CLOCK =====================
+function tickClock() {
+  var now = new Date();
+  var el = document.getElementById('taskbar-clock');
+  if (el) el.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+}
+
+// ===================== LIVE SCHEDULE =====================
+var schedule = [
+  { days:[1,3], start:"07:30", end:"09:00", code:"GE-FEL TFL", room:"LB485TC" },
+  { days:[2,4], start:"08:00", end:"09:00", code:"TPE 1202",   room:"JBB102TC" },
+  { days:[2,4], start:"09:00", end:"10:30", code:"EDM 2",      room:"MR105TC"  },
+  { days:[1,3], start:"10:00", end:"12:30", code:"CIS 1205",   room:"LB470TC"  },
+  { days:[6],   start:"07:30", end:"10:30", code:"CIS 2106N",  room:"LB446TC"  },
+  { days:[1,3], start:"13:30", end:"15:00", code:"IT 3106",    room:"LB486TC"  },
+  { days:[2,4], start:"13:30", end:"15:00", code:"CIS 1204",   room:"LB484TC"  },
+  { days:[1,3], start:"15:00", end:"17:30", code:"CIS 1201",   room:"LB467TC"  },
+  { days:[2,4], start:"15:00", end:"17:30", code:"CIS 1202",   room:"LB446TC"  },
+  { days:[6],   start:"12:00", end:"15:00", code:"NSTP 2",     room:"1B12c"    },
+];
+
+function toMins(t) { var p=t.split(':'); return +p[0]*60 + +p[1]; }
+
+function updateSchedule() {
+  var now = new Date(), day = now.getDay(), mins = now.getHours()*60 + now.getMinutes();
+  var current = null, next = null, nextDiff = Infinity;
+  schedule.forEach(function(s) {
+    var st = toMins(s.start), en = toMins(s.end);
+    if (s.days.indexOf(day) !== -1 && mins >= st && mins < en) current = s;
+    if (s.days.indexOf(day) !== -1 && st > mins && (st-mins) < nextDiff) { nextDiff = st-mins; next = s; }
+  });
+
+  // ── Full schedule window ──
+  document.querySelectorAll('#sched-table tbody tr').forEach(function(r) {
+    r.classList.toggle('sched-now', !!(current && r.dataset.code === current.code));
+  });
+  var ce = document.getElementById('sched-now-code');
+  var re = document.getElementById('sched-now-room');
+  var ee = document.getElementById('sched-now-eta');
+  var se = document.getElementById('sched-status');
+  if (ce) {
     if (current) {
-      pillEl.textContent  = current.code;
-      labelEl.textContent = "In class";
-      descEl.textContent  = current.room;
+      ce.textContent = current.code; re.textContent = '· '+current.room; ee.textContent = 'In class'; if(se) se.textContent = 'In class: '+current.code;
     } else if (next) {
-      var h = Math.floor(nextDiff / 60), m = nextDiff % 60;
-      var eta = h > 0 ? h + "h " + m + "m" : m + "m";
-      pillEl.textContent  = next.code + " soon";
-      labelEl.textContent = "Up next";
-      descEl.textContent  = next.room + " • in " + eta;
+      var h=Math.floor(nextDiff/60),m=nextDiff%60;
+      ce.textContent = next.code+' (next)'; re.textContent = next.room; ee.textContent = 'in '+(h>0?h+'h ':'')+m+'m'; if(se) se.textContent = 'Up next: '+next.code;
     } else {
-      pillEl.textContent  = "No class";
-      labelEl.textContent = "Free";
-      descEl.textContent  = "Enjoy the break!";
+      ce.textContent = 'No class'; re.textContent = ''; ee.textContent = 'Free!'; if(se) se.textContent = 'No classes today';
     }
   }
 
-  update();
-  setInterval(update, 30000);
-})();
+  // ── Desktop widget ──
+  var swCode     = document.getElementById('sw-code');
+  var swRoom     = document.getElementById('sw-room');
+  var swNextLbl  = document.getElementById('sw-next-label');
+  var swNextVal  = document.getElementById('sw-next-val');
+  var swEtaLbl   = document.getElementById('sw-eta-label');
+  var swEta      = document.getElementById('sw-eta');
+  var swFree     = document.getElementById('sw-free');
+  var swNow      = document.getElementById('sw-content-now');
+  var swTime     = document.getElementById('sw-time');
+
+  if (swTime) {
+    var h2 = String(now.getHours()).padStart(2,'0'), m2 = String(now.getMinutes()).padStart(2,'0');
+    swTime.textContent = h2+':'+m2;
+  }
+
+  if (!swCode) return;
+
+  if (current) {
+    swNow.style.display = ''; swFree.style.display = 'none';
+    swCode.textContent = current.code;
+    swRoom.textContent = current.room + ' · until ' + current.end;
+    if (next) {
+      var nh=Math.floor(nextDiff/60), nm=nextDiff%60;
+      swNextLbl.textContent = 'UP NEXT';
+      swNextVal.textContent = next.code;
+      swEtaLbl.textContent  = 'IN';
+      swEta.textContent     = (nh>0?nh+'h ':'')+nm+'m';
+    } else {
+      swNextLbl.textContent = 'UP NEXT'; swNextVal.textContent = 'None today';
+      swEtaLbl.textContent  = ''; swEta.textContent = '';
+    }
+  } else if (next) {
+    swNow.style.display = ''; swFree.style.display = 'none';
+    swCode.textContent = '— free now —';
+    swRoom.textContent = '';
+    var nh=Math.floor(nextDiff/60), nm=nextDiff%60;
+    swNextLbl.textContent = 'UP NEXT';
+    swNextVal.textContent = next.code;
+    swEtaLbl.textContent  = 'IN';
+    swEta.textContent     = (nh>0?nh+'h ':'')+nm+'m · '+next.room;
+  } else {
+    swNow.style.display = 'none'; swFree.style.display = '';
+  }
+}
+
+// ===================== TABS =====================
+function showTab(name) {
+  var o=document.getElementById('tab-outputs'), s=document.getElementById('tab-skills');
+  var ob=document.getElementById('tab-outputs-btn'), sb=document.getElementById('tab-skills-btn');
+  if(o) o.style.display = name==='outputs' ? '' : 'none';
+  if(s) s.style.display = name==='skills'  ? '' : 'none';
+  if(ob){ ob.style.background=name==='outputs'?'#000080':''; ob.style.color=name==='outputs'?'#fff':''; }
+  if(sb){ sb.style.background=name==='skills'?'#000080':'';  sb.style.color=name==='skills'?'#fff':''; }
+  var ws=document.getElementById('weekly-status'); if(ws) ws.textContent = name==='outputs'?'14 outputs':'5 skills tracked';
+}
+
+// ===================== LIVE WEATHER (Mandaue City) =====================
+// Uses Open-Meteo — free, no API key, coordinates for Mandaue City PH
+// ===================== WEATHER ENGINE =====================
+function fetchWeather() {
+  var url = 'https://api.open-meteo.com/v1/forecast' +
+    '?latitude=10.3236&longitude=123.9223' +
+    '&current=temperature_2m,weathercode,is_day' +
+    '&timezone=Asia%2FManila&forecast_days=1';
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var c = data.current;
+      applyWeather(c.weathercode, Math.round(c.temperature_2m), c.is_day);
+    })
+    .catch(function() {});
+}
+
+function applyWeather(code, temp, isDay) {
+  var body = document.body;
+  body.classList.remove('wx-cloudy','wx-rain','wx-storm','wx-night','wx-fog');
+
+  var icon, label, wxClass;
+  if (!isDay)        { wxClass='wx-night';  icon='🌙'; label='Night'; }
+  else if (code===0) {                       icon='☀️'; label='Clear'; }
+  else if (code<=2)  { wxClass='wx-cloudy'; icon='⛅'; label='Cloudy'; }
+  else if (code===3) { wxClass='wx-cloudy'; icon='☁️'; label='Overcast'; }
+  else if (code<=49) { wxClass='wx-fog';    icon='🌫️'; label='Foggy'; }
+  else if (code<=67) { wxClass='wx-rain';   icon='🌧️'; label='Rain'; }
+  else if (code<=77) { wxClass='wx-rain';   icon='🌨️'; label='Sleet'; }
+  else if (code<=82) { wxClass='wx-rain';   icon='🌦️'; label='Showers'; }
+  else if (code<=99) { wxClass='wx-storm';  icon='⛈️'; label='Storm'; }
+  else               {                       icon='🌤️'; label='Partly Cloudy'; }
+
+  if (wxClass) body.classList.add(wxClass);
+
+  var badge = document.getElementById('wx-badge');
+  if (badge) badge.textContent = icon + ' ' + temp + '°C · ' + label + ' · Mandaue';
+
+  // CSS clouds
+  var clouds = document.querySelectorAll('.pixel-cloud');
+  var showCount = (code===0) ? 4 : (code<=2) ? 6 : 7;
+  clouds.forEach(function(c,i){ c.style.opacity = i < showCount ? '1' : '0'; });
+
+  // Start canvas particle engine
+  startWxCanvas(wxClass || 'wx-clear', isDay);
+}
+
+// ── CANVAS WEATHER PARTICLES ──
+var WX_RAF = null;
+var WX_PARTICLES = [];
+var WX_LIGHTNING = { active:false, timer:0, next:0 };
+var WX_MODE = 'wx-clear';
+
+function startWxCanvas(mode, isDay) {
+  WX_MODE = mode;
+  WX_PARTICLES = [];
+  WX_LIGHTNING = { active:false, timer:0, next:180 + Math.random()*300 };
+
+  var canvas = document.getElementById('wx-canvas');
+  if (!canvas) return;
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  if (WX_RAF) { cancelAnimationFrame(WX_RAF); WX_RAF = null; }
+
+  // Static states - no animation loop needed
+  if (mode === 'wx-clear') { clearWxCanvas(); return; }
+  if (mode === 'wx-cloudy') { clearWxCanvas(); return; }
+  if (mode === 'wx-night') { clearWxCanvas(); startStars(canvas); return; }
+
+  function loop() {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    spawnParticles(mode, canvas);
+    updateAndDraw(ctx, canvas, mode);
+    if (mode === 'wx-storm') handleLightning(ctx, canvas);
+
+    WX_RAF = requestAnimationFrame(loop);
+  }
+  WX_RAF = requestAnimationFrame(loop);
+}
+
+function clearWxCanvas() {
+  var canvas = document.getElementById('wx-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function spawnParticles(mode, canvas) {
+  var W = canvas.width, H = canvas.height;
+
+  if (mode === 'wx-rain' || mode === 'wx-storm') {
+    // Rain drops — spawn from top in bursts
+    var count = mode === 'wx-storm' ? 12 : 6;
+    for (var i = 0; i < count; i++) {
+      WX_PARTICLES.push({
+        type: 'rain',
+        x: Math.random() * W,
+        y: -20 - Math.random() * 60,
+        vx: -1.5 + Math.random() * 0.5,  // slight wind angle
+        vy: 14 + Math.random() * 8,
+        len: 12 + Math.random() * 10,
+        alpha: 0.5 + Math.random() * 0.4
+      });
+    }
+  }
+
+  if (mode === 'wx-fog') {
+    // Fog wisps — large slow horizontal blobs
+    if (WX_PARTICLES.length < 40 && Math.random() < 0.15) {
+      WX_PARTICLES.push({
+        type: 'fog',
+        x: -200,
+        y: Math.random() * H * 0.7,
+        vx: 0.3 + Math.random() * 0.4,
+        vy: (Math.random() - 0.5) * 0.2,
+        r: 80 + Math.random() * 120,
+        alpha: 0.04 + Math.random() * 0.06,
+        life: 1
+      });
+    }
+  }
+}
+
+function updateAndDraw(ctx, canvas, mode) {
+  var W = canvas.width, H = canvas.height;
+
+  for (var i = WX_PARTICLES.length - 1; i >= 0; i--) {
+    var p = WX_PARTICLES[i];
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.type === 'rain') {
+      // Draw raindrop as a line
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.strokeStyle = mode === 'wx-storm' ? '#99bbff' : '#aaccff';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x + p.vx * (p.len / p.vy), p.y + p.len);
+      ctx.stroke();
+
+      // Splat on ground
+      if (p.y > H - 40) {
+        // spawn splat
+        for (var s = 0; s < 3; s++) {
+          WX_PARTICLES.push({
+            type: 'splat',
+            x: p.x, y: p.y,
+            vx: (Math.random() - 0.5) * 3,
+            vy: -Math.random() * 2,
+            alpha: 0.6,
+            r: 2 + Math.random() * 2,
+            life: 1
+          });
+        }
+        WX_PARTICLES.splice(i, 1);
+        ctx.restore();
+        continue;
+      }
+      if (p.y > H + 20) { WX_PARTICLES.splice(i, 1); ctx.restore(); continue; }
+      ctx.restore();
+
+    } else if (p.type === 'splat') {
+      p.life -= 0.08;
+      p.alpha = p.life * 0.6;
+      if (p.life <= 0) { WX_PARTICLES.splice(i, 1); continue; }
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle = mode === 'wx-storm' ? '#99bbff' : '#aaccff';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+    } else if (p.type === 'fog') {
+      // Fog wisps drift across
+      if (p.x > W + 300) { WX_PARTICLES.splice(i, 1); continue; }
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      grad.addColorStop(0, 'rgba(220,220,230,1)');
+      grad.addColorStop(1, 'rgba(220,220,230,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Cap particle count
+  if (WX_PARTICLES.length > 600) WX_PARTICLES.splice(0, 50);
+}
+
+function handleLightning(ctx, canvas) {
+  WX_LIGHTNING.timer++;
+  if (WX_LIGHTNING.timer >= WX_LIGHTNING.next) {
+    WX_LIGHTNING.timer = 0;
+    WX_LIGHTNING.next = 180 + Math.random() * 400;
+    flashLightning(ctx, canvas);
+  }
+}
+
+function flashLightning(ctx, canvas) {
+  var W = canvas.width, H = canvas.height;
+  var x = W * 0.2 + Math.random() * W * 0.6;
+
+  // Draw jagged bolt
+  ctx.save();
+  ctx.globalAlpha = 0.9;
+  ctx.strokeStyle = '#ddeeff';
+  ctx.lineWidth = 2;
+  ctx.shadowColor = '#aaddff';
+  ctx.shadowBlur = 20;
+  ctx.beginPath();
+  var cy = 0;
+  ctx.moveTo(x, cy);
+  while (cy < H * 0.65) {
+    var nx = x + (Math.random() - 0.5) * 80;
+    var ny = cy + 40 + Math.random() * 40;
+    ctx.lineTo(nx, ny);
+    x = nx; cy = ny;
+  }
+  ctx.stroke();
+
+  // Branch
+  ctx.lineWidth = 1;
+  ctx.globalAlpha = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(x, cy);
+  ctx.lineTo(x + (Math.random()-0.5)*100, cy + 60 + Math.random()*60);
+  ctx.stroke();
+  ctx.restore();
+
+  // Screen flash
+  var desktop = document.getElementById('desktop');
+  if (desktop) {
+    desktop.style.filter = 'brightness(1.6)';
+    setTimeout(function() { desktop.style.filter = ''; }, 80);
+    setTimeout(function() { desktop.style.filter = 'brightness(1.3)'; }, 120);
+    setTimeout(function() { desktop.style.filter = ''; }, 180);
+  }
+}
+
+function startStars(canvas) {
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Draw static stars for night mode
+  for (var i = 0; i < 120; i++) {
+    var x = Math.random() * canvas.width;
+    var y = Math.random() * canvas.height * 0.6;
+    var r = Math.random() * 1.5;
+    var a = 0.4 + Math.random() * 0.6;
+    ctx.globalAlpha = a;
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+// Resize canvas on window resize
+window.addEventListener('resize', function() {
+  var canvas = document.getElementById('wx-canvas');
+  if (canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+});
+
+// Fetch on load, refresh every 10 minutes
+fetchWeather();
+setInterval(fetchWeather, 600000);
+
+
+// ── ABOUT BIG MODE ──
+var aboutBig = false;
+function toggleAboutMode() {
+  aboutBig = !aboutBig;
+  var win = document.getElementById('win-about');
+  var compact = document.getElementById('about-compact');
+  var big = document.getElementById('about-big');
+  var btn = document.getElementById('about-expand-btn');
+  if (aboutBig) {
+    compact.style.display = 'none';
+    big.style.display = 'block';
+    win.style.width = '760px';
+    btn.textContent = '⊠';
+    btn.title = 'Compact';
+  } else {
+    compact.style.display = 'block';
+    big.style.display = 'none';
+    win.style.width = '420px';
+    btn.textContent = '⊡';
+    btn.title = 'Expand';
+  }
+}
+
+function switchAboutTab(tab) {
+  ['bio','academic','goals','extra'].forEach(function(t) {
+    document.getElementById('about-tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.about-tab').forEach(function(btn) {
+    btn.classList.toggle('active-tab', btn.getAttribute('onclick').includes("'" + tab + "'"));
+  });
+}
+
+// README BIG MODE
+var readmeBig = false;
+function toggleReadmeMode() {
+  readmeBig = !readmeBig;
+  var win = document.getElementById('win-readme');
+  var compact = document.getElementById('readme-compact');
+  var big = document.getElementById('readme-big');
+  var btn = document.getElementById('readme-expand-btn');
+  if (readmeBig) {
+    compact.style.display = 'none';
+    big.style.display = 'block';
+    win.style.width = '680px';
+    btn.textContent = '⊠';
+    btn.title = 'Compact';
+  } else {
+    compact.style.display = 'block';
+    big.style.display = 'none';
+    win.style.width = '420px';
+    btn.textContent = '⊡';
+    btn.title = 'Expand';
+  }
+}
+
+function switchReadmeTab(tab) {
+  ['commands','usage','tips'].forEach(function(t) {
+    document.getElementById('readme-tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('#readme-tabs .about-tab').forEach(function(btn) {
+    btn.classList.toggle('active-tab', btn.getAttribute('onclick').includes("'" + tab + "'"));
+  });
+}
+
+function dismissWelcome() {
+  closeWindow('welcome-win');
+}
+
+// ===================== CMD CONSOLE =====================
+var cmdHistory = [];
+var cmdHistIdx = -1;
+
+var userEvents = JSON.parse(localStorage.getItem('rovel_events') || '[]');
+var stickyNotes = JSON.parse(localStorage.getItem('rovel_notes') || '[]');
+
+var DAYS_MAP = {
+  monday:1, mon:1, tuesday:2, tue:2, wednesday:3, wed:3,
+  thursday:4, thu:4, friday:5, fri:5, saturday:6, sat:6, sunday:0, sun:0
+};
+
+function cmdPrint(text, cls) {
+  var out = document.getElementById('cmd-output');
+  if (!out) return;
+  var line = document.createElement('div');
+  if (cls) line.className = cls;
+  line.innerHTML = text;
+  out.appendChild(line);
+  var body = document.getElementById('cmd-body');
+  if (body) body.scrollTop = body.scrollHeight;
+}
+
+function cmdBlank() { cmdPrint('&nbsp;'); }
+
+function cmdKeyDown(e) {
+  var inp = document.getElementById('cmd-input');
+  if (e.key === 'Enter') {
+    var val = inp.value.trim();
+    cmdPrint('C:\\ROVEL&gt;&nbsp;' + escHtml(val), 'cmd-dim');
+    if (val) { cmdHistory.unshift(val); cmdHistIdx = -1; }
+    inp.value = '';
+    runCmd(val);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (cmdHistIdx < cmdHistory.length - 1) { cmdHistIdx++; inp.value = cmdHistory[cmdHistIdx]; }
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (cmdHistIdx > 0) { cmdHistIdx--; inp.value = cmdHistory[cmdHistIdx]; }
+    else { cmdHistIdx = -1; inp.value = ''; }
+  }
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function runCmd(raw) {
+  var parts = parseCmd(raw);
+  var cmd = (parts[0] || '').toLowerCase();
+
+  switch(cmd) {
+    case '': break;
+    case 'help': cmdHelp(); break;
+    case 'clear': case 'cls': document.getElementById('cmd-output').innerHTML = ''; break;
+    case 'about': cmdAbout(); break;
+    case 'event': cmdEvent(parts.slice(1)); break;
+    case 'note': cmdNote(parts.slice(1)); break;
+    case 'rovel': cmdEasterEgg(); break;
+    case 'wx': cmdWx(parts.slice(1)); break;
+    case 'exit': closeWindow('win-cmd'); break;
+    default:
+      cmdPrint('<span class="cmd-error">\'' + escHtml(cmd) + '\' is not recognized as an internal or external command.</span>');
+      cmdPrint('<span class="cmd-dim">Type HELP for available commands.</span>');
+  }
+  cmdBlank();
+}
+
+function parseCmd(raw) {
+  var parts = [];
+  var re = /(?:[^\s"]+|"[^"]*")+/g;
+  var m;
+  while ((m = re.exec(raw)) !== null) {
+    parts.push(m[0].replace(/^"|"$/g, ''));
+  }
+  return parts;
+}
+
+function cmdHelp() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-info">ROVEL OS — Available Commands</span>');
+  cmdPrint('<span class="cmd-dim">──────────────────────────────────────</span>');
+  cmdPrint('  <span class="cmd-success">help</span>                      Show this list');
+  cmdPrint('  <span class="cmd-success">about</span>                     About this system');
+  cmdPrint('  <span class="cmd-success">clear</span>                     Clear the terminal');
+  cmdPrint('  <span class="cmd-success">event add &lt;day&gt; &lt;HH:MM&gt; "&lt;title&gt;"</span>');
+  cmdPrint('                            Add personal event to schedule');
+  cmdPrint('  <span class="cmd-success">event list</span>                List all your events');
+  cmdPrint('  <span class="cmd-success">event remove &lt;id&gt;</span>         Remove an event by ID');
+  cmdPrint('  <span class="cmd-success">note "&lt;text&gt;"</span>             Pin a sticky note to desktop');
+  cmdPrint('  <span class="cmd-success">note list</span>                  List all sticky notes');
+  cmdPrint('  <span class="cmd-success">note remove &lt;id&gt;</span>          Remove a sticky note by ID');
+  cmdPrint('  <span class="cmd-success">exit</span>                      Close this window');
+  cmdPrint('  <span class="cmd-success">wx &lt;state&gt;</span>               Force weather state for testing');
+  cmdPrint('<span class="cmd-dim">                            states: clear cloudy overcast rain storm fog night auto</span>');
+  cmdPrint('<span class="cmd-dim">──────────────────────────────────────</span>');
+  cmdPrint('<span class="cmd-dim">  ??? There may be other commands...</span>');
+}
+
+function cmdAbout() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-info">ROVEL OS v1.0 — Built by Rovel Floriane S. Lumapas</span>');
+  cmdPrint('<span class="cmd-dim">BSIT Student · University of San Carlos · Cebu, PH</span>');
+  cmdPrint('<span class="cmd-dim">Raw HTML/CSS/JS. No frameworks. Pure student energy.</span>');
+}
+
+// ── EVENT COMMANDS ──
+function cmdEvent(args) {
+  var sub = (args[0] || '').toLowerCase();
+  if (sub === 'list') {
+    cmdBlank();
+    if (!userEvents.length) { cmdPrint('<span class="cmd-dim">No personal events. Use: event add &lt;day&gt; &lt;HH:MM&gt; "title"</span>'); return; }
+    cmdPrint('<span class="cmd-info">Your Events:</span>');
+    userEvents.forEach(function(ev) {
+      cmdPrint('  [<span class="cmd-success">' + ev.id + '</span>] ' + ev.day.toUpperCase() + ' ' + ev.time + ' — ' + escHtml(ev.title));
+    });
+    return;
+  }
+  if (sub === 'remove') {
+    var id = parseInt(args[1]);
+    var before = userEvents.length;
+    userEvents = userEvents.filter(function(e) { return e.id !== id; });
+    if (userEvents.length < before) {
+      saveEvents();
+      cmdPrint('<span class="cmd-success">Event removed.</span>');
+      updateSchedule();
+    } else {
+      cmdPrint('<span class="cmd-error">No event with ID ' + id + '.</span>');
+    }
+    return;
+  }
+  if (sub === 'add') {
+    var day = (args[1] || '').toLowerCase();
+    var time = args[2] || '';
+    var title = args[3] || '';
+    if (!DAYS_MAP.hasOwnProperty(day)) {
+      cmdPrint('<span class="cmd-error">Unknown day: ' + escHtml(day) + '</span>');
+      cmdPrint('<span class="cmd-dim">Use: monday, tuesday, wednesday, thursday, friday, saturday, sunday</span>');
+      return;
+    }
+    if (!/^\d{1,2}:\d{2}$/.test(time)) {
+      cmdPrint('<span class="cmd-error">Invalid time. Use HH:MM format (e.g. 18:00)</span>');
+      return;
+    }
+    if (!title) {
+      cmdPrint('<span class="cmd-error">Missing title. Usage: event add friday 18:00 "Date night 🌙"</span>');
+      return;
+    }
+    var newId = Date.now() % 100000;
+    userEvents.push({ id: newId, day: day, dayNum: DAYS_MAP[day], time: time, title: title });
+    saveEvents();
+    updateSchedule();
+    cmdPrint('<span class="cmd-success">✓ Event added!</span> [ID: ' + newId + ']');
+    cmdPrint('  <span class="cmd-info">' + day.toUpperCase() + ' ' + time + ' — ' + escHtml(title) + '</span>');
+    return;
+  }
+  cmdPrint('<span class="cmd-error">Usage: event add &lt;day&gt; &lt;HH:MM&gt; "&lt;title&gt;"</span>');
+  cmdPrint('<span class="cmd-dim">       event list</span>');
+  cmdPrint('<span class="cmd-dim">       event remove &lt;id&gt;</span>');
+}
+
+function saveEvents() {
+  localStorage.setItem('rovel_events', JSON.stringify(userEvents));
+}
+
+// ── NOTE COMMANDS ──
+function cmdNote(args) {
+  var sub = (args[0] || '').toLowerCase();
+  if (sub === 'list') {
+    cmdBlank();
+    if (!stickyNotes.length) { cmdPrint('<span class="cmd-dim">No sticky notes. Use: note "your text here"</span>'); return; }
+    cmdPrint('<span class="cmd-info">Sticky Notes:</span>');
+    stickyNotes.forEach(function(n) {
+      cmdPrint('  [<span class="cmd-success">' + n.id + '</span>] ' + escHtml(n.text.substring(0,60)) + (n.text.length>60?'…':''));
+    });
+    return;
+  }
+  if (sub === 'remove') {
+    var id = parseInt(args[1]);
+    var el = document.getElementById('sticky-' + id);
+    if (el) el.remove();
+    var before = stickyNotes.length;
+    stickyNotes = stickyNotes.filter(function(n) { return n.id !== id; });
+    if (stickyNotes.length < before) {
+      saveNotes();
+      cmdPrint('<span class="cmd-success">Note removed.</span>');
+    } else {
+      cmdPrint('<span class="cmd-error">No note with ID ' + id + '.</span>');
+    }
+    return;
+  }
+  // treat first arg as the text (already parsed, quotes stripped)
+  var text = args[0] || '';
+  if (!text) {
+    cmdPrint('<span class="cmd-error">Usage: note "your text here"</span>');
+    cmdPrint('<span class="cmd-dim">       note list</span>');
+    cmdPrint('<span class="cmd-dim">       note remove &lt;id&gt;</span>');
+    return;
+  }
+  var newId = Date.now() % 100000;
+  var note = { id: newId, text: text, x: 200 + Math.random()*200, y: 100 + Math.random()*150 };
+  stickyNotes.push(note);
+  saveNotes();
+  renderNote(note);
+  cmdPrint('<span class="cmd-success">✓ Note pinned to desktop!</span> [ID: ' + newId + ']');
+}
+
+function saveNotes() {
+  localStorage.setItem('rovel_notes', JSON.stringify(stickyNotes));
+}
+
+function renderNote(note) {
+  var desktop = document.getElementById('desktop');
+  if (!desktop) return;
+  var el = document.createElement('div');
+  el.className = 'sticky-note';
+  el.id = 'sticky-' + note.id;
+  el.style.left = note.x + 'px';
+  el.style.top  = note.y + 'px';
+  el.innerHTML =
+    '<div class="sticky-titlebar" onmousedown="startDrag(event,\'sticky-' + note.id + '\')">' +
+      '<span>📌 NOTE</span>' +
+      '<span class="sticky-close" onclick="removeNote(' + note.id + ')">✕</span>' +
+    '</div>' +
+    '<div class="sticky-body">' + escHtml(note.text) + '</div>' +
+    '<div class="sticky-id">id:' + note.id + '</div>';
+  desktop.appendChild(el);
+}
+
+function removeNote(id) {
+  var el = document.getElementById('sticky-' + id);
+  if (el) el.remove();
+  stickyNotes = stickyNotes.filter(function(n) { return n.id !== id; });
+  saveNotes();
+}
+
+function loadStickyNotes() {
+  stickyNotes.forEach(renderNote);
+}
+
+// ── EASTER EGG ──
+var eggState = null;
+
+function cmdEasterEgg() {
+  // Phase 1: BSOD
+  var bsod = document.getElementById('bsod-overlay');
+  bsod.classList.add('show');
+
+  function dismissBsod() {
+    bsod.classList.remove('show');
+    document.removeEventListener('keydown', dismissBsod);
+    bsod.removeEventListener('click', dismissBsod);
+    setTimeout(showAsciiAndGame, 300);
+  }
+  document.addEventListener('keydown', dismissBsod);
+  bsod.addEventListener('click', dismissBsod);
+}
+
+function showAsciiAndGame() {
+  openWindow('win-cmd');
+  var out = document.getElementById('cmd-output');
+  if (out) out.innerHTML = '';
+
+  cmdPrint('<span class="cmd-error">FATAL ERROR: identity.exe has stopped working</span>');
+  cmdBlank();
+
+  // Typewriter ASCII art
+  var ascii = [
+    ' ____   _____  _    _ _____  _',
+    '|  _ \\ / ___ || |  | |  ___|| |',
+    '| |_) | |   | | |  | | |__  | |',
+    '|    /| |   | | |  | |  __| | |',
+    '| |\\ \\| |___| | |__| | |___  \\___',
+    '|_| \\_|\\_____/ |_____/|_____|  ___/',
+    '',
+    '       Floriane · Lumapas · USC · BSIT',
+    '   "Ships code. Leads teams. Writes stories."',
+    '      3rd place hackathon. First in CS. 🏆',
+  ];
+
+  var i = 0;
+  function typeNext() {
+    if (i < ascii.length) {
+      cmdPrint('<span class="cmd-ascii">' + escHtml(ascii[i]) + '</span>');
+      i++;
+      setTimeout(typeNext, 60);
+    } else {
+      setTimeout(startGame, 400);
+    }
+  }
+  typeNext();
+}
+
+// ── MINI GAME: ASTEROIDS ──
+function startGame() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-success">  🚀 Launching ASTEROIDS.EXE...</span>');
+  cmdBlank();
+  setTimeout(function() { openAsteroids(); }, 400);
+}
+
+function openAsteroids() {
+  // Create window if not exists
+  if (!document.getElementById('win-asteroids')) {
+    var win = document.createElement('div');
+    win.className = 'win-window';
+    win.id = 'win-asteroids';
+    win.style.cssText = 'width:480px;top:60px;left:160px;';
+    win.innerHTML =
+      '<div class="win-titlebar" onmousedown="startDrag(event,\'win-asteroids\')">' +
+        '<div class="win-title"><span class="win-title-icon">🚀</span> ASTEROIDS.EXE</div>' +
+        '<div class="win-controls">' +
+          '<button class="win-btn" onclick="minimizeWindow(\'win-asteroids\')">_</button>' +
+          '<button class="win-btn">□</button>' +
+          '<button class="win-btn win-btn-close" onclick="closeAsteroids()">✕</button>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:#000;display:flex;flex-direction:column;align-items:center;padding:8px;gap:6px;">' +
+        '<canvas id="asteroids-canvas" width="460" height="340" style="display:block;background:#000;border:1px solid #333;"></canvas>' +
+        '<div style="display:flex;gap:16px;align-items:center;">' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#0f0;">SCORE: <span id="ast-score">0</span></span>' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#0f0;">LIVES: <span id="ast-lives">3</span></span>' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#ff0;">LEVEL: <span id="ast-level">1</span></span>' +
+        '</div>' +
+        '<div style="font-family:\'Press Start 2P\',monospace;font-size:6px;color:#555;text-align:center;line-height:2;">' +
+          'ARROWS/WASD: MOVE &nbsp;|&nbsp; Q/E: STRAFE &nbsp;|&nbsp; CLICK: SHOOT &nbsp;|&nbsp; SPACE: DODGE &nbsp;|&nbsp; P: PAUSE' +
+        '</div>' +
+      '</div>';
+    document.getElementById('desktop').appendChild(win);
+  }
+  openWindow('win-asteroids');
+  setTimeout(initAsteroids, 100);
+}
+
+function closeAsteroids() {
+  stopAsteroids();
+  closeWindow('win-asteroids');
+}
+
+// ── ASTEROIDS ENGINE ──
+var AST = null;
+
+function stopAsteroids() {
+  if (AST && AST.raf) { cancelAnimationFrame(AST.raf); }
+  if (AST) {
+    document.removeEventListener('keydown', AST.keydown);
+    document.removeEventListener('keyup', AST.keyup);
+    var c = document.getElementById('asteroids-canvas');
+    if (c && AST.mousedown) c.removeEventListener('mousedown', AST.mousedown);
+  }
+  AST = null;
+}
+
+function initAsteroids() {
+  stopAsteroids();
+  var canvas = document.getElementById('asteroids-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+
+  AST = {
+    raf: null, paused: false, over: false, started: false,
+    score: 0, lives: 3, level: 1,
+    keys: {},
+    ship: null, bullets: [], asteroids: [], particles: [],
+    invTimer: 0, dodgeCool: 0, dodgeTimer: 0,
+    ctx: ctx, W: W, H: H,
+    keydown: null, keyup: null
+  };
+
+  function mkShip() {
+    return {
+      x: W/2, y: H/2, vx: 0, vy: 0,
+      angle: -Math.PI/2,
+      thrusting: false, reversing: false, strafingL: false, strafingR: false
+    };
+  }
+
+  function mkAsteroid(x, y, r) {
+    var ang = Math.random() * Math.PI * 2;
+    var spd = (0.6 + Math.random() * 0.9) * (1 + (AST.level - 1) * 0.08);
+    var pts = [];
+    var n = 10 + Math.floor(Math.random() * 5);
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * Math.PI * 2;
+      var jitter = r * (0.72 + Math.random() * 0.32);
+      pts.push({ x: Math.cos(a) * jitter, y: Math.sin(a) * jitter });
+    }
+    var orbitDir = Math.random() > 0.5 ? 1 : -1;
+    return {
+      x: x, y: y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd,
+      r: r, pts: pts, rot: 0, rotSpd: (Math.random()-0.5)*0.04,
+      orbitDir: orbitDir, orbitStrength: 0.004 + Math.random() * 0.004
+    };
+  }
+
+  function spawnWave() {
+    AST.asteroids = [];
+    var count = Math.min(3 + AST.level, 8);
+    for (var i = 0; i < count; i++) {
+      var x, y, tries = 0;
+      do {
+        var edge = Math.floor(Math.random() * 4);
+        if (edge === 0) { x = Math.random()*W; y = -50; }
+        else if (edge === 1) { x = Math.random()*W; y = H+50; }
+        else if (edge === 2) { x = -50; y = Math.random()*H; }
+        else { x = W+50; y = Math.random()*H; }
+        tries++;
+      } while (tries < 20 && Math.hypot(x - W/2, y - H/2) < 150);
+      AST.asteroids.push(mkAsteroid(x, y, 36));
+    }
+  }
+
+  function mkParticles(x, y, n, col) {
+    for (var i = 0; i < n; i++) {
+      var ang = Math.random() * Math.PI * 2;
+      var spd = 1 + Math.random() * 3;
+      AST.particles.push({ x:x, y:y, vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd, life:1, col:col||'#fff' });
+    }
+  }
+
+  AST.ship = mkShip();
+  spawnWave();
+
+  AST.mousedown = function(e) {
+    if (e.button !== 0) return;
+    if (!AST.started) { AST.started = true; return; }
+    if (!AST.paused && !AST.over) shoot();
+  };
+  canvas.addEventListener('mousedown', AST.mousedown);
+
+  AST.keydown = function(e) {
+    AST.keys[e.code] = true;
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)) e.preventDefault();
+    if (e.code === 'KeyP') AST.paused = !AST.paused;
+    if (e.code === 'Space' && !AST.paused && !AST.over && AST.started) dodge();
+    if (e.code === 'Enter' && AST.over) { initAsteroids(); return; }
+    if (e.code === 'Space' && !AST.started) { AST.started = true; }
+  };
+  AST.keyup = function(e) { delete AST.keys[e.code]; };
+  document.addEventListener('keydown', AST.keydown);
+  document.addEventListener('keyup', AST.keyup);
+
+  var shootCool = 0;
+
+  function shoot() {
+    if (shootCool > 0) return;
+    var s = AST.ship;
+    var bvx = Math.cos(s.angle) * 10 + s.vx * 0.5;
+    var bvy = Math.sin(s.angle) * 10 + s.vy * 0.5;
+    AST.bullets.push({
+      x: s.x + Math.cos(s.angle)*14,
+      y: s.y + Math.sin(s.angle)*14,
+      vx: bvx, vy: bvy, life: 52
+    });
+    shootCool = 9;
+  }
+
+  function dodge() {
+    if (AST.dodgeCool > 0) return;
+    var s = AST.ship;
+    var spd = Math.hypot(s.vx, s.vy);
+    var dx, dy;
+    if (spd > 0.5) {
+      dx = s.vx / spd; dy = s.vy / spd;
+    } else {
+      dx = Math.cos(s.angle); dy = Math.sin(s.angle);
+    }
+    s.vx = dx * 9; s.vy = dy * 9;
+    AST.dodgeTimer = 22;
+    AST.invTimer = Math.max(AST.invTimer, 22);
+    AST.dodgeCool = 90;
+    for (var i = 0; i < 8; i++) {
+      AST.particles.push({
+        x: s.x - dx*i*3 + (Math.random()-0.5)*6,
+        y: s.y - dy*i*3 + (Math.random()-0.5)*6,
+        vx: -dx*(1+Math.random()) + (Math.random()-0.5),
+        vy: -dy*(1+Math.random()) + (Math.random()-0.5),
+        life: 0.7, col: '#0ff'
+      });
+    }
+  }
+
+  function wrap(obj) {
+    if (obj.x < -50)  obj.x += W + 100;
+    if (obj.x > W+50) obj.x -= W + 100;
+    if (obj.y < -50)  obj.y += H + 100;
+    if (obj.y > H+50) obj.y -= H + 100;
+  }
+
+  function update() {
+    if (AST.paused || AST.over || !AST.started) return;
+    shootCool      = Math.max(0, shootCool - 1);
+    AST.dodgeCool  = Math.max(0, AST.dodgeCool - 1);
+    AST.dodgeTimer = Math.max(0, AST.dodgeTimer - 1);
+    if (AST.invTimer > 0) AST.invTimer--;
+
+    var s = AST.ship;
+
+    if (AST.keys['ArrowLeft']  || AST.keys['KeyA']) s.angle -= 0.07;
+    if (AST.keys['ArrowRight'] || AST.keys['KeyD']) s.angle += 0.07;
+
+    s.thrusting = !!(AST.keys['ArrowUp'] || AST.keys['KeyW']);
+    if (s.thrusting) {
+      s.vx += Math.cos(s.angle) * 0.28;
+      s.vy += Math.sin(s.angle) * 0.28;
+    }
+    s.reversing = !!(AST.keys['ArrowDown'] || AST.keys['KeyS']);
+    if (s.reversing) {
+      s.vx -= Math.cos(s.angle) * 0.18;
+      s.vy -= Math.sin(s.angle) * 0.18;
+    }
+    s.strafingL = !!AST.keys['KeyQ'];
+    s.strafingR = !!AST.keys['KeyE'];
+    if (s.strafingL) {
+      s.vx += Math.cos(s.angle - Math.PI/2) * 0.18;
+      s.vy += Math.sin(s.angle - Math.PI/2) * 0.18;
+    }
+    if (s.strafingR) {
+      s.vx += Math.cos(s.angle + Math.PI/2) * 0.18;
+      s.vy += Math.sin(s.angle + Math.PI/2) * 0.18;
+    }
+
+    s.vx *= 0.982; s.vy *= 0.982;
+    var spd = Math.hypot(s.vx, s.vy);
+    if (spd > 7) { s.vx = s.vx/spd*7; s.vy = s.vy/spd*7; }
+    s.x += s.vx; s.y += s.vy;
+    wrap(s);
+
+    for (var i = AST.bullets.length-1; i >= 0; i--) {
+      var b = AST.bullets[i];
+      b.x += b.vx; b.y += b.vy; b.life--;
+      wrap(b);
+      if (b.life <= 0) { AST.bullets.splice(i,1); continue; }
+      var hit = false;
+      for (var j = AST.asteroids.length-1; j >= 0; j--) {
+        var a = AST.asteroids[j];
+        if (Math.hypot(b.x-a.x, b.y-a.y) < a.r * 0.88) {
+          AST.bullets.splice(i,1);
+          hitAsteroid(j);
+          hit = true; break;
+        }
+      }
+    }
+
+    for (var i = 0; i < AST.asteroids.length; i++) {
+      var a = AST.asteroids[i];
+
+      var dx = s.x - a.x, dy = s.y - a.y;
+      var dist = Math.hypot(dx, dy) || 1;
+      var perpX = -dy/dist * a.orbitDir;
+      var perpY =  dx/dist * a.orbitDir;
+      a.vx += (perpX * 0.7 + dx/dist * 0.15) * a.orbitStrength;
+      a.vy += (perpY * 0.7 + dy/dist * 0.15) * a.orbitStrength;
+
+      var aspd = Math.hypot(a.vx, a.vy);
+      var maxAspd = (0.8 + Math.random()*0.3) * (1 + (AST.level-1)*0.08);
+      if (aspd > maxAspd + 1) { a.vx = a.vx/aspd*(maxAspd+1); a.vy = a.vy/aspd*(maxAspd+1); }
+
+      a.x += a.vx; a.y += a.vy; a.rot += a.rotSpd;
+      wrap(a);
+
+      var onScreen = a.x > -a.r && a.x < W+a.r && a.y > -a.r && a.y < H+a.r;
+      if (onScreen && AST.invTimer === 0 && Math.hypot(s.x-a.x, s.y-a.y) < a.r * 0.55) {
+        killShip();
+      }
+    }
+
+    for (var i = AST.particles.length-1; i >= 0; i--) {
+      var p = AST.particles[i];
+      p.x += p.vx; p.y += p.vy; p.life -= 0.025;
+      if (p.life <= 0) AST.particles.splice(i,1);
+    }
+
+    if (AST.asteroids.length === 0) {
+      AST.level++;
+      document.getElementById('ast-level').textContent = AST.level;
+      mkParticles(W/2, H/2, 30, '#ff0');
+      setTimeout(spawnWave, 800);
+    }
+
+    document.getElementById('ast-score').textContent = AST.score;
+    document.getElementById('ast-lives').textContent = AST.lives;
+  }
+
+  function hitAsteroid(j) {
+    var a = AST.asteroids[j];
+    var pts = a.r > 22 ? 20 : a.r > 12 ? 50 : 100;
+    AST.score += pts * AST.level;
+    mkParticles(a.x, a.y, 10, '#fa0');
+    AST.asteroids.splice(j, 1);
+    if (a.r > 20) {
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*20, a.y + (Math.random()-0.5)*20, Math.round(a.r*0.52)));
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*20, a.y + (Math.random()-0.5)*20, Math.round(a.r*0.52)));
+    } else if (a.r > 11) {
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*14, a.y + (Math.random()-0.5)*14, Math.round(a.r*0.52)));
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*14, a.y + (Math.random()-0.5)*14, Math.round(a.r*0.52)));
+    }
+  }
+
+  function killShip() {
+    mkParticles(AST.ship.x, AST.ship.y, 22, '#f44');
+    AST.lives--;
+    document.getElementById('ast-lives').textContent = AST.lives;
+    if (AST.lives <= 0) { AST.over = true; return; }
+    AST.ship = mkShip();
+    AST.invTimer = 240;
+  }
+
+  function drawShip(s) {
+    if (AST.invTimer > 0 && AST.dodgeTimer === 0 && Math.floor(AST.invTimer/6)%2===0) return;
+    ctx.save();
+    ctx.translate(s.x, s.y);
+    ctx.rotate(s.angle);
+
+    if (AST.dodgeTimer > 0) {
+      ctx.shadowColor = '#0ff';
+      ctx.shadowBlur = 12;
+    }
+
+    ctx.strokeStyle = AST.dodgeTimer > 0 ? '#fff' : '#0ff';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(14, 0);
+    ctx.lineTo(-10, 8);
+    ctx.lineTo(-6, 0);
+    ctx.lineTo(-10, -8);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+
+    if (s.thrusting && Math.random() > 0.3) {
+      ctx.strokeStyle = Math.random() > 0.5 ? '#f80' : '#ff0';
+      ctx.beginPath();
+      ctx.moveTo(-6, 4);
+      ctx.lineTo(-14 - Math.random()*8, 0);
+      ctx.lineTo(-6, -4);
+      ctx.stroke();
+    }
+    if (s.reversing && Math.random() > 0.4) {
+      ctx.strokeStyle = '#88f';
+      ctx.beginPath();
+      ctx.moveTo(10, 4);
+      ctx.lineTo(18 + Math.random()*4, 6);
+      ctx.moveTo(10, -4);
+      ctx.lineTo(18 + Math.random()*4, -6);
+      ctx.stroke();
+    }
+    if (s.strafingL && Math.random() > 0.4) {
+      ctx.strokeStyle = '#0a8';
+      ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(0, -11 - Math.random()*4); ctx.stroke();
+    }
+    if (s.strafingR && Math.random() > 0.4) {
+      ctx.strokeStyle = '#0a8';
+      ctx.beginPath(); ctx.moveTo(0, 5); ctx.lineTo(0, 11 + Math.random()*4); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawAsteroid(a) {
+    ctx.save();
+    ctx.translate(a.x, a.y);
+    ctx.rotate(a.rot);
+    ctx.strokeStyle = '#888';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(a.pts[0].x, a.pts[0].y);
+    for (var i = 1; i < a.pts.length; i++) ctx.lineTo(a.pts[i].x, a.pts[i].y);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawHUD() {
+    var barW = 60, barH = 6;
+    var bx = 8, by = H - 18;
+    ctx.fillStyle = '#222';
+    ctx.fillRect(bx, by, barW, barH);
+    var pct = 1 - (AST.dodgeCool / 90);
+    ctx.fillStyle = pct >= 1 ? '#0ff' : '#088';
+    ctx.fillRect(bx, by, Math.round(barW * pct), barH);
+    ctx.strokeStyle = '#444';
+    ctx.strokeRect(bx, by, barW, barH);
+    ctx.fillStyle = '#0ff';
+    ctx.font = '5px "Press Start 2P", monospace';
+    ctx.fillText('DODGE', bx, by - 3);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.fillStyle = '#fff';
+    for (var i = 0; i < 60; i++) {
+      var sx = (i * 137 + 17) % W;
+      var sy = (i * 97  + 31) % H;
+      ctx.globalAlpha = 0.15 + (i%3)*0.1;
+      ctx.fillRect(sx, sy, 1, 1);
+    }
+    ctx.globalAlpha = 1;
+
+    if (!AST.started) {
+      ctx.fillStyle = '#0f0';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('ASTEROIDS', W/2, H/2 - 30);
+      ctx.font = '6px "Press Start 2P", monospace';
+      ctx.fillStyle = '#ff0';
+      ctx.fillText('PRESS SPACE TO START', W/2, H/2);
+      ctx.fillStyle = '#0ff';
+      ctx.fillText('ARROWS/WASD: MOVE  |  Q/E: STRAFE', W/2, H/2 + 18);
+      ctx.fillText('CLICK: SHOOT  |  SPACE: DODGE  |  P: PAUSE', W/2, H/2 + 32);
+      ctx.fillStyle = '#333';
+      ctx.fillText('type  rovel  in cmd to unlock', W/2, H/2 + 52);
+      ctx.textAlign = 'left';
+      return;
+    }
+
+    AST.particles.forEach(function(p) {
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.col;
+      ctx.fillRect(p.x-1, p.y-1, 3, 3);
+    });
+    ctx.globalAlpha = 1;
+
+    AST.bullets.forEach(function(b) {
+      ctx.fillStyle = '#ff0';
+      ctx.fillRect(b.x-2, b.y-2, 4, 4);
+    });
+
+    AST.asteroids.forEach(drawAsteroid);
+    drawShip(AST.ship);
+    drawHUD();
+
+    if (AST.paused) {
+      ctx.fillStyle = 'rgba(0,0,0,0.55)';
+      ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#ff0';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('PAUSED', W/2, H/2);
+      ctx.textAlign = 'left';
+    }
+
+    if (AST.over) {
+      ctx.fillStyle = 'rgba(0,0,0,0.65)';
+      ctx.fillRect(0,0,W,H);
+      ctx.textAlign = 'center';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.fillStyle = '#f44';
+      ctx.fillText('GAME OVER', W/2, H/2 - 28);
+      ctx.font = '7px "Press Start 2P", monospace';
+      ctx.fillStyle = '#fff';
+      ctx.fillText('SCORE: ' + AST.score, W/2, H/2);
+      ctx.fillStyle = '#0f0';
+      ctx.fillText('PRESS ENTER TO RETRY', W/2, H/2 + 24);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  function loop() { update(); draw(); AST.raf = requestAnimationFrame(loop); }
+  AST.raf = requestAnimationFrame(loop);
+}
+
+var _origRunCmd = runCmd;
+runCmd = function(raw) {
+  _origRunCmd(raw);
+};
+
+// ── WX TEST COMMAND ──
+var WX_STATES = {
+  clear:    { code: 0,  isDay: 1, temp: 32 },
+  cloudy:   { code: 2,  isDay: 1, temp: 30 },
+  overcast: { code: 3,  isDay: 1, temp: 29 },
+  fog:      { code: 45, isDay: 1, temp: 27 },
+  rain:     { code: 61, isDay: 1, temp: 26 },
+  storm:    { code: 95, isDay: 1, temp: 25 },
+  night:    { code: 0,  isDay: 0, temp: 28 },
+};
+
+function cmdWx(args) {
+  var state = (args[0] || '').toLowerCase();
+  if (!state) {
+    cmdPrint('<span class="cmd-error">Usage: wx &lt;state&gt;</span>');
+    cmdPrint('<span class="cmd-dim">States: clear  cloudy  overcast  fog  rain  storm  night  auto</span>');
+    return;
+  }
+  if (state === 'auto') {
+    fetchWeather();
+    cmdPrint('<span class="cmd-success">✓ Fetching live weather from Mandaue...</span>');
+    return;
+  }
+  var wx = WX_STATES[state];
+  if (!wx) {
+    cmdPrint('<span class="cmd-error">Unknown state: ' + escHtml(state) + '</span>');
+    cmdPrint('<span class="cmd-dim">Try: clear  cloudy  overcast  fog  rain  storm  night  auto</span>');
+    return;
+  }
+  applyWeather(wx.code, wx.temp, wx.isDay);
+  cmdPrint('<span class="cmd-success">✓ Weather set to: ' + state.toUpperCase() + ' (' + wx.temp + '°C)</span>');
+}
+
+// ── CMD BOOT MESSAGE ──
+function cmdBoot() {
+  var out = document.getElementById('cmd-output');
+
+  if (!out || out.children.length > 0) return;
+  cmdPrint('<span class="cmd-info">ROVEL OS [Version 1.0.0]</span>');
+  cmdPrint('<span class="cmd-dim">(C) 2025 Rovel Floriane S. Lumapas. All rights reserved.</span>');
+  cmdBlank();
+  cmdPrint('<span class="cmd-dim">Type HELP for available commands.</span>');
+  cmdBlank();
+}
+
+// ── INTEGRATE USER EVENTS INTO SCHEDULE ──
+var _origUpdateSchedule = updateSchedule;
+updateSchedule = function() {
+  _origUpdateSchedule();
+  if (typeof renderDayList === 'function' && document.getElementById('sw-big') &&
+      document.getElementById('sw-big').style.display !== 'none') {
+    renderDayList();
+  }
+};
+
+// Patch schedule to include user events
+var _origSchedule = schedule;
+Object.defineProperty(window, 'schedule', {
+  get: function() {
+    var base = _origSchedule.slice();
+    userEvents.forEach(function(ev) {
+      base.push({
+        days: [ev.dayNum],
+        start: ev.time,
+        end: padEndTime(ev.time),
+        code: ev.title,
+        room: '📌 Personal',
+        isPersonal: true
+      });
+    });
+    return base;
+  }
+});
+
+function padEndTime(t) {
+  var p = t.split(':');
+  var h = parseInt(p[0]), m = parseInt(p[1]) + 60;
+  if (m >= 60) { h++; m -= 60; }
+  if (h >= 24) h = 23;
+  return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+}
+
+// ── INIT ──
+var _origOpenWindow = openWindow;
+openWindow = function(id) {
+  _origOpenWindow(id);
+  if (id === 'win-cmd') cmdBoot();
+};
+
+// Load saved notes on startup
+document.addEventListener('DOMContentLoaded', function() {
+  loadStickyNotes();
+});
+
 </script>
 </body>
 </html>
