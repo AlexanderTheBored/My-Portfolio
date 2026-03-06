@@ -1089,6 +1089,197 @@
       background: #001a00;
     }
 
+
+  /* ══════════════════════════════════════════
+     MUSIC PLAYER  —  ROVEL OS v1.0
+  ══════════════════════════════════════════ */
+  #win-music { width:340px; top:80px; left:440px; }
+
+  /* ── Art zone ── */
+  .mp-art-zone {
+    position:relative; width:100%; aspect-ratio:1;
+    background:#111;
+    border:2px solid;
+    border-color:var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+    overflow:hidden; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mp-cd-disc {
+    position:relative; width:88%; height:88%;
+    border-radius:50%; overflow:hidden; flex-shrink:0;
+    box-shadow:0 0 0 2px #333, 0 0 18px rgba(0,0,0,0.8);
+  }
+  .mp-art-zone.mp-playing .mp-cd-disc { animation:mp-spin 4s linear infinite; }
+  .mp-art-zone.mp-paused  .mp-cd-disc { animation:mp-spin 4s linear infinite paused; }
+  .mp-cd-disc img { width:100%; height:100%; object-fit:cover; display:block; border-radius:50%; }
+  .mp-art-placeholder {
+    width:100%; height:100%; border-radius:50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+    background:conic-gradient(#222 0deg,#444 30deg,#1a1a1a 60deg,#555 90deg,#222 120deg,#3a3a3a 150deg,#111 180deg,#444 210deg,#222 240deg,#555 270deg,#1a1a1a 300deg,#333 330deg,#222 360deg);
+  }
+  .mp-art-icon { font-size:36px; }
+  .mp-art-hint { font-family:var(--pixel); font-size:5px; color:#aaa; text-align:center; line-height:1.8; }
+  .mp-cd-hole {
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:14%; height:14%; border-radius:50%;
+    background:#111; border:1px solid #555;
+    box-shadow:inset 0 0 4px rgba(0,0,0,0.9), 0 0 0 1px #222;
+    z-index:10; pointer-events:none;
+  }
+  @keyframes mp-idle { 0%,100%{transform:rotate(-4deg)} 50%{transform:rotate(4deg)} }
+  @keyframes mp-spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+  /* ── Playlist panel (slides in from right) ── */
+  .mp-playlist-panel {
+    position:absolute; inset:0;
+    background:var(--win-body);
+    transform:translateX(100%);
+    transition:transform 0.22s ease;
+    overflow-y:auto;
+    z-index:5;
+  }
+  .mp-playlist-panel.open { transform:translateX(0); }
+  .mp-playlist-header {
+    background:var(--win-titlebar); color:#fff;
+    font-family:var(--pixel); font-size:6px;
+    padding:4px 8px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .mp-playlist-close {
+    cursor:pointer; font-size:10px; line-height:1;
+    background:var(--win-body); color:#000;
+    border:2px solid;
+    border-color:var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+    padding:1px 4px;
+  }
+  .mp-playlist-item {
+    display:flex; align-items:center; gap:8px;
+    padding:5px 8px;
+    cursor:pointer;
+    border-bottom:1px solid var(--win-border-dark);
+  }
+  .mp-playlist-item:hover { background:#d0d8ff; }
+  .mp-playlist-item.mp-active-track { background:var(--win-titlebar); color:#fff; }
+  .mp-playlist-item.mp-active-track .mp-pl-title,
+  .mp-playlist-item.mp-active-track .mp-pl-artist { color:#fff; }
+  .mp-pl-num   { font-family:var(--pixel); font-size:5px; color:#888; min-width:18px; }
+  .mp-pl-info  { flex:1; overflow:hidden; }
+  .mp-pl-title { font-family:var(--pixel); font-size:6px; color:var(--accent); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; margin-bottom:2px; }
+  .mp-pl-artist{ font-family:var(--vt); font-size:14px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; }
+  .mp-pl-dur   { font-family:var(--pixel); font-size:5px; color:#888; }
+  .mp-pl-playing-icon { font-size:10px; }
+
+  /* ── VU meter ── */
+  .mp-vu {
+    display:flex; align-items:flex-end; gap:2px; height:28px;
+    padding:0 4px; background:#000;
+    border:2px solid;
+    border-color:var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+  }
+  .mp-vu-bar { flex:1; background:#00aa00; min-width:4px; transition:height 0.07s; }
+  .mp-vu-bar:nth-child(n+11) { background:#aaaa00; }
+  .mp-vu-bar:nth-child(n+15) { background:#aa0000; }
+
+  /* ── Track info ── */
+  .mp-info {
+    padding:5px 8px 3px; overflow:hidden;
+    border-bottom:2px solid;
+    border-color:var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+  }
+  .mp-track-title-wrap {
+    overflow:hidden; width:100%; margin-bottom:2px;
+  }
+  .mp-track-title {
+    font-family:var(--pixel); font-size:7px; color:var(--accent);
+    white-space:nowrap; display:inline-block;
+  }
+  .mp-track-title.mp-scroll {
+    animation:mp-marquee 8s linear infinite;
+  }
+  @keyframes mp-marquee {
+    0%   { transform:translateX(0); }
+    30%  { transform:translateX(0); }
+    70%  { transform:translateX(var(--mp-scroll-dist, -60px)); }
+    100% { transform:translateX(var(--mp-scroll-dist, -60px)); }
+  }
+  .mp-track-artist { font-family:var(--vt); font-size:15px; color:#555; display:block; }
+  .mp-track-album  { font-family:var(--pixel); font-size:5px; color:#888; display:block; margin-top:1px; }
+
+  /* ── Seek bar ── */
+  .mp-seek-wrap {
+    padding:4px 8px 3px;
+    border-bottom:2px solid;
+    border-color:var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+  }
+  .mp-time-row { display:flex; justify-content:space-between; font-family:var(--pixel); font-size:6px; color:#555; margin-bottom:3px; }
+  .mp-seek-outer {
+    width:100%; height:14px; background:var(--win-inset-bg);
+    border:2px solid;
+    border-color:var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+    cursor:pointer; position:relative; overflow:hidden;
+  }
+  .mp-seek-fill {
+    height:100%; pointer-events:none; transition:width 0.1s linear;
+    background-image:repeating-linear-gradient(
+      90deg,var(--win-titlebar) 0,var(--win-titlebar) 10px,rgba(255,255,255,0.18) 10px,rgba(255,255,255,0.18) 12px
+    );
+  }
+
+  /* ── Controls ── */
+  .mp-controls {
+    display:flex; align-items:center; gap:3px; padding:4px 8px;
+    border-bottom:2px solid;
+    border-color:var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+  }
+  .mp-btn {
+    font-family:var(--pixel); font-size:8px; padding:3px 6px;
+    background:var(--win-body);
+    border:2px solid;
+    border-color:var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+    cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+    min-width:24px; height:22px; color:#000; flex-shrink:0; user-select:none;
+  }
+  .mp-btn:active, .mp-btn.mp-on {
+    border-color:var(--win-border-darker) var(--win-border-light) var(--win-border-light) var(--win-border-darker);
+    background:#b0b0b0;
+  }
+  .mp-btn-play {
+    background:var(--accent); color:#fff;
+    border-color:#4444cc var(--win-border-darker) var(--win-border-darker) #4444cc;
+    padding:3px 10px; flex:1; font-size:9px;
+  }
+  .mp-btn-play:active { border-color:var(--win-border-darker) #4444cc #4444cc var(--win-border-darker); }
+
+  /* ── Volume ── */
+  .mp-vol-row {
+    display:flex; align-items:center; gap:6px; padding:3px 8px;
+    border-bottom:2px solid;
+    border-color:var(--win-border-dark) var(--win-border-light) var(--win-border-light) var(--win-border-dark);
+  }
+  .mp-vol-label { font-family:var(--pixel); font-size:6px; color:#555; width:28px; flex-shrink:0; }
+  .mp-vol-slider { flex:1; height:14px; appearance:none; background:transparent; cursor:pointer; outline:none; }
+  .mp-vol-slider::-webkit-slider-runnable-track {
+    height:4px; background:var(--win-inset-bg);
+    border:1px solid var(--win-border-dark);
+  }
+  .mp-vol-slider::-webkit-slider-thumb {
+    appearance:none; width:11px; height:18px; margin-top:-8px;
+    background:var(--win-body);
+    border:2px solid;
+    border-color:var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);
+    cursor:pointer;
+  }
+  .mp-vol-pct { font-family:var(--pixel); font-size:6px; color:var(--accent); width:26px; text-align:right; }
+
+  /* ── Track counter + playlist btn row ── */
+  .mp-bottom-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:4px 8px 5px;
+  }
+  .mp-track-counter { font-family:var(--pixel); font-size:6px; color:#666; }
+  .mp-loading-msg { font-family:var(--pixel); font-size:6px; color:#888; text-align:center; padding:4px 0; }
+
   </style>
 </head>
 <body>
@@ -1149,6 +1340,10 @@
     <div class="desktop-icon" data-window="win-readme">
       <div class="icon-img">📄</div>
       <div class="icon-label">README.txt</div>
+    </div>
+    <div class="desktop-icon" data-window="win-music">
+      <div class="icon-img">🎵</div>
+      <div class="icon-label">Music.exe</div>
     </div>
   </div>
 
@@ -1864,6 +2059,107 @@
     <div class="win-resize" onmousedown="startResize(event,'win-readme')"></div>
   </div>
 
+
+  <!-- ═══ MUSIC PLAYER WINDOW ═══ -->
+  <div class="win-window" id="win-music" style="width:340px;top:80px;left:440px;">
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-music')">
+      <div class="win-title">
+        <span class="win-title-icon">🎵</span>
+        <span id="mp-title-bar">ROVEL MEDIA PLAYER</span>
+      </div>
+      <div class="win-controls">
+        <button class="win-btn" onclick="minimizeWindow('win-music')">_</button>
+        <button class="win-btn">□</button>
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-music')">✕</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <span class="win-menu-item" onclick="mpReload()">File</span>
+      <span class="win-menu-item" onclick="mpToggleLoop()">Options</span>
+      <span class="win-menu-item" onclick="mpHelp()">Help</span>
+    </div>
+
+    <!-- Art zone + playlist panel -->
+    <div style="padding:6px 8px 0;">
+      <div class="mp-art-zone" id="mp-art-zone">
+        <!-- CD disc — spins as a unit -->
+        <div class="mp-cd-disc" id="mp-cd-disc">
+          <div class="mp-art-placeholder" id="mp-art-placeholder">
+            <div class="mp-art-icon" id="mp-art-icon">💿</div>
+            <div class="mp-art-hint" id="mp-art-hint">LOADING...</div>
+          </div>
+          <img id="mp-art-img" style="display:none" alt="cover"/>
+        </div>
+        <!-- Center hole overlay — does NOT spin -->
+        <div class="mp-cd-hole"></div>
+        <!-- Playlist overlay panel -->
+        <div class="mp-playlist-panel" id="mp-playlist-panel">
+          <div class="mp-playlist-header">
+            <span>📋 PLAYLIST</span>
+            <span class="mp-playlist-close" onclick="mpTogglePlaylist()">✕</span>
+          </div>
+          <div id="mp-playlist-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VU meter -->
+    <div style="padding:4px 8px 0;">
+      <div class="mp-vu" id="mp-vu"></div>
+    </div>
+
+    <!-- Track info -->
+    <div class="mp-info">
+      <div class="mp-track-title-wrap" id="mp-track-title-wrap">
+        <span class="mp-track-title" id="mp-track-title">NO TRACKS LOADED</span>
+      </div>
+      <span class="mp-track-artist" id="mp-track-artist">—</span>
+      <span class="mp-track-album"  id="mp-track-album"></span>
+    </div>
+
+    <!-- Seek bar -->
+    <div class="mp-seek-wrap">
+      <div class="mp-time-row">
+        <span id="mp-time-cur">0:00</span>
+        <span id="mp-time-dur">0:00</span>
+      </div>
+      <div class="mp-seek-outer" id="mp-seek-outer">
+        <div class="mp-seek-fill" id="mp-seek-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="mp-controls">
+      <button class="mp-btn" onclick="mpPrev()"      title="Previous">⏮</button>
+      <button class="mp-btn" onclick="mpSkip(-10)"   title="Back 10s">◀◀</button>
+      <button class="mp-btn mp-btn-play" id="mp-play-btn" onclick="mpTogglePlay()">▶ PLAY</button>
+      <button class="mp-btn" onclick="mpSkip(10)"    title="Fwd 10s">▶▶</button>
+      <button class="mp-btn" onclick="mpNext()"      title="Next">⏭</button>
+    </div>
+
+    <!-- Volume + Loop/Shuffle -->
+    <div class="mp-vol-row">
+      <span class="mp-vol-label">VOL</span>
+      <input type="range" class="mp-vol-slider" id="mp-vol-slider" min="0" max="100" value="80" oninput="mpSetVol(this.value)">
+      <span class="mp-vol-pct" id="mp-vol-pct">80%</span>
+      <button class="mp-btn" id="mp-loop-btn"    onclick="mpToggleLoop()"    title="Loop"   style="margin-left:4px;">🔁</button>
+      <button class="mp-btn" id="mp-shuffle-btn" onclick="mpToggleShuffle()" title="Shuffle">🔀</button>
+    </div>
+
+    <!-- Track counter + playlist toggle -->
+    <div class="mp-bottom-row">
+      <span class="mp-track-counter" id="mp-track-counter">0 / 0</span>
+      <button class="mp-btn" onclick="mpTogglePlaylist()" title="Playlist">📋 PLAYLIST</button>
+    </div>
+
+    <div class="win-statusbar">
+      <span id="mp-status">Loading...</span>
+      <span id="mp-format">—</span>
+    </div>
+    <div class="win-resize" onmousedown="startResize(event,'win-music')"></div>
+  </div>
+  <audio id="mp-audio"></audio>
+
 </div><!-- /desktop -->
 
 <!-- ===================== TASKBAR ===================== -->
@@ -1888,6 +2184,7 @@
     <div class="start-item" onclick="openWindow('win-contact');closeStartMenu()"><span>📧</span> Contact</div>
     <div class="start-item" onclick="openWindow('win-cmd');closeStartMenu()"><span>🖥️</span> cmd.exe</div>
     <div class="start-item" onclick="openWindow('win-readme');closeStartMenu()"><span>📄</span> README.txt</div>
+    <div class="start-item" onclick="openWindow('win-music');closeStartMenu()"><span>🎵</span> Music.exe</div>
     <div class="start-sep"></div>
     <div class="start-item" onclick="closeAllWindows();closeStartMenu()"><span>🔲</span> Close All</div>
     <div class="start-sep"></div>
@@ -2144,7 +2441,7 @@ function closeWindow(id) {
   if (id === 'win-asteroids') stopAsteroids();
 }
 function closeAllWindows() {
-  ['win-about','win-projects','win-weekly','win-schedule','win-contact','win-cmd','win-readme','win-asteroids'].forEach(closeWindow);
+  ['win-about','win-projects','win-weekly','win-schedule','win-contact','win-cmd','win-readme','win-asteroids','win-music'].forEach(closeWindow);
 }
 
 var minimizedSet = {};
@@ -2189,6 +2486,7 @@ function updateTaskbar() {
     { id:'win-cmd',       label:'🖥️ cmd.exe' },
     { id:'win-readme',    label:'📄 README.txt' },
     { id:'win-asteroids', label:'🚀 Asteroids' },
+    { id:'win-music',     label:'🎵 Music.exe' },
   ];
   wins.forEach(function(w) {
     if (!openSet[w.id]) return;
@@ -2916,6 +3214,7 @@ function runCmd(raw) {
     case 'rovel': cmdEasterEgg(); break;
     case 'wx': cmdWx(parts.slice(1)); break;
     case 'exit': closeWindow('win-cmd'); break;
+    case 'lloyd': cmdSnake(); break;
     default:
       cmdPrint('<span class="cmd-error">\'' + escHtml(cmd) + '\' is not recognized as an internal or external command.</span>');
       cmdPrint('<span class="cmd-dim">Type HELP for available commands.</span>');
@@ -3097,6 +3396,188 @@ function loadStickyNotes() {
 
 // ── EASTER EGG ──
 var eggState = null;
+
+// ══════════════════════════════════════════════
+//  SNAKE GAME  —  triggered by: lloyd
+// ══════════════════════════════════════════════
+var snakeState = null;
+
+function cmdSnake() {
+  var out = document.getElementById('cmd-output');
+  var inp = document.getElementById('cmd-input');
+  if (!out || !inp) return;
+
+  // Intro lines
+  cmdPrint('<span style="color:#00ff00;font-weight:bold">LLOYD.EXE</span> <span class="cmd-dim">— loading snake...</span>');
+  cmdBlank();
+
+  // Build canvas inside cmd-output
+  var wrap = document.createElement('div');
+  wrap.id = 'snake-wrap';
+  wrap.style.cssText = 'position:relative;display:inline-block;border:2px solid #00ff00;margin:4px 0;';
+
+  var canvas = document.createElement('canvas');
+  var COLS = 20, ROWS = 16, CELL = 14;
+  canvas.width  = COLS * CELL;
+  canvas.height = ROWS * CELL;
+  canvas.style.cssText = 'display:block;background:#001100;image-rendering:pixelated;';
+  canvas.id = 'snake-canvas';
+
+  var scoreEl = document.createElement('div');
+  scoreEl.style.cssText = 'font-family:"Courier New",monospace;font-size:11px;color:#00ff00;padding:2px 6px;background:#001100;border-top:1px solid #00ff00;display:flex;justify-content:space-between;';
+  scoreEl.innerHTML = '<span id="snake-score">SCORE: 0</span><span style="color:#555">WASD / ARROWS · Q=QUIT</span>';
+
+  wrap.appendChild(canvas);
+  wrap.appendChild(scoreEl);
+
+  var li = document.createElement('div');
+  li.appendChild(wrap);
+  out.appendChild(li);
+  out.scrollTop = out.scrollHeight;
+
+  // Hide cmd input while playing
+  inp.style.display = 'none';
+
+  var ctx = canvas.getContext('2d');
+
+  function rndFood(snake) {
+    var pos;
+    do {
+      pos = { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
+    } while (snake.some(function(s){ return s.x === pos.x && s.y === pos.y; }));
+    return pos;
+  }
+
+  var s = {
+    snake   : [{ x:10, y:8 }, { x:9, y:8 }, { x:8, y:8 }],
+    dir     : { x:1, y:0 },
+    nextDir : { x:1, y:0 },
+    food    : null,
+    score   : 0,
+    alive   : true,
+    loop    : null,
+    speed   : 130,
+  };
+  s.food = rndFood(s.snake);
+  snakeState = s;
+
+  function draw() {
+    ctx.fillStyle = '#001100';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Grid dots
+    ctx.fillStyle = '#002200';
+    for (var gx = 0; gx < COLS; gx++) {
+      for (var gy = 0; gy < ROWS; gy++) {
+        ctx.fillRect(gx * CELL + CELL/2 - 1, gy * CELL + CELL/2 - 1, 2, 2);
+      }
+    }
+
+    // Food — blinking pixel cross
+    var blink = Math.floor(Date.now() / 300) % 2;
+    ctx.fillStyle = blink ? '#ff4444' : '#ff8888';
+    var fx = s.food.x * CELL, fy = s.food.y * CELL;
+    ctx.fillRect(fx + 3, fy + CELL/2 - 1, CELL - 6, 2);
+    ctx.fillRect(fx + CELL/2 - 1, fy + 3, 2, CELL - 6);
+
+    // Snake
+    s.snake.forEach(function(seg, i) {
+      var brightness = i === 0 ? '00ff00' : (i < 3 ? '00dd00' : '009900');
+      ctx.fillStyle = '#' + brightness;
+      ctx.fillRect(seg.x * CELL + 1, seg.y * CELL + 1, CELL - 2, CELL - 2);
+      // Head eyes
+      if (i === 0) {
+        ctx.fillStyle = '#001100';
+        var ex = seg.x * CELL, ey = seg.y * CELL;
+        if (s.dir.x === 1)  { ctx.fillRect(ex+9, ey+3, 2, 2); ctx.fillRect(ex+9, ey+9, 2, 2); }
+        if (s.dir.x === -1) { ctx.fillRect(ex+3, ey+3, 2, 2); ctx.fillRect(ex+3, ey+9, 2, 2); }
+        if (s.dir.y === -1) { ctx.fillRect(ex+3, ey+3, 2, 2); ctx.fillRect(ex+9, ey+3, 2, 2); }
+        if (s.dir.y === 1)  { ctx.fillRect(ex+3, ey+9, 2, 2); ctx.fillRect(ex+9, ey+9, 2, 2); }
+      }
+    });
+  }
+
+  function tick() {
+    if (!s.alive) return;
+    s.dir = s.nextDir;
+    var head = { x: s.snake[0].x + s.dir.x, y: s.snake[0].y + s.dir.y };
+
+    // Wall collision
+    if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) { gameOver(); return; }
+    // Self collision
+    if (s.snake.some(function(seg){ return seg.x === head.x && seg.y === head.y; })) { gameOver(); return; }
+
+    s.snake.unshift(head);
+    if (head.x === s.food.x && head.y === s.food.y) {
+      s.score += 10;
+      document.getElementById('snake-score').textContent = 'SCORE: ' + s.score;
+      s.food = rndFood(s.snake);
+      // Speed up slightly every 50 points
+      if (s.score % 50 === 0 && s.speed > 60) { s.speed -= 10; restartLoop(); }
+    } else {
+      s.snake.pop();
+    }
+    draw();
+  }
+
+  function restartLoop() {
+    clearInterval(s.loop);
+    s.loop = setInterval(tick, s.speed);
+  }
+
+  function gameOver() {
+    s.alive = false;
+    clearInterval(s.loop);
+    snakeState = null;
+
+    // Flash red
+    ctx.fillStyle = 'rgba(255,0,0,0.25)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ff4444';
+    ctx.font = 'bold 16px "Courier New"';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2 - 10);
+    ctx.font = '11px "Courier New"';
+    ctx.fillStyle = '#aaa';
+    ctx.fillText('SCORE: ' + s.score, canvas.width/2, canvas.height/2 + 8);
+    ctx.fillText('Press any key to exit', canvas.width/2, canvas.height/2 + 24);
+
+    document.removeEventListener('keydown', onKey);
+    document.addEventListener('keydown', exitSnake, { once: true });
+  }
+
+  function exitSnake() {
+    clearInterval(s.loop);
+    snakeState = null;
+    document.removeEventListener('keydown', onKey);
+    wrap.remove();
+    inp.style.display = '';
+    inp.focus();
+    cmdPrint('<span class="cmd-dim">Game over. Score: ' + s.score + '</span>');
+    cmdBlank();
+    out.scrollTop = out.scrollHeight;
+  }
+
+  function onKey(e) {
+    if (!s.alive) return;
+    var k = e.key;
+    // Prevent arrow keys from scrolling the page
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(k) !== -1) e.preventDefault();
+    if ((k === 'ArrowUp'    || k === 'w' || k === 'W') && s.dir.y !== 1)  s.nextDir = {x:0, y:-1};
+    if ((k === 'ArrowDown'  || k === 's' || k === 'S') && s.dir.y !== -1) s.nextDir = {x:0, y:1};
+    if ((k === 'ArrowLeft'  || k === 'a' || k === 'A') && s.dir.x !== 1)  s.nextDir = {x:-1, y:0};
+    if ((k === 'ArrowRight' || k === 'd' || k === 'D') && s.dir.x !== -1) s.nextDir = {x:1, y:0};
+    if (k === 'q' || k === 'Q') { s.alive = false; exitSnake(); }
+  }
+
+  document.addEventListener('keydown', onKey);
+  draw();
+  restartLoop();
+  canvas.scrollIntoView({ block: 'nearest' });
+}
+// ══════════════════════════════════════════════
+//  END SNAKE
+// ══════════════════════════════════════════════
 
 function cmdEasterEgg() {
   // Phase 1: BSOD
@@ -3689,7 +4170,8 @@ updateSchedule = function() {
 
 // Patch schedule to include user events
 var _origSchedule = schedule;
-Object.defineProperty(window, 'schedule', {
+try { Object.defineProperty(window, 'schedule', {
+  configurable: true,
   get: function() {
     var base = _origSchedule.slice();
     userEvents.forEach(function(ev) {
@@ -3704,7 +4186,7 @@ Object.defineProperty(window, 'schedule', {
     });
     return base;
   }
-});
+}); } catch(e) { console.warn('schedule patch skipped:', e.message); }
 
 function padEndTime(t) {
   var p = t.split(':');
@@ -3725,6 +4207,417 @@ openWindow = function(id) {
 document.addEventListener('DOMContentLoaded', function() {
   loadStickyNotes();
 });
+
+
+// ══════════════════════════════════════════════════════
+//  MUSIC PLAYER  —  reads from /music/music.json
+// ══════════════════════════════════════════════════════
+var MP = {
+  audio      : null,
+  tracks     : [],       // full library from JSON
+  queue      : [],       // play order (indices into tracks)
+  queuePos   : 0,        // current position in queue
+  playing    : false,
+  loop       : false,
+  shuffle    : false,
+  vuBars     : [],
+  vuRaf      : null,
+  seekDrag   : false,
+};
+
+// ── Boot: fetch library then init player ──────────────
+(function mpBoot() {
+  MP.audio = document.getElementById('mp-audio');
+  if (!MP.audio) return;
+
+  // Build VU bars
+  var vuEl = document.getElementById('mp-vu');
+  if (vuEl) {
+    for (var i = 0; i < 16; i++) {
+      var b = document.createElement('div');
+      b.className = 'mp-vu-bar';
+      b.style.height = '2px';
+      vuEl.appendChild(b);
+      MP.vuBars.push(b);
+    }
+  }
+  mpIdleVU();
+
+  // Wire audio events
+  MP.audio.addEventListener('play',         mpOnPlay);
+  MP.audio.addEventListener('pause',        mpOnPause);
+  MP.audio.addEventListener('ended',        mpOnEnded);
+  MP.audio.addEventListener('timeupdate',   mpOnTimeUpdate);
+  MP.audio.addEventListener('loadedmetadata', mpOnMeta);
+  MP.audio.addEventListener('error',        mpOnError);
+
+  // Seek drag
+  var so = document.getElementById('mp-seek-outer');
+  if (so) {
+    so.addEventListener('mousedown', function(e) { MP.seekDrag = true; mpDoSeek(e); e.stopPropagation(); });
+  }
+  document.addEventListener('mousemove', function(e) { if (MP.seekDrag) mpDoSeek(e); });
+  document.addEventListener('mouseup',   function()  { MP.seekDrag = false; });
+
+  // Drag & drop audio onto window
+  var win = document.getElementById('win-music');
+  if (win) {
+    win.addEventListener('dragover', function(e) { e.preventDefault(); });
+    win.addEventListener('drop', function(e) {
+      e.preventDefault();
+      var f = e.dataTransfer.files[0];
+      if (f && f.type.startsWith('audio/')) mpLoadDropped(f);
+    });
+  }
+
+  // Fetch JSON library
+  mpFetchLibrary();
+})();
+
+// ── Library loading ───────────────────────────────────
+function mpFetchLibrary() {
+  mpSetStatus('Loading library...');
+  fetch('music/music.json')
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      // Support both { tracks: [...] } and plain array
+      MP.tracks = Array.isArray(data) ? data : (data.tracks || []);
+      if (MP.tracks.length === 0) throw new Error('No tracks found in music.json');
+      mpBuildQueue();
+      mpLoadTrack(MP.queue[0], false);
+      mpBuildPlaylist();
+      mpSetStatus('Ready  ·  ' + MP.tracks.length + ' tracks');
+      mpSetHint('');
+    })
+    .catch(function(err) {
+      console.warn('music.json:', err);
+      mpSetStatus('No library · drop a file to play');
+      mpSetHint('ADD music/music.json\nTO YOUR REPO');
+      document.getElementById('mp-track-title').textContent  = 'NO LIBRARY';
+      document.getElementById('mp-track-artist').textContent = 'See README.txt';
+    });
+}
+
+function mpReload() { mpFetchLibrary(); }
+
+function mpBuildQueue() {
+  MP.queue = MP.tracks.map(function(_, i) { return i; });
+  if (MP.shuffle) mpShuffleQueue();
+  MP.queuePos = 0;
+}
+
+function mpShuffleQueue() {
+  for (var i = MP.queue.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = MP.queue[i]; MP.queue[i] = MP.queue[j]; MP.queue[j] = t;
+  }
+}
+
+// ── Track loading ─────────────────────────────────────
+function mpLoadTrack(trackIdx, autoplay) {
+  var t = MP.tracks[trackIdx];
+  if (!t) return;
+
+  // Audio src
+  var rawFile = t.file || t.filename || '';
+  var src = (rawFile.startsWith('http') || rawFile.indexOf('/') !== -1)
+    ? rawFile : 'music/tracks/' + rawFile;
+  MP.audio.src = src;
+  MP.audio.volume = (document.getElementById('mp-vol-slider') || {value:80}).value / 100;
+  MP.audio.loop   = MP.loop;
+
+  // Art — images go inside .mp-cd-disc
+  var artImg = document.getElementById('mp-art-img');
+  var artPh  = document.getElementById('mp-art-placeholder');
+  if (t.cover) {
+    var coverSrc = (t.cover.startsWith('http') || t.cover.indexOf('/') !== -1)
+      ? t.cover : ('music/covers/' + t.cover);
+    artImg.onerror = function() {
+      artImg.style.display = 'none';
+      if (artPh) artPh.style.display = '';
+      artImg.onerror = null;
+    };
+    artImg.src = coverSrc;
+    artImg.style.display = 'block';
+    if (artPh) artPh.style.display = 'none';
+  } else {
+    if (artImg) artImg.style.display = 'none';
+    if (artPh)  artPh.style.display  = '';
+  }
+
+  // Title: prefer explicit title, else sanitize filename
+  var displayTitle = t.title ? t.title : mpSanitizeName(t.filename || '');
+  if (!displayTitle) displayTitle = 'Track ' + (trackIdx + 1);
+  var ext = rawFile.split('.').pop().split('?')[0].toUpperCase();
+
+  mpSetTitle(displayTitle.toUpperCase());
+  document.getElementById('mp-track-artist').textContent = t.artist || 'Unknown Artist';
+  document.getElementById('mp-track-album').textContent  = t.album  ? '[ ' + t.album + ' ]' : '';
+  document.getElementById('mp-title-bar').textContent    = displayTitle.toUpperCase().substring(0, 24);
+  document.getElementById('mp-format').textContent       = ext || '—';
+
+  var pos = MP.queue.indexOf(trackIdx);
+  if (pos !== -1) MP.queuePos = pos;
+  mpUpdateCounter();
+  mpHighlightPlaylist(trackIdx);
+
+  if (autoplay !== false) {
+    var p = MP.audio.play();
+    if (p && p.catch) p.catch(function(e) {
+      console.warn('[Music Player] Autoplay blocked:', e.message);
+      mpSetStatus('Click \u25b6 PLAY to start');
+    });
+  }
+}
+
+// Set title with marquee scroll if it overflows
+function mpSetTitle(text) {
+  var el   = document.getElementById('mp-track-title');
+  var wrap = document.getElementById('mp-track-title-wrap');
+  if (!el || !wrap) return;
+  el.textContent = text;
+  el.classList.remove('mp-scroll');
+  el.style.removeProperty('--mp-scroll-dist');
+  // Check overflow on next frame after paint
+  requestAnimationFrame(function() {
+    var overflow = el.scrollWidth - wrap.clientWidth;
+    if (overflow > 4) {
+      el.style.setProperty('--mp-scroll-dist', '-' + (overflow + 16) + 'px');
+      el.classList.add('mp-scroll');
+    }
+  });
+}
+
+function mpLoadDropped(file) {
+  var name = mpSanitizeName(file.name) || file.name.replace(/\.[^.]+$/, '');
+  var ext  = file.name.split('.').pop().toUpperCase();
+  MP.audio.src = URL.createObjectURL(file);
+  MP.audio.volume = (document.getElementById('mp-vol-slider') || {value:80}).value / 100;
+  mpSetTitle(name.toUpperCase());
+  document.getElementById('mp-track-artist').textContent = 'Dropped file';
+  document.getElementById('mp-track-album').textContent  = '';
+  document.getElementById('mp-title-bar').textContent    = name.toUpperCase().substring(0, 24);
+  document.getElementById('mp-format').textContent       = ext;
+  MP.audio.play().catch(function(){});
+}
+
+// ── Transport ─────────────────────────────────────────
+function mpTogglePlay() {
+  if (!MP.audio.src) return;
+  MP.playing ? MP.audio.pause() : MP.audio.play();
+}
+
+function mpNext() {
+  if (!MP.queue.length) return;
+  MP.queuePos = (MP.queuePos + 1) % MP.queue.length;
+  mpLoadTrack(MP.queue[MP.queuePos], true);
+}
+
+function mpPrev() {
+  if (!MP.queue.length) return;
+  // If >3 seconds in, restart. Otherwise go to previous.
+  if (MP.audio.currentTime > 3) {
+    MP.audio.currentTime = 0;
+    return;
+  }
+  MP.queuePos = (MP.queuePos - 1 + MP.queue.length) % MP.queue.length;
+  mpLoadTrack(MP.queue[MP.queuePos], true);
+}
+
+function mpSkip(sec) {
+  if (!MP.audio) return;
+  MP.audio.currentTime = Math.max(0, Math.min(MP.audio.duration || 0, MP.audio.currentTime + sec));
+}
+
+function mpToggleLoop() {
+  MP.loop = !MP.loop;
+  MP.audio.loop = MP.loop;
+  document.getElementById('mp-loop-btn').classList.toggle('mp-on', MP.loop);
+}
+
+function mpToggleShuffle() {
+  MP.shuffle = !MP.shuffle;
+  document.getElementById('mp-shuffle-btn').classList.toggle('mp-on', MP.shuffle);
+  // Rebuild queue keeping current track first
+  var curIdx = MP.queue[MP.queuePos];
+  mpBuildQueue();
+  // Put current track at front
+  var pos = MP.queue.indexOf(curIdx);
+  if (pos !== -1) MP.queuePos = pos;
+}
+
+function mpSetVol(v) {
+  if (MP.audio) MP.audio.volume = v / 100;
+  document.getElementById('mp-vol-pct').textContent = v + '%';
+}
+
+function mpDoSeek(e) {
+  var o = document.getElementById('mp-seek-outer');
+  if (!o || !MP.audio || !MP.audio.duration) return;
+  var r = o.getBoundingClientRect();
+  MP.audio.currentTime = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * MP.audio.duration;
+}
+
+// ── Audio event handlers ──────────────────────────────
+function mpOnPlay() {
+  MP.playing = true;
+  document.getElementById('mp-play-btn').textContent = '⏸ PAUSE';
+  document.getElementById('mp-art-zone').classList.add('mp-playing');
+  document.getElementById('mp-art-zone').classList.remove('mp-paused');
+  mpSetStatus('Playing');
+  mpStartVU();
+}
+
+function mpOnPause() {
+  MP.playing = false;
+  document.getElementById('mp-play-btn').textContent = '▶ PLAY';
+  document.getElementById('mp-art-zone').classList.remove('mp-playing');
+  document.getElementById('mp-art-zone').classList.add('mp-paused');
+  mpSetStatus('Paused');
+  mpIdleVU();
+}
+
+function mpOnEnded() {
+  MP.playing = false;
+  document.getElementById('mp-art-zone').classList.remove('mp-playing','mp-paused');
+  mpIdleVU();
+  // Auto-play next
+  if (!MP.loop) mpNext();
+}
+
+function mpOnTimeUpdate() {
+  var pct = MP.audio.duration ? (MP.audio.currentTime / MP.audio.duration) * 100 : 0;
+  document.getElementById('mp-seek-fill').style.width = pct + '%';
+  document.getElementById('mp-time-cur').textContent  = mpFmt(MP.audio.currentTime);
+}
+
+function mpOnMeta() {
+  document.getElementById('mp-time-dur').textContent = mpFmt(MP.audio.duration);
+}
+
+function mpOnError() {
+  mpSetStatus('Error loading track');
+  mpIdleVU();
+}
+
+// ── Playlist panel ────────────────────────────────────
+function mpTogglePlaylist() {
+  document.getElementById('mp-playlist-panel').classList.toggle('open');
+}
+
+function mpBuildPlaylist() {
+  var list = document.getElementById('mp-playlist-list');
+  if (!list) return;
+  list.innerHTML = MP.tracks.map(function(t, i) {
+    return '<div class="mp-playlist-item" id="mp-pl-' + i + '" onclick="mpPlayFromList(' + i + ')">' +
+      '<span class="mp-pl-num">' + (i + 1) + '</span>' +
+      '<div class="mp-pl-info">' +
+        '<span class="mp-pl-title">' + escHtml((t.title || t.filename || '—').toUpperCase()) + '</span>' +
+        '<span class="mp-pl-artist">' + escHtml(t.artist || 'Unknown') + '</span>' +
+      '</div>' +
+      (t.duration ? '<span class="mp-pl-dur">' + t.duration + '</span>' : '') +
+    '</div>';
+  }).join('');
+}
+
+function mpPlayFromList(trackIdx) {
+  var pos = MP.queue.indexOf(trackIdx);
+  if (pos !== -1) MP.queuePos = pos;
+  else { MP.queue.unshift(trackIdx); MP.queuePos = 0; }
+  mpLoadTrack(trackIdx, true);
+}
+
+function mpHighlightPlaylist(trackIdx) {
+  document.querySelectorAll('.mp-playlist-item').forEach(function(el) {
+    el.classList.remove('mp-active-track');
+  });
+  var active = document.getElementById('mp-pl-' + trackIdx);
+  if (active) {
+    active.classList.add('mp-active-track');
+    active.scrollIntoView({ block:'nearest' });
+  }
+}
+
+function mpUpdateCounter() {
+  var cur = MP.queue[MP.queuePos];
+  document.getElementById('mp-track-counter').textContent =
+    (typeof cur !== 'undefined' ? (cur + 1) : '?') + ' / ' + MP.tracks.length;
+}
+
+// ── VU meter ──────────────────────────────────────────
+function mpStartVU() {
+  if (MP.vuRaf) cancelAnimationFrame(MP.vuRaf);
+  function frame() {
+    if (!MP.playing) return;
+    var t = performance.now() * 0.003;
+    MP.vuBars.forEach(function(bar, i) {
+      var wave = (Math.sin(t * (0.65 + i * 0.22) + i * 0.9) + 1) / 2;
+      var spike = Math.random() > 0.9 ? Math.random() * 12 : 0;
+      bar.style.height = Math.max(2, Math.round(wave * 22 + spike)) + 'px';
+    });
+    MP.vuRaf = requestAnimationFrame(frame);
+  }
+  MP.vuRaf = requestAnimationFrame(frame);
+}
+
+function mpIdleVU() {
+  if (MP.vuRaf) { cancelAnimationFrame(MP.vuRaf); MP.vuRaf = null; }
+  var t = 0;
+  function idle() {
+    if (MP.playing) return;
+    t++;
+    MP.vuBars.forEach(function(bar, i) {
+      bar.style.height = Math.round(2 + Math.abs(Math.sin(t * 0.035 + i * 0.55)) * 4) + 'px';
+    });
+    MP.vuRaf = requestAnimationFrame(idle);
+  }
+  idle();
+}
+
+// ── Helpers ───────────────────────────────────────────
+function mpFmt(s) {
+  if (!s || isNaN(s) || !isFinite(s)) return '0:00';
+  return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+}
+
+function mpSetStatus(msg) { var el = document.getElementById('mp-status'); if (el) el.textContent = msg; }
+
+function mpSetHint(txt) {
+  var el = document.getElementById('mp-art-hint');
+  if (el) el.textContent = txt || 'CLICK TO SET COVER\nOR LOAD AUDIO BELOW';
+}
+
+function mpHelp() {
+  alert(
+    'ROVEL MEDIA PLAYER\n\n' +
+    'Reads from: music/music.json\n\n' +
+    'Folder layout:\n' +
+    '  music/\n' +
+    '    music.json\n' +
+    '    covers/  (album art)\n' +
+    '    tracks/  (audio files)\n\n' +
+    'music.json format:\n' +
+    '{\n' +
+    '  "tracks": [\n' +
+    '    {\n' +
+    '      "title": "Song Name",\n' +
+    '      "artist": "Artist",\n' +
+    '      "album": "Album",\n' +
+    '      "filename": "song.mp3",\n' +
+    '      "cover": "song.jpg",\n' +
+    '      "duration": "3:45"\n' +
+    '    }\n' +
+    '  ]\n' +
+    '}\n\n' +
+    'You can also drag & drop audio files directly onto the player.'
+  );
+}
+// ══════════════════════════════════════════════════════
+//  END MUSIC PLAYER
+// ══════════════════════════════════════════════════════
 
 </script>
 </body>
