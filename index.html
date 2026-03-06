@@ -1323,7 +1323,7 @@
     </div>
     <div class="desktop-icon" data-window="win-weekly">
       <div class="icon-img">📋</div>
-      <div class="icon-label">Weekly Outputs</div>
+      <div class="icon-label">Skills</div>
     </div>
     <div class="desktop-icon" data-window="win-schedule">
       <div class="icon-img">🕐</div>
@@ -1610,93 +1610,16 @@
   <!-- WEEKLY OUTPUTS + SKILLS WINDOW -->
   <div class="win-window" id="win-weekly" style="width:460px; top:80px; left:250px;">
     <div class="win-titlebar" onmousedown="startDrag(event,'win-weekly')">
-      <div class="win-title"><span class="win-title-icon">📋</span> Weekly Outputs & Skills</div>
+      <div class="win-title"><span class="win-title-icon">⚡</span> Skills</div>
       <div class="win-controls">
         <button class="win-btn" onclick="minimizeWindow('win-weekly')">_</button>
         <button class="win-btn">□</button>
         <button class="win-btn win-btn-close" onclick="closeWindow('win-weekly')">✕</button>
       </div>
     </div>
-    <div class="win-menubar">
-      <span class="win-menu-item" onclick="showTab('outputs')" id="tab-outputs-btn" style="background:#000080;color:#fff;">Outputs</span>
-      <span class="win-menu-item" onclick="showTab('skills')" id="tab-skills-btn">Skills</span>
-    </div>
     <div class="win-body" style="max-height:400px;">
-      <!-- OUTPUTS TAB -->
-      <div id="tab-outputs">
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #01</div>
-          <div class="output-card-title">Data, Information & Knowledge</div>
-          <div class="output-card-desc">Definitions, examples, and key terms for essays on data classification.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #02</div>
-          <div class="output-card-title">AI & Cybersecurity</div>
-          <div class="output-card-desc">What AI is (and isn't), everyday examples, and cybersecurity threats overview.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #03</div>
-          <div class="output-card-title">Computer Systems in Healthcare</div>
-          <div class="output-card-desc">EHR, telemedicine, medical imaging, and patient monitoring systems.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #04</div>
-          <div class="output-card-title">Vending Machine Algorithm</div>
-          <div class="output-card-desc">Pseudocode and flowchart demonstrating sequence, selection, and iteration.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #05</div>
-          <div class="output-card-title">Number Systems & Conversions</div>
-          <div class="output-card-desc">Binary (11001₂) and hex (19₁₆) from decimal 25. Why computers use binary.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #06</div>
-          <div class="output-card-title">General vs. Specific Software</div>
-          <div class="output-card-desc">Word processors vs. specialised apps; student life examples.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #07</div>
-          <div class="output-card-title">IPOS Devices & Hardware</div>
-          <div class="output-card-desc">Input, processing, output, and storage devices and how they interact.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #08</div>
-          <div class="output-card-title">Utility Software & Benefits</div>
-          <div class="output-card-desc">Antivirus, backups, compression, disk cleanup — keeping systems healthy.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #09</div>
-          <div class="output-card-title">Student Information Database</div>
-          <div class="output-card-desc">Personal, academic, enrolment & grade tables linked by primary key.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #10</div>
-          <div class="output-card-title">Network Topologies</div>
-          <div class="output-card-desc">Bus, star, ring, mesh — pros, cons, reliability, cost, scalability.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #11</div>
-          <div class="output-card-title">Ethical Issues in IT</div>
-          <div class="output-card-desc">Privacy, piracy, plagiarism, cyberbullying, and code of ethics principles.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #12</div>
-          <div class="output-card-title">Simple HTML Structure</div>
-          <div class="output-card-desc">doctype, head, body, headings, paragraphs — semantic content grouping.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #13</div>
-          <div class="output-card-title">CSS for Colors, Fonts & Layout</div>
-          <div class="output-card-desc">Selectors, properties, external stylesheets, palette, typography, spacing.</div>
-        </div>
-        <div class="output-card">
-          <div class="output-card-num">OUTPUT #14</div>
-          <div class="output-card-title">Generative AI in Healthcare & Education</div>
-          <div class="output-card-desc">Benefits in diagnosis/tutoring vs. risks: misinformation, privacy, bias.</div>
-        </div>
-      </div>
-            <!-- SKILLS TAB -->
-      <div id="tab-skills" style="display:none;">
+
+      <div id="tab-skills">
         <h3 style="margin-bottom:10px;">► TECHNICAL SKILLS</h3>
         <div class="skill-row"><label>JavaScript</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div></div><span class="skill-level">specialty</span></div>
         <div class="skill-row"><label>HTML5</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">proficient</span></div>
@@ -1729,8 +1652,8 @@
       </div>
     </div>
     <div class="win-statusbar">
-      <span id="weekly-status">14 outputs</span>
-      <span>ITC · 2nd Sem</span>
+      <span id="weekly-status"></span>
+      
     </div>
     <div class="win-resize" onmousedown="startResize(event,'win-weekly')"></div>
   </div>
@@ -2179,7 +2102,7 @@
   <div class="start-items">
     <div class="start-item" onclick="openWindow('win-about');closeStartMenu()"><span>🗂️</span> About Me</div>
     <div class="start-item" onclick="openWindow('win-projects');closeStartMenu()"><span>💾</span> Projects</div>
-    <div class="start-item" onclick="openWindow('win-weekly');closeStartMenu()"><span>📋</span> Weekly Outputs</div>
+    <div class="start-item" onclick="openWindow('win-weekly');closeStartMenu()"><span>⚡</span> Skills</div>
     <div class="start-item" onclick="openWindow('win-schedule');closeStartMenu()"><span>🕐</span> Schedule</div>
     <div class="start-item" onclick="openWindow('win-contact');closeStartMenu()"><span>📧</span> Contact</div>
     <div class="start-item" onclick="openWindow('win-cmd');closeStartMenu()"><span>🖥️</span> cmd.exe</div>
