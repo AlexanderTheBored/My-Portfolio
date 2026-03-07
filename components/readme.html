@@ -1,0 +1,419 @@
+  <!-- README WINDOW -->
+
+  <div class="win-window" id="win-readme" style="width:420px; top:90px; left:200px;">
+
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-readme')">
+
+      <div class="win-title"><span class="win-title-icon">📄</span> README.txt - Notepad</div>
+
+      <div class="win-controls">
+
+        <button class="win-btn" onclick="minimizeWindow('win-readme')">_</button>
+
+        <button class="win-btn" id="readme-expand-btn" onclick="toggleReadmeMode()" title="Expand">⊡</button>
+
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-readme')">✕</button>
+
+      </div>
+
+    </div>
+
+    <div class="win-menubar">
+
+      <span class="win-menu-item">File</span>
+
+      <span class="win-menu-item">Edit</span>
+
+      <span class="win-menu-item">Help</span>
+
+    </div>
+
+
+
+    <!-- COMPACT MODE -->
+
+    <div id="readme-compact">
+
+      <div class="win-body" style="overflow:auto;max-height:400px;background:#fff;padding:12px 14px;">
+
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:10px;line-height:2;">
+
+          ROVEL OS v1.0 — README.txt
+
+        </div>
+
+        <div style="font-family:'VT323',monospace;font-size:17px;color:#333;line-height:1.8;margin-bottom:10px;">
+
+          Welcome to the portfolio of <strong>Rovel Floriane S. Lumapas</strong>.<br>
+
+          BSIT · 1st Year · University of San Carlos · Cebu, PH<br><br>
+
+          Double-click desktop icons or use Start to explore.
+
+        </div>
+
+        <div class="win-divider"></div>
+
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:8px 0 6px;">► CMD COMMANDS</div>
+
+        <table style="font-family:'Courier New',monospace;font-size:11px;color:#000;border-collapse:collapse;width:100%;">
+
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">help</td><td style="padding:2px 0;color:#444;">List all commands</td></tr>
+
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">about</td><td style="padding:2px 0;color:#444;">About this system</td></tr>
+
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">clear</td><td style="padding:2px 0;color:#444;">Clear the terminal</td></tr>
+
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">event add/list/remove</td><td style="padding:2px 0;color:#444;">Manage personal events</td></tr>
+
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">note "text"/list/remove</td><td style="padding:2px 0;color:#444;">Sticky notes on desktop</td></tr>
+
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">wx &lt;state&gt;</td><td style="padding:2px 0;color:#444;">Change weather</td></tr>
+
+          <tr><td style="padding:2px 8px 2px 0;color:#000080;white-space:nowrap;">exit</td><td style="padding:2px 0;color:#444;">Close the terminal</td></tr>
+
+        </table>
+
+        <div style="font-family:'VT323',monospace;font-size:15px;color:#888;margin-top:6px;">
+
+          wx states: clear · cloudy · overcast · fog · rain · storm · night · auto
+
+        </div>
+
+        <div class="win-divider"></div>
+
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:8px 0 6px;">► TIPS</div>
+
+        <div style="font-family:'VT323',monospace;font-size:17px;color:#333;line-height:1.8;">
+
+          · Events &amp; notes persist across sessions<br>
+
+          · wx auto fetches live weather from Mandaue City<br>
+
+          · Schedule widget is live and updates in real time<br>
+
+          · Try typing <strong>rovel</strong> in the terminal 👀
+
+        </div>
+
+        <div class="win-divider"></div>
+
+        <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#888;line-height:2;">
+
+          ??? There may be hidden commands...
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- BIG MODE -->
+
+    <div id="readme-big" style="display:none;">
+
+      <div style="display:flex;height:460px;">
+
+        <!-- LEFT sidebar -->
+
+        <div style="width:180px;min-width:180px;background:#000080;color:#fff;padding:14px 12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;">
+
+          <div style="text-align:center;font-size:40px;line-height:1;margin-bottom:4px;">📄</div>
+
+          <div style="font-family:'Press Start 2P',monospace;font-size:7px;text-align:center;line-height:2;border-bottom:1px solid #4466cc;padding-bottom:8px;">
+
+            README.txt
+
+          </div>
+
+          <div style="font-family:'VT323',monospace;font-size:16px;color:#aaccff;line-height:2;">
+
+            <div>VERSION &nbsp;1.0</div>
+
+            <div>AUTHOR &nbsp;&nbsp;Rovel F.</div>
+
+            <div>SCHOOL &nbsp;&nbsp;USC</div>
+
+            <div>YEAR &nbsp;&nbsp;&nbsp;&nbsp;1ST BSIT</div>
+
+            <div>CITY &nbsp;&nbsp;&nbsp;&nbsp;CEBU, PH</div>
+
+          </div>
+
+          <div style="border-top:1px solid #4466cc;padding-top:8px;font-family:'VT323',monospace;font-size:15px;color:#ffff88;line-height:1.9;">
+
+            <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:#aaccff;margin-bottom:4px;">QUICK REFS</div>
+
+            <div>help</div>
+
+            <div>about</div>
+
+            <div>clear / cls</div>
+
+            <div>event add</div>
+
+            <div>event list</div>
+
+            <div>event remove</div>
+
+            <div>note "text"</div>
+
+            <div>note list</div>
+
+            <div>note remove</div>
+
+            <div>wx &lt;state&gt;</div>
+
+            <div>exit</div>
+
+          </div>
+
+          <div style="margin-top:auto;font-family:'Press Start 2P',monospace;font-size:5px;color:#888;line-height:2;">
+
+            ??? hidden cmds...
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT content -->
+
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+
+          <div style="display:flex;border-bottom:2px solid #888;background:var(--win-body);" id="readme-tabs">
+
+            <button class="about-tab active-tab" onclick="switchReadmeTab('commands')">Commands</button>
+
+            <button class="about-tab" onclick="switchReadmeTab('usage')">Usage</button>
+
+            <button class="about-tab" onclick="switchReadmeTab('tips')">Tips</button>
+
+          </div>
+
+
+
+          <!-- Tab: Commands -->
+
+          <div class="about-tab-panel" id="readme-tab-commands" style="display:block;height:390px;">
+
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:2;color:#000;">
+
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► GENERAL</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">help</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List all commands</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">about</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About this system</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">clear</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clear the terminal</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">exit</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Close this window</div>
+
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► EVENTS</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">event add &lt;day&gt; &lt;HH:MM&gt; "title"</span></div>
+
+              <div style="padding-left:20px;color:#555;font-size:15px;">Add a personal event to the schedule</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">event list</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List all events</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">event remove &lt;id&gt;</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remove by ID</div>
+
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► NOTES</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">note "your text"</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin sticky to desktop</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">note list</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List all notes</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">note remove &lt;id&gt;</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remove by ID</div>
+
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► WEATHER</div>
+
+              <div><span style="color:#000080;font-family:'Courier New',monospace;font-size:12px;">wx &lt;state&gt;</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set weather state</div>
+
+              <div style="padding-left:20px;color:#555;font-size:15px;">clear · cloudy · overcast · fog · rain · storm · night · auto</div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Tab: Usage -->
+
+          <div class="about-tab-panel" id="readme-tab-usage" style="display:none;height:390px;">
+
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:2;color:#000;">
+
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► ADDING AN EVENT</div>
+
+              <div style="background:#000;color:#0f0;font-family:'Courier New',monospace;font-size:11px;padding:8px;margin-bottom:10px;line-height:1.8;">
+
+                C:\ROVEL&gt; event add friday 18:00 "Study session"<br>
+
+                C:\ROVEL&gt; event add monday 12:30 "Lunch w/ friends"<br>
+
+                C:\ROVEL&gt; event list
+
+              </div>
+
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► PINNING A NOTE</div>
+
+              <div style="background:#000;color:#0f0;font-family:'Courier New',monospace;font-size:11px;padding:8px;margin-bottom:10px;line-height:1.8;">
+
+                C:\ROVEL&gt; note "Buy coffee before 8AM class"<br>
+
+                C:\ROVEL&gt; note list<br>
+
+                C:\ROVEL&gt; note remove 12345
+
+              </div>
+
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin:10px 0 8px;">► CHANGING WEATHER</div>
+
+              <div style="background:#000;color:#0f0;font-family:'Courier New',monospace;font-size:11px;padding:8px;line-height:1.8;">
+
+                C:\ROVEL&gt; wx storm<br>
+
+                C:\ROVEL&gt; wx night<br>
+
+                C:\ROVEL&gt; wx auto
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Tab: Tips -->
+
+          <div class="about-tab-panel" id="readme-tab-tips" style="display:none;height:390px;">
+
+            <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:2;color:#000;">
+
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► TIPS &amp; TRICKS</div>
+
+              <div>💾 &nbsp;Events and notes <strong>persist across sessions</strong> via localStorage</div>
+
+              <div>🌦️ &nbsp;<strong>wx auto</strong> fetches live weather from Mandaue City</div>
+
+              <div>🕐 &nbsp;The schedule widget is <strong>live</strong> — updates every 30 seconds</div>
+
+              <div>⬆️ &nbsp;Use <strong>arrow keys</strong> in CMD to scroll through command history</div>
+
+              <div>🖱️ &nbsp;All windows are <strong>draggable and resizable</strong></div>
+
+              <div>🗂️ &nbsp;<strong>Double-click</strong> a desktop icon to open it</div>
+
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► SECRETS</div>
+
+              <div>👀 &nbsp;Try typing <strong>rovel</strong> in the terminal...</div>
+
+              <div style="color:#888;font-size:15px;">There may be other hidden commands. Explore!</div>
+
+              <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► AUTHOR</div>
+
+              <div>Rovel Floriane S. Lumapas</div>
+
+              <div style="color:#000080;">github.com/AlexanderTheBored</div>
+
+              <div style="color:#888;font-size:15px;">Built with HTML, CSS, JS. No frameworks.</div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="win-statusbar">
+
+      <span>README.txt</span>
+
+      <span>Read Only</span>
+
+    </div>
+
+    <div class="win-resize" onmousedown="startResize(event,'win-readme')"></div>
+
+  </div>
+
+
+
+
+
+
+<script>
+// README BIG MODE
+
+var readmeBig = false;
+
+function toggleReadmeMode() {
+
+  readmeBig = !readmeBig;
+
+  var win = document.getElementById('win-readme');
+
+  var compact = document.getElementById('readme-compact');
+
+  var big = document.getElementById('readme-big');
+
+  var btn = document.getElementById('readme-expand-btn');
+
+  if (readmeBig) {
+
+    compact.style.display = 'none';
+
+    big.style.display = 'block';
+
+    win.style.width = '680px';
+
+    btn.textContent = '⊠';
+
+    btn.title = 'Compact';
+
+  } else {
+
+    compact.style.display = 'block';
+
+    big.style.display = 'none';
+
+    win.style.width = '420px';
+
+    btn.textContent = '⊡';
+
+    btn.title = 'Expand';
+
+  }
+
+}
+
+
+
+function switchReadmeTab(tab) {
+
+  ['commands','usage','tips'].forEach(function(t) {
+
+    document.getElementById('readme-tab-' + t).style.display = t === tab ? 'block' : 'none';
+
+  });
+
+  document.querySelectorAll('#readme-tabs .about-tab').forEach(function(btn) {
+
+    btn.classList.toggle('active-tab', btn.getAttribute('onclick').includes("'" + tab + "'"));
+
+  });
+
+}
+
+
+
+</script>

@@ -1,0 +1,54 @@
+<!-- ===================== SCHEDULE WINDOW ===================== -->
+<div class="win-window" id="win-schedule" style="width:520px; top:50px; left:140px;">
+  <div class="win-titlebar" onmousedown="startDrag(event,'win-schedule')">
+    <div class="win-title">
+      <span class="win-title-icon">🕐</span> Class Schedule · 2nd Sem AY 2025
+      <span class="live-badge" id="live-badge">● LIVE</span>
+    </div>
+    <div class="win-controls">
+      <button class="win-btn" onclick="minimizeWindow('win-schedule')">_</button>
+      <button class="win-btn">□</button>
+      <button class="win-btn win-btn-close" onclick="closeWindow('win-schedule')">✕</button>
+    </div>
+  </div>
+  <div class="win-menubar">
+    <span class="win-menu-item">View</span>
+    <span class="win-menu-item">Refresh</span>
+  </div>
+  <div class="win-body" style="max-height:420px;">
+    <div class="win-inset" style="margin-bottom:10px;padding:8px 12px;">
+      <span style="font-family:'Press Start 2P',monospace;font-size:7px;">NOW: </span>
+      <span id="sched-now-code" style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;">--</span>
+      <span style="font-family:'VT323';font-size:18px;"> · </span>
+      <span id="sched-now-room" style="font-family:'VT323';font-size:18px;color:#444;"></span>
+      <span style="float:right;font-family:'VT323';font-size:16px;color:#888;" id="sched-now-eta"></span>
+    </div>
+    <table class="sched-table" id="sched-table">
+      <thead>
+        <tr>
+          <th>Subject</th><th>Day</th><th>Time</th><th>Room</th><th>Units</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-code="GE-FEL TFL"><td>GE-FEL TFL</td><td>M W</td><td>07:30–09:00</td><td>LB485TC</td><td>3.00</td></tr>
+        <tr data-code="TPE 1202"><td>TPE 1202</td><td>T Th</td><td>08:00–09:00</td><td>JBB102TC</td><td>2.00</td></tr>
+        <tr data-code="EDM 2"><td>EDM 2</td><td>T Th</td><td>09:00–10:30</td><td>MR105TC</td><td>3.00</td></tr>
+        <tr data-code="CIS 1205"><td>CIS 1205</td><td>M W</td><td>10:00–12:30</td><td>LB470TC</td><td>3.00</td></tr>
+        <tr data-code="CIS 2106N"><td>CIS 2106N</td><td>Sat</td><td>07:30–10:30</td><td>LB446TC</td><td>1.00</td></tr>
+        <tr data-code="IT 3106"><td>IT 3106</td><td>M W</td><td>13:30–15:00</td><td>LB486TC</td><td>3.00</td></tr>
+        <tr data-code="CIS 1204"><td>CIS 1204</td><td>T Th</td><td>13:30–15:00</td><td>LB484TC</td><td>3.00</td></tr>
+        <tr data-code="CIS 1201"><td>CIS 1201</td><td>M W</td><td>15:00–17:30</td><td>LB467TC</td><td>3.00</td></tr>
+        <tr data-code="CIS 1202"><td>CIS 1202</td><td>T Th</td><td>15:00–17:30</td><td>LB446TC</td><td>3.00</td></tr>
+        <tr data-code="NSTP 2"><td>NSTP 2</td><td>Sat</td><td>12:00–15:00</td><td>1B12c</td><td>3.00</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:8px;font-family:'Press Start 2P',monospace;font-size:6px;color:#666;">
+      Total: 27.00 units · University of San Carlos
+    </div>
+  </div>
+  <div class="win-statusbar">
+    <span>10 subjects</span>
+    <span id="sched-status">Checking...</span>
+  </div>
+  <div class="win-resize" onmousedown="startResize(event,'win-schedule')"></div>
+</div>

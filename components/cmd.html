@@ -1,0 +1,1079 @@
+<!-- ===================== CMD WINDOW ===================== -->
+<div class="win-window" id="win-cmd" style="width:560px;top:80px;left:120px;">
+  <div class="win-titlebar" onmousedown="startDrag(event,'win-cmd')">
+    <div class="win-title"><span class="win-title-icon">🖥️</span> C:\ROVEL\cmd.exe</div>
+    <div class="win-controls">
+      <button class="win-btn" onclick="minimizeWindow('win-cmd')">_</button>
+      <button class="win-btn">□</button>
+      <button class="win-btn win-btn-close" onclick="closeWindow('win-cmd')">✕</button>
+    </div>
+  </div>
+  <div id="cmd-body" style="background:#000;color:#c0c0c0;font-family:'Courier New',monospace;font-size:13px;height:340px;overflow-y:auto;padding:8px;cursor:text;" onclick="document.getElementById('cmd-input').focus()">
+    <div id="cmd-output"></div>
+    <div style="display:flex;align-items:center;margin-top:2px;">
+      <span id="cmd-prompt" style="color:#c0c0c0;white-space:nowrap;">C:\ROVEL&gt;&nbsp;</span>
+      <input id="cmd-input" type="text" autocomplete="off" spellcheck="false"
+        style="background:transparent;border:none;outline:none;color:#c0c0c0;font-family:'Courier New',monospace;font-size:13px;flex:1;caret-color:#c0c0c0;"
+        onkeydown="cmdKeyDown(event)">
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== CMD CONSOLE =====================
+var cmdHistory = [];
+var cmdHistIdx = -1;
+
+var userEvents = JSON.parse(localStorage.getItem('rovel_events') || '[]');
+var stickyNotes = JSON.parse(localStorage.getItem('rovel_notes') || '[]');
+
+var DAYS_MAP = {
+  monday:1, mon:1, tuesday:2, tue:2, wednesday:3, wed:3,
+  thursday:4, thu:4, friday:5, fri:5, saturday:6, sat:6, sunday:0, sun:0
+};
+
+function cmdPrint(text, cls) {
+  var out = document.getElementById('cmd-output');
+  if (!out) return;
+  var line = document.createElement('div');
+  if (cls) line.className = cls;
+  line.innerHTML = text;
+  out.appendChild(line);
+  var body = document.getElementById('cmd-body');
+  if (body) body.scrollTop = body.scrollHeight;
+}
+
+function cmdBlank() { cmdPrint('&nbsp;'); }
+
+function cmdKeyDown(e) {
+  var inp = document.getElementById('cmd-input');
+  if (e.key === 'Enter') {
+    var val = inp.value.trim();
+    cmdPrint('C:\\ROVEL&gt;&nbsp;' + escHtml(val), 'cmd-dim');
+    if (val) { cmdHistory.unshift(val); cmdHistIdx = -1; }
+    inp.value = '';
+    runCmd(val);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (cmdHistIdx < cmdHistory.length - 1) { cmdHistIdx++; inp.value = cmdHistory[cmdHistIdx]; }
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (cmdHistIdx > 0) { cmdHistIdx--; inp.value = cmdHistory[cmdHistIdx]; }
+    else { cmdHistIdx = -1; inp.value = ''; }
+  }
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function runCmd(raw) {
+  var parts = parseCmd(raw);
+  var cmd = (parts[0] || '').toLowerCase();
+
+  switch(cmd) {
+    case '': break;
+    case 'help': cmdHelp(); break;
+    case 'clear': case 'cls': document.getElementById('cmd-output').innerHTML = ''; break;
+    case 'about': cmdAbout(); break;
+    case 'event': cmdEvent(parts.slice(1)); break;
+    case 'note': cmdNote(parts.slice(1)); break;
+    case 'rovel': cmdEasterEgg(); break;
+    case 'wx': cmdWx(parts.slice(1)); break;
+    case 'exit': closeWindow('win-cmd'); break;
+    case 'lloyd': cmdSnake(); break;
+    default:
+      cmdPrint('<span class="cmd-error">\'' + escHtml(cmd) + '\' is not recognized as an internal or external command.</span>');
+      cmdPrint('<span class="cmd-dim">Type HELP for available commands.</span>');
+  }
+  cmdBlank();
+}
+
+function parseCmd(raw) {
+  var parts = [];
+  var re = /(?:[^\s"]+|"[^"]*")+/g;
+  var m;
+  while ((m = re.exec(raw)) !== null) {
+    parts.push(m[0].replace(/^"|"$/g, ''));
+  }
+  return parts;
+}
+
+function cmdHelp() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-info">ROVEL OS — Available Commands</span>');
+  cmdPrint('<span class="cmd-dim">──────────────────────────────────────</span>');
+  cmdPrint('  <span class="cmd-success">help</span>                      Show this list');
+  cmdPrint('  <span class="cmd-success">about</span>                     About this system');
+  cmdPrint('  <span class="cmd-success">clear</span>                     Clear the terminal');
+  cmdPrint('  <span class="cmd-success">event add &lt;day&gt; &lt;HH:MM&gt; "&lt;title&gt;"</span>');
+  cmdPrint('                            Add personal event to schedule');
+  cmdPrint('  <span class="cmd-success">event list</span>                List all your events');
+  cmdPrint('  <span class="cmd-success">event remove &lt;id&gt;</span>         Remove an event by ID');
+  cmdPrint('  <span class="cmd-success">note "&lt;text&gt;"</span>             Pin a sticky note to desktop');
+  cmdPrint('  <span class="cmd-success">note list</span>                  List all sticky notes');
+  cmdPrint('  <span class="cmd-success">note remove &lt;id&gt;</span>          Remove a sticky note by ID');
+  cmdPrint('  <span class="cmd-success">exit</span>                      Close this window');
+  cmdPrint('  <span class="cmd-success">wx &lt;state&gt;</span>               Force weather state for testing');
+  cmdPrint('<span class="cmd-dim">                            states: clear cloudy overcast rain storm fog night auto</span>');
+  cmdPrint('<span class="cmd-dim">──────────────────────────────────────</span>');
+  cmdPrint('<span class="cmd-dim">  ??? There may be other commands...</span>');
+}
+
+function cmdAbout() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-info">ROVEL OS v1.0 — Built by Rovel Floriane S. Lumapas</span>');
+  cmdPrint('<span class="cmd-dim">BSIT Student · University of San Carlos · Cebu, PH</span>');
+  cmdPrint('<span class="cmd-dim">Raw HTML/CSS/JS. No frameworks. Pure student energy.</span>');
+}
+
+// ── EVENT COMMANDS ──
+function cmdEvent(args) {
+  var sub = (args[0] || '').toLowerCase();
+  if (sub === 'list') {
+    cmdBlank();
+    if (!userEvents.length) { cmdPrint('<span class="cmd-dim">No personal events. Use: event add &lt;day&gt; &lt;HH:MM&gt; "title"</span>'); return; }
+    cmdPrint('<span class="cmd-info">Your Events:</span>');
+    userEvents.forEach(function(ev) {
+      cmdPrint('  [<span class="cmd-success">' + ev.id + '</span>] ' + ev.day.toUpperCase() + ' ' + ev.time + ' — ' + escHtml(ev.title));
+    });
+    return;
+  }
+  if (sub === 'remove') {
+    var id = parseInt(args[1]);
+    var before = userEvents.length;
+    userEvents = userEvents.filter(function(e) { return e.id !== id; });
+    if (userEvents.length < before) {
+      saveEvents();
+      cmdPrint('<span class="cmd-success">Event removed.</span>');
+      updateSchedule();
+    } else {
+      cmdPrint('<span class="cmd-error">No event with ID ' + id + '.</span>');
+    }
+    return;
+  }
+  if (sub === 'add') {
+    var day = (args[1] || '').toLowerCase();
+    var time = args[2] || '';
+    var title = args[3] || '';
+    if (!DAYS_MAP.hasOwnProperty(day)) {
+      cmdPrint('<span class="cmd-error">Unknown day: ' + escHtml(day) + '</span>');
+      cmdPrint('<span class="cmd-dim">Use: monday, tuesday, wednesday, thursday, friday, saturday, sunday</span>');
+      return;
+    }
+    if (!/^\d{1,2}:\d{2}$/.test(time)) {
+      cmdPrint('<span class="cmd-error">Invalid time. Use HH:MM format (e.g. 18:00)</span>');
+      return;
+    }
+    if (!title) {
+      cmdPrint('<span class="cmd-error">Missing title. Usage: event add friday 18:00 "Date night 🌙"</span>');
+      return;
+    }
+    var newId = Date.now() % 100000;
+    userEvents.push({ id: newId, day: day, dayNum: DAYS_MAP[day], time: time, title: title });
+    saveEvents();
+    updateSchedule();
+    cmdPrint('<span class="cmd-success">✓ Event added!</span> [ID: ' + newId + ']');
+    cmdPrint('  <span class="cmd-info">' + day.toUpperCase() + ' ' + time + ' — ' + escHtml(title) + '</span>');
+    return;
+  }
+  cmdPrint('<span class="cmd-error">Usage: event add &lt;day&gt; &lt;HH:MM&gt; "&lt;title&gt;"</span>');
+  cmdPrint('<span class="cmd-dim">       event list</span>');
+  cmdPrint('<span class="cmd-dim">       event remove &lt;id&gt;</span>');
+}
+
+function saveEvents() {
+  localStorage.setItem('rovel_events', JSON.stringify(userEvents));
+}
+
+// ── NOTE COMMANDS ──
+function cmdNote(args) {
+  var sub = (args[0] || '').toLowerCase();
+  if (sub === 'list') {
+    cmdBlank();
+    if (!stickyNotes.length) { cmdPrint('<span class="cmd-dim">No sticky notes. Use: note "your text here"</span>'); return; }
+    cmdPrint('<span class="cmd-info">Sticky Notes:</span>');
+    stickyNotes.forEach(function(n) {
+      cmdPrint('  [<span class="cmd-success">' + n.id + '</span>] ' + escHtml(n.text.substring(0,60)) + (n.text.length>60?'…':''));
+    });
+    return;
+  }
+  if (sub === 'remove') {
+    var id = parseInt(args[1]);
+    var el = document.getElementById('sticky-' + id);
+    if (el) el.remove();
+    var before = stickyNotes.length;
+    stickyNotes = stickyNotes.filter(function(n) { return n.id !== id; });
+    if (stickyNotes.length < before) {
+      saveNotes();
+      cmdPrint('<span class="cmd-success">Note removed.</span>');
+    } else {
+      cmdPrint('<span class="cmd-error">No note with ID ' + id + '.</span>');
+    }
+    return;
+  }
+  // treat first arg as the text (already parsed, quotes stripped)
+  var text = args[0] || '';
+  if (!text) {
+    cmdPrint('<span class="cmd-error">Usage: note "your text here"</span>');
+    cmdPrint('<span class="cmd-dim">       note list</span>');
+    cmdPrint('<span class="cmd-dim">       note remove &lt;id&gt;</span>');
+    return;
+  }
+  var newId = Date.now() % 100000;
+  var note = { id: newId, text: text, x: 200 + Math.random()*200, y: 100 + Math.random()*150 };
+  stickyNotes.push(note);
+  saveNotes();
+  renderNote(note);
+  cmdPrint('<span class="cmd-success">✓ Note pinned to desktop!</span> [ID: ' + newId + ']');
+}
+
+function saveNotes() {
+  localStorage.setItem('rovel_notes', JSON.stringify(stickyNotes));
+}
+
+function renderNote(note) {
+  var desktop = document.getElementById('desktop');
+  if (!desktop) return;
+  var el = document.createElement('div');
+  el.className = 'sticky-note';
+  el.id = 'sticky-' + note.id;
+  el.style.left = note.x + 'px';
+  el.style.top  = note.y + 'px';
+  el.innerHTML =
+    '<div class="sticky-titlebar" onmousedown="startDrag(event,\'sticky-' + note.id + '\')">' +
+      '<span>📌 NOTE</span>' +
+      '<span class="sticky-close" onclick="removeNote(' + note.id + ')">✕</span>' +
+    '</div>' +
+    '<div class="sticky-body">' + escHtml(note.text) + '</div>' +
+    '<div class="sticky-id">id:' + note.id + '</div>';
+  desktop.appendChild(el);
+}
+
+function removeNote(id) {
+  var el = document.getElementById('sticky-' + id);
+  if (el) el.remove();
+  stickyNotes = stickyNotes.filter(function(n) { return n.id !== id; });
+  saveNotes();
+}
+
+function loadStickyNotes() {
+  stickyNotes.forEach(renderNote);
+}
+
+// ── EASTER EGG ──
+var eggState = null;
+
+// ══════════════════════════════════════════════
+//  SNAKE GAME  —  triggered by: lloyd
+// ══════════════════════════════════════════════
+var snakeState = null;
+
+function cmdSnake() {
+  var out = document.getElementById('cmd-output');
+  var inp = document.getElementById('cmd-input');
+  if (!out || !inp) return;
+
+  // Intro lines
+  cmdPrint('<span style="color:#00ff00;font-weight:bold">LLOYD.EXE</span> <span class="cmd-dim">— loading snake...</span>');
+  cmdBlank();
+
+  // Build canvas inside cmd-output
+  var wrap = document.createElement('div');
+  wrap.id = 'snake-wrap';
+  wrap.style.cssText = 'position:relative;display:inline-block;border:2px solid #00ff00;margin:4px 0;';
+
+  var canvas = document.createElement('canvas');
+  var COLS = 20, ROWS = 16, CELL = 14;
+  canvas.width  = COLS * CELL;
+  canvas.height = ROWS * CELL;
+  canvas.style.cssText = 'display:block;background:#001100;image-rendering:pixelated;';
+  canvas.id = 'snake-canvas';
+
+  var scoreEl = document.createElement('div');
+  scoreEl.style.cssText = 'font-family:"Courier New",monospace;font-size:11px;color:#00ff00;padding:2px 6px;background:#001100;border-top:1px solid #00ff00;display:flex;justify-content:space-between;';
+  scoreEl.innerHTML = '<span id="snake-score">SCORE: 0</span><span style="color:#555">WASD / ARROWS · Q=QUIT</span>';
+
+  wrap.appendChild(canvas);
+  wrap.appendChild(scoreEl);
+
+  var li = document.createElement('div');
+  li.appendChild(wrap);
+  out.appendChild(li);
+  out.scrollTop = out.scrollHeight;
+
+  // Hide cmd input while playing
+  inp.style.display = 'none';
+
+  var ctx = canvas.getContext('2d');
+
+  function rndFood(snake) {
+    var pos;
+    do {
+      pos = { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
+    } while (snake.some(function(s){ return s.x === pos.x && s.y === pos.y; }));
+    return pos;
+  }
+
+  var s = {
+    snake   : [{ x:10, y:8 }, { x:9, y:8 }, { x:8, y:8 }],
+    dir     : { x:1, y:0 },
+    nextDir : { x:1, y:0 },
+    food    : null,
+    score   : 0,
+    alive   : true,
+    loop    : null,
+    speed   : 130,
+  };
+  s.food = rndFood(s.snake);
+  snakeState = s;
+
+  function draw() {
+    ctx.fillStyle = '#001100';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Grid dots
+    ctx.fillStyle = '#002200';
+    for (var gx = 0; gx < COLS; gx++) {
+      for (var gy = 0; gy < ROWS; gy++) {
+        ctx.fillRect(gx * CELL + CELL/2 - 1, gy * CELL + CELL/2 - 1, 2, 2);
+      }
+    }
+
+    // Food — blinking pixel cross
+    var blink = Math.floor(Date.now() / 300) % 2;
+    ctx.fillStyle = blink ? '#ff4444' : '#ff8888';
+    var fx = s.food.x * CELL, fy = s.food.y * CELL;
+    ctx.fillRect(fx + 3, fy + CELL/2 - 1, CELL - 6, 2);
+    ctx.fillRect(fx + CELL/2 - 1, fy + 3, 2, CELL - 6);
+
+    // Snake
+    s.snake.forEach(function(seg, i) {
+      var brightness = i === 0 ? '00ff00' : (i < 3 ? '00dd00' : '009900');
+      ctx.fillStyle = '#' + brightness;
+      ctx.fillRect(seg.x * CELL + 1, seg.y * CELL + 1, CELL - 2, CELL - 2);
+      // Head eyes
+      if (i === 0) {
+        ctx.fillStyle = '#001100';
+        var ex = seg.x * CELL, ey = seg.y * CELL;
+        if (s.dir.x === 1)  { ctx.fillRect(ex+9, ey+3, 2, 2); ctx.fillRect(ex+9, ey+9, 2, 2); }
+        if (s.dir.x === -1) { ctx.fillRect(ex+3, ey+3, 2, 2); ctx.fillRect(ex+3, ey+9, 2, 2); }
+        if (s.dir.y === -1) { ctx.fillRect(ex+3, ey+3, 2, 2); ctx.fillRect(ex+9, ey+3, 2, 2); }
+        if (s.dir.y === 1)  { ctx.fillRect(ex+3, ey+9, 2, 2); ctx.fillRect(ex+9, ey+9, 2, 2); }
+      }
+    });
+  }
+
+  function tick() {
+    if (!s.alive) return;
+    s.dir = s.nextDir;
+    var head = { x: s.snake[0].x + s.dir.x, y: s.snake[0].y + s.dir.y };
+
+    // Wall collision
+    if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) { gameOver(); return; }
+    // Self collision
+    if (s.snake.some(function(seg){ return seg.x === head.x && seg.y === head.y; })) { gameOver(); return; }
+
+    s.snake.unshift(head);
+    if (head.x === s.food.x && head.y === s.food.y) {
+      s.score += 10;
+      document.getElementById('snake-score').textContent = 'SCORE: ' + s.score;
+      s.food = rndFood(s.snake);
+      // Speed up slightly every 50 points
+      if (s.score % 50 === 0 && s.speed > 60) { s.speed -= 10; restartLoop(); }
+    } else {
+      s.snake.pop();
+    }
+    draw();
+  }
+
+  function restartLoop() {
+    clearInterval(s.loop);
+    s.loop = setInterval(tick, s.speed);
+  }
+
+  function gameOver() {
+    s.alive = false;
+    clearInterval(s.loop);
+    snakeState = null;
+
+    // Flash red
+    ctx.fillStyle = 'rgba(255,0,0,0.25)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ff4444';
+    ctx.font = 'bold 16px "Courier New"';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2 - 10);
+    ctx.font = '11px "Courier New"';
+    ctx.fillStyle = '#aaa';
+    ctx.fillText('SCORE: ' + s.score, canvas.width/2, canvas.height/2 + 8);
+    ctx.fillText('Press any key to exit', canvas.width/2, canvas.height/2 + 24);
+
+    document.removeEventListener('keydown', onKey);
+    document.addEventListener('keydown', exitSnake, { once: true });
+  }
+
+  function exitSnake() {
+    clearInterval(s.loop);
+    snakeState = null;
+    document.removeEventListener('keydown', onKey);
+    wrap.remove();
+    inp.style.display = '';
+    inp.focus();
+    cmdPrint('<span class="cmd-dim">Game over. Score: ' + s.score + '</span>');
+    cmdBlank();
+    out.scrollTop = out.scrollHeight;
+  }
+
+  function onKey(e) {
+    if (!s.alive) return;
+    var k = e.key;
+    // Prevent arrow keys from scrolling the page
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(k) !== -1) e.preventDefault();
+    if ((k === 'ArrowUp'    || k === 'w' || k === 'W') && s.dir.y !== 1)  s.nextDir = {x:0, y:-1};
+    if ((k === 'ArrowDown'  || k === 's' || k === 'S') && s.dir.y !== -1) s.nextDir = {x:0, y:1};
+    if ((k === 'ArrowLeft'  || k === 'a' || k === 'A') && s.dir.x !== 1)  s.nextDir = {x:-1, y:0};
+    if ((k === 'ArrowRight' || k === 'd' || k === 'D') && s.dir.x !== -1) s.nextDir = {x:1, y:0};
+    if (k === 'q' || k === 'Q') { s.alive = false; exitSnake(); }
+  }
+
+  document.addEventListener('keydown', onKey);
+  draw();
+  restartLoop();
+  canvas.scrollIntoView({ block: 'nearest' });
+}
+// ══════════════════════════════════════════════
+//  END SNAKE
+// ══════════════════════════════════════════════
+
+function cmdEasterEgg() {
+  // Phase 1: BSOD
+  var bsod = document.getElementById('bsod-overlay');
+  bsod.classList.add('show');
+
+  function dismissBsod() {
+    bsod.classList.remove('show');
+    document.removeEventListener('keydown', dismissBsod);
+    bsod.removeEventListener('click', dismissBsod);
+    setTimeout(showAsciiAndGame, 300);
+  }
+  document.addEventListener('keydown', dismissBsod);
+  bsod.addEventListener('click', dismissBsod);
+}
+
+function showAsciiAndGame() {
+  openWindow('win-cmd');
+  var out = document.getElementById('cmd-output');
+  if (out) out.innerHTML = '';
+
+  cmdPrint('<span class="cmd-error">FATAL ERROR: identity.exe has stopped working</span>');
+  cmdBlank();
+
+  // Typewriter ASCII art
+  var ascii = [
+    ' ____   _____  _    _ _____  _',
+    '|  _ \\ / ___ || |  | |  ___|| |',
+    '| |_) | |   | | |  | | |__  | |',
+    '|    /| |   | | |  | |  __| | |',
+    '| |\\ \\| |___| | |__| | |___  \\___',
+    '|_| \\_|\\_____/ |_____/|_____|  ___/',
+    '',
+    '       Floriane · Lumapas · USC · BSIT',
+    '   "Ships code. Leads teams. Writes stories."',
+    '      3rd place hackathon. First in CS. 🏆',
+  ];
+
+  var i = 0;
+  function typeNext() {
+    if (i < ascii.length) {
+      cmdPrint('<span class="cmd-ascii">' + escHtml(ascii[i]) + '</span>');
+      i++;
+      setTimeout(typeNext, 60);
+    } else {
+      setTimeout(startGame, 400);
+    }
+  }
+  typeNext();
+}
+
+// ── MINI GAME: ASTEROIDS ──
+function startGame() {
+  cmdBlank();
+  cmdPrint('<span class="cmd-success">  🚀 Launching ASTEROIDS.EXE...</span>');
+  cmdBlank();
+  setTimeout(function() { openAsteroids(); }, 400);
+}
+
+function openAsteroids() {
+  // Create window if not exists
+  if (!document.getElementById('win-asteroids')) {
+    var win = document.createElement('div');
+    win.className = 'win-window';
+    win.id = 'win-asteroids';
+    win.style.cssText = 'width:480px;top:60px;left:160px;';
+    win.innerHTML =
+      '<div class="win-titlebar" onmousedown="startDrag(event,\'win-asteroids\')">' +
+        '<div class="win-title"><span class="win-title-icon">🚀</span> ASTEROIDS.EXE</div>' +
+        '<div class="win-controls">' +
+          '<button class="win-btn" onclick="minimizeWindow(\'win-asteroids\')">_</button>' +
+          '<button class="win-btn">□</button>' +
+          '<button class="win-btn win-btn-close" onclick="closeAsteroids()">✕</button>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:#000;display:flex;flex-direction:column;align-items:center;padding:8px;gap:6px;">' +
+        '<canvas id="asteroids-canvas" width="460" height="340" style="display:block;background:#000;border:1px solid #333;"></canvas>' +
+        '<div style="display:flex;gap:16px;align-items:center;">' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#0f0;">SCORE: <span id="ast-score">0</span></span>' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#0f0;">LIVES: <span id="ast-lives">3</span></span>' +
+          '<span style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:#ff0;">LEVEL: <span id="ast-level">1</span></span>' +
+        '</div>' +
+        '<div style="font-family:\'Press Start 2P\',monospace;font-size:6px;color:#555;text-align:center;line-height:2;">' +
+          'ARROWS/WASD: MOVE &nbsp;|&nbsp; Q/E: STRAFE &nbsp;|&nbsp; CLICK: SHOOT &nbsp;|&nbsp; SPACE: DODGE &nbsp;|&nbsp; P: PAUSE' +
+        '</div>' +
+      '</div>';
+    document.getElementById('desktop').appendChild(win);
+  }
+  openWindow('win-asteroids');
+  setTimeout(initAsteroids, 100);
+}
+
+function closeAsteroids() {
+  stopAsteroids();
+  closeWindow('win-asteroids');
+}
+
+// ── ASTEROIDS ENGINE ──
+var AST = null;
+
+function stopAsteroids() {
+  if (AST && AST.raf) { cancelAnimationFrame(AST.raf); }
+  if (AST) {
+    document.removeEventListener('keydown', AST.keydown);
+    document.removeEventListener('keyup', AST.keyup);
+    var c = document.getElementById('asteroids-canvas');
+    if (c && AST.mousedown) c.removeEventListener('mousedown', AST.mousedown);
+  }
+  AST = null;
+}
+
+function initAsteroids() {
+  stopAsteroids();
+  var canvas = document.getElementById('asteroids-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+
+  AST = {
+    raf: null, paused: false, over: false, started: false,
+    score: 0, lives: 3, level: 1,
+    keys: {},
+    ship: null, bullets: [], asteroids: [], particles: [],
+    invTimer: 0, dodgeCool: 0, dodgeTimer: 0,
+    ctx: ctx, W: W, H: H,
+    keydown: null, keyup: null
+  };
+
+  function mkShip() {
+    return {
+      x: W/2, y: H/2, vx: 0, vy: 0,
+      angle: -Math.PI/2,
+      thrusting: false, reversing: false, strafingL: false, strafingR: false
+    };
+  }
+
+  function mkAsteroid(x, y, r) {
+    var ang = Math.random() * Math.PI * 2;
+    var spd = (0.6 + Math.random() * 0.9) * (1 + (AST.level - 1) * 0.08);
+    var pts = [];
+    var n = 10 + Math.floor(Math.random() * 5);
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * Math.PI * 2;
+      var jitter = r * (0.72 + Math.random() * 0.32);
+      pts.push({ x: Math.cos(a) * jitter, y: Math.sin(a) * jitter });
+    }
+    var orbitDir = Math.random() > 0.5 ? 1 : -1;
+    return {
+      x: x, y: y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd,
+      r: r, pts: pts, rot: 0, rotSpd: (Math.random()-0.5)*0.04,
+      orbitDir: orbitDir, orbitStrength: 0.004 + Math.random() * 0.004
+    };
+  }
+
+  function spawnWave() {
+    AST.asteroids = [];
+    var count = Math.min(3 + AST.level, 8);
+    for (var i = 0; i < count; i++) {
+      var x, y, tries = 0;
+      do {
+        var edge = Math.floor(Math.random() * 4);
+        if (edge === 0) { x = Math.random()*W; y = -50; }
+        else if (edge === 1) { x = Math.random()*W; y = H+50; }
+        else if (edge === 2) { x = -50; y = Math.random()*H; }
+        else { x = W+50; y = Math.random()*H; }
+        tries++;
+      } while (tries < 20 && Math.hypot(x - W/2, y - H/2) < 150);
+      AST.asteroids.push(mkAsteroid(x, y, 36));
+    }
+  }
+
+  function mkParticles(x, y, n, col) {
+    for (var i = 0; i < n; i++) {
+      var ang = Math.random() * Math.PI * 2;
+      var spd = 1 + Math.random() * 3;
+      AST.particles.push({ x:x, y:y, vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd, life:1, col:col||'#fff' });
+    }
+  }
+
+  AST.ship = mkShip();
+  spawnWave();
+
+  AST.mousedown = function(e) {
+    if (e.button !== 0) return;
+    if (!AST.started) { AST.started = true; return; }
+    if (!AST.paused && !AST.over) shoot();
+  };
+  canvas.addEventListener('mousedown', AST.mousedown);
+
+  AST.keydown = function(e) {
+    AST.keys[e.code] = true;
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)) e.preventDefault();
+    if (e.code === 'KeyP') AST.paused = !AST.paused;
+    if (e.code === 'Space' && !AST.paused && !AST.over && AST.started) dodge();
+    if (e.code === 'Enter' && AST.over) { initAsteroids(); return; }
+    if (e.code === 'Space' && !AST.started) { AST.started = true; }
+  };
+  AST.keyup = function(e) { delete AST.keys[e.code]; };
+  document.addEventListener('keydown', AST.keydown);
+  document.addEventListener('keyup', AST.keyup);
+
+  var shootCool = 0;
+
+  function shoot() {
+    if (shootCool > 0) return;
+    var s = AST.ship;
+    var bvx = Math.cos(s.angle) * 10 + s.vx * 0.5;
+    var bvy = Math.sin(s.angle) * 10 + s.vy * 0.5;
+    AST.bullets.push({
+      x: s.x + Math.cos(s.angle)*14,
+      y: s.y + Math.sin(s.angle)*14,
+      vx: bvx, vy: bvy, life: 52
+    });
+    shootCool = 9;
+  }
+
+  function dodge() {
+    if (AST.dodgeCool > 0) return;
+    var s = AST.ship;
+    var spd = Math.hypot(s.vx, s.vy);
+    var dx, dy;
+    if (spd > 0.5) {
+      dx = s.vx / spd; dy = s.vy / spd;
+    } else {
+      dx = Math.cos(s.angle); dy = Math.sin(s.angle);
+    }
+    s.vx = dx * 9; s.vy = dy * 9;
+    AST.dodgeTimer = 22;
+    AST.invTimer = Math.max(AST.invTimer, 22);
+    AST.dodgeCool = 90;
+    for (var i = 0; i < 8; i++) {
+      AST.particles.push({
+        x: s.x - dx*i*3 + (Math.random()-0.5)*6,
+        y: s.y - dy*i*3 + (Math.random()-0.5)*6,
+        vx: -dx*(1+Math.random()) + (Math.random()-0.5),
+        vy: -dy*(1+Math.random()) + (Math.random()-0.5),
+        life: 0.7, col: '#0ff'
+      });
+    }
+  }
+
+  function wrap(obj) {
+    if (obj.x < -50)  obj.x += W + 100;
+    if (obj.x > W+50) obj.x -= W + 100;
+    if (obj.y < -50)  obj.y += H + 100;
+    if (obj.y > H+50) obj.y -= H + 100;
+  }
+
+  function update() {
+    if (AST.paused || AST.over || !AST.started) return;
+    shootCool      = Math.max(0, shootCool - 1);
+    AST.dodgeCool  = Math.max(0, AST.dodgeCool - 1);
+    AST.dodgeTimer = Math.max(0, AST.dodgeTimer - 1);
+    if (AST.invTimer > 0) AST.invTimer--;
+
+    var s = AST.ship;
+
+    if (AST.keys['ArrowLeft']  || AST.keys['KeyA']) s.angle -= 0.07;
+    if (AST.keys['ArrowRight'] || AST.keys['KeyD']) s.angle += 0.07;
+
+    s.thrusting = !!(AST.keys['ArrowUp'] || AST.keys['KeyW']);
+    if (s.thrusting) {
+      s.vx += Math.cos(s.angle) * 0.28;
+      s.vy += Math.sin(s.angle) * 0.28;
+    }
+    s.reversing = !!(AST.keys['ArrowDown'] || AST.keys['KeyS']);
+    if (s.reversing) {
+      s.vx -= Math.cos(s.angle) * 0.18;
+      s.vy -= Math.sin(s.angle) * 0.18;
+    }
+    s.strafingL = !!AST.keys['KeyQ'];
+    s.strafingR = !!AST.keys['KeyE'];
+    if (s.strafingL) {
+      s.vx += Math.cos(s.angle - Math.PI/2) * 0.18;
+      s.vy += Math.sin(s.angle - Math.PI/2) * 0.18;
+    }
+    if (s.strafingR) {
+      s.vx += Math.cos(s.angle + Math.PI/2) * 0.18;
+      s.vy += Math.sin(s.angle + Math.PI/2) * 0.18;
+    }
+
+    s.vx *= 0.982; s.vy *= 0.982;
+    var spd = Math.hypot(s.vx, s.vy);
+    if (spd > 7) { s.vx = s.vx/spd*7; s.vy = s.vy/spd*7; }
+    s.x += s.vx; s.y += s.vy;
+    wrap(s);
+
+    for (var i = AST.bullets.length-1; i >= 0; i--) {
+      var b = AST.bullets[i];
+      b.x += b.vx; b.y += b.vy; b.life--;
+      wrap(b);
+      if (b.life <= 0) { AST.bullets.splice(i,1); continue; }
+      var hit = false;
+      for (var j = AST.asteroids.length-1; j >= 0; j--) {
+        var a = AST.asteroids[j];
+        if (Math.hypot(b.x-a.x, b.y-a.y) < a.r * 0.88) {
+          AST.bullets.splice(i,1);
+          hitAsteroid(j);
+          hit = true; break;
+        }
+      }
+    }
+
+    for (var i = 0; i < AST.asteroids.length; i++) {
+      var a = AST.asteroids[i];
+
+      var dx = s.x - a.x, dy = s.y - a.y;
+      var dist = Math.hypot(dx, dy) || 1;
+      var perpX = -dy/dist * a.orbitDir;
+      var perpY =  dx/dist * a.orbitDir;
+      a.vx += (perpX * 0.7 + dx/dist * 0.15) * a.orbitStrength;
+      a.vy += (perpY * 0.7 + dy/dist * 0.15) * a.orbitStrength;
+
+      var aspd = Math.hypot(a.vx, a.vy);
+      var maxAspd = (0.8 + Math.random()*0.3) * (1 + (AST.level-1)*0.08);
+      if (aspd > maxAspd + 1) { a.vx = a.vx/aspd*(maxAspd+1); a.vy = a.vy/aspd*(maxAspd+1); }
+
+      a.x += a.vx; a.y += a.vy; a.rot += a.rotSpd;
+      wrap(a);
+
+      var onScreen = a.x > -a.r && a.x < W+a.r && a.y > -a.r && a.y < H+a.r;
+      if (onScreen && AST.invTimer === 0 && Math.hypot(s.x-a.x, s.y-a.y) < a.r * 0.55) {
+        killShip();
+      }
+    }
+
+    for (var i = AST.particles.length-1; i >= 0; i--) {
+      var p = AST.particles[i];
+      p.x += p.vx; p.y += p.vy; p.life -= 0.025;
+      if (p.life <= 0) AST.particles.splice(i,1);
+    }
+
+    if (AST.asteroids.length === 0) {
+      AST.level++;
+      document.getElementById('ast-level').textContent = AST.level;
+      mkParticles(W/2, H/2, 30, '#ff0');
+      setTimeout(spawnWave, 800);
+    }
+
+    document.getElementById('ast-score').textContent = AST.score;
+    document.getElementById('ast-lives').textContent = AST.lives;
+  }
+
+  function hitAsteroid(j) {
+    var a = AST.asteroids[j];
+    var pts = a.r > 22 ? 20 : a.r > 12 ? 50 : 100;
+    AST.score += pts * AST.level;
+    mkParticles(a.x, a.y, 10, '#fa0');
+    AST.asteroids.splice(j, 1);
+    if (a.r > 20) {
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*20, a.y + (Math.random()-0.5)*20, Math.round(a.r*0.52)));
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*20, a.y + (Math.random()-0.5)*20, Math.round(a.r*0.52)));
+    } else if (a.r > 11) {
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*14, a.y + (Math.random()-0.5)*14, Math.round(a.r*0.52)));
+      AST.asteroids.push(mkAsteroid(a.x + (Math.random()-0.5)*14, a.y + (Math.random()-0.5)*14, Math.round(a.r*0.52)));
+    }
+  }
+
+  function killShip() {
+    mkParticles(AST.ship.x, AST.ship.y, 22, '#f44');
+    AST.lives--;
+    document.getElementById('ast-lives').textContent = AST.lives;
+    if (AST.lives <= 0) { AST.over = true; return; }
+    AST.ship = mkShip();
+    AST.invTimer = 240;
+  }
+
+  function drawShip(s) {
+    if (AST.invTimer > 0 && AST.dodgeTimer === 0 && Math.floor(AST.invTimer/6)%2===0) return;
+    ctx.save();
+    ctx.translate(s.x, s.y);
+    ctx.rotate(s.angle);
+
+    if (AST.dodgeTimer > 0) {
+      ctx.shadowColor = '#0ff';
+      ctx.shadowBlur = 12;
+    }
+
+    ctx.strokeStyle = AST.dodgeTimer > 0 ? '#fff' : '#0ff';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(14, 0);
+    ctx.lineTo(-10, 8);
+    ctx.lineTo(-6, 0);
+    ctx.lineTo(-10, -8);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+
+    if (s.thrusting && Math.random() > 0.3) {
+      ctx.strokeStyle = Math.random() > 0.5 ? '#f80' : '#ff0';
+      ctx.beginPath();
+      ctx.moveTo(-6, 4);
+      ctx.lineTo(-14 - Math.random()*8, 0);
+      ctx.lineTo(-6, -4);
+      ctx.stroke();
+    }
+    if (s.reversing && Math.random() > 0.4) {
+      ctx.strokeStyle = '#88f';
+      ctx.beginPath();
+      ctx.moveTo(10, 4);
+      ctx.lineTo(18 + Math.random()*4, 6);
+      ctx.moveTo(10, -4);
+      ctx.lineTo(18 + Math.random()*4, -6);
+      ctx.stroke();
+    }
+    if (s.strafingL && Math.random() > 0.4) {
+      ctx.strokeStyle = '#0a8';
+      ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(0, -11 - Math.random()*4); ctx.stroke();
+    }
+    if (s.strafingR && Math.random() > 0.4) {
+      ctx.strokeStyle = '#0a8';
+      ctx.beginPath(); ctx.moveTo(0, 5); ctx.lineTo(0, 11 + Math.random()*4); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawAsteroid(a) {
+    ctx.save();
+    ctx.translate(a.x, a.y);
+    ctx.rotate(a.rot);
+    ctx.strokeStyle = '#888';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(a.pts[0].x, a.pts[0].y);
+    for (var i = 1; i < a.pts.length; i++) ctx.lineTo(a.pts[i].x, a.pts[i].y);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawHUD() {
+    var barW = 60, barH = 6;
+    var bx = 8, by = H - 18;
+    ctx.fillStyle = '#222';
+    ctx.fillRect(bx, by, barW, barH);
+    var pct = 1 - (AST.dodgeCool / 90);
+    ctx.fillStyle = pct >= 1 ? '#0ff' : '#088';
+    ctx.fillRect(bx, by, Math.round(barW * pct), barH);
+    ctx.strokeStyle = '#444';
+    ctx.strokeRect(bx, by, barW, barH);
+    ctx.fillStyle = '#0ff';
+    ctx.font = '5px "Press Start 2P", monospace';
+    ctx.fillText('DODGE', bx, by - 3);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.fillStyle = '#fff';
+    for (var i = 0; i < 60; i++) {
+      var sx = (i * 137 + 17) % W;
+      var sy = (i * 97  + 31) % H;
+      ctx.globalAlpha = 0.15 + (i%3)*0.1;
+      ctx.fillRect(sx, sy, 1, 1);
+    }
+    ctx.globalAlpha = 1;
+
+    if (!AST.started) {
+      ctx.fillStyle = '#0f0';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('ASTEROIDS', W/2, H/2 - 30);
+      ctx.font = '6px "Press Start 2P", monospace';
+      ctx.fillStyle = '#ff0';
+      ctx.fillText('PRESS SPACE TO START', W/2, H/2);
+      ctx.fillStyle = '#0ff';
+      ctx.fillText('ARROWS/WASD: MOVE  |  Q/E: STRAFE', W/2, H/2 + 18);
+      ctx.fillText('CLICK: SHOOT  |  SPACE: DODGE  |  P: PAUSE', W/2, H/2 + 32);
+      ctx.fillStyle = '#333';
+      ctx.fillText('type  rovel  in cmd to unlock', W/2, H/2 + 52);
+      ctx.textAlign = 'left';
+      return;
+    }
+
+    AST.particles.forEach(function(p) {
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.col;
+      ctx.fillRect(p.x-1, p.y-1, 3, 3);
+    });
+    ctx.globalAlpha = 1;
+
+    AST.bullets.forEach(function(b) {
+      ctx.fillStyle = '#ff0';
+      ctx.fillRect(b.x-2, b.y-2, 4, 4);
+    });
+
+    AST.asteroids.forEach(drawAsteroid);
+    drawShip(AST.ship);
+    drawHUD();
+
+    if (AST.paused) {
+      ctx.fillStyle = 'rgba(0,0,0,0.55)';
+      ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#ff0';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('PAUSED', W/2, H/2);
+      ctx.textAlign = 'left';
+    }
+
+    if (AST.over) {
+      ctx.fillStyle = 'rgba(0,0,0,0.65)';
+      ctx.fillRect(0,0,W,H);
+      ctx.textAlign = 'center';
+      ctx.font = '10px "Press Start 2P", monospace';
+      ctx.fillStyle = '#f44';
+      ctx.fillText('GAME OVER', W/2, H/2 - 28);
+      ctx.font = '7px "Press Start 2P", monospace';
+      ctx.fillStyle = '#fff';
+      ctx.fillText('SCORE: ' + AST.score, W/2, H/2);
+      ctx.fillStyle = '#0f0';
+      ctx.fillText('PRESS ENTER TO RETRY', W/2, H/2 + 24);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  function loop() { update(); draw(); AST.raf = requestAnimationFrame(loop); }
+  AST.raf = requestAnimationFrame(loop);
+}
+
+var _origRunCmd = runCmd;
+runCmd = function(raw) {
+  _origRunCmd(raw);
+};
+
+// ── WX TEST COMMAND ──
+var WX_STATES = {
+  // Day variants
+  clear:         { code: 0,  isDay: 1, temp: 32 },
+  cloudy:        { code: 2,  isDay: 1, temp: 30 },
+  overcast:      { code: 3,  isDay: 1, temp: 29 },
+  fog:           { code: 45, isDay: 1, temp: 27 },
+  rain:          { code: 61, isDay: 1, temp: 26 },
+  storm:         { code: 95, isDay: 1, temp: 25 },
+  // Night variants
+  night:         { code: 0,  isDay: 0, temp: 28 },
+  'night-cloudy':  { code: 2,  isDay: 0, temp: 26 },
+  'night-overcast':{ code: 3,  isDay: 0, temp: 25 },
+  'night-fog':     { code: 45, isDay: 0, temp: 24 },
+  'night-rain':    { code: 61, isDay: 0, temp: 23 },
+  'night-storm':   { code: 95, isDay: 0, temp: 22 },
+};
+
+function cmdWx(args) {
+  var state = (args[0] || '').toLowerCase();
+  if (!state) {
+    cmdPrint('<span class="cmd-error">Usage: wx &lt;state&gt;</span>');
+    cmdPrint('<span class="cmd-dim">States: clear  cloudy  overcast  fog  rain  storm  night  auto</span>');
+    return;
+  }
+  if (state === 'auto') {
+    fetchWeather();
+    cmdPrint('<span class="cmd-success">✓ Fetching live weather from Mandaue...</span>');
+    return;
+  }
+  var wx = WX_STATES[state];
+  if (!wx) {
+    cmdPrint('<span class="cmd-error">Unknown state: ' + escHtml(state) + '</span>');
+    cmdPrint('<span class="cmd-dim">Try: clear  cloudy  overcast  fog  rain  storm  night  auto</span>');
+    return;
+  }
+  applyWeather(wx.code, wx.temp, wx.isDay);
+  cmdPrint('<span class="cmd-success">✓ Weather set to: ' + state.toUpperCase() + ' (' + wx.temp + '°C)</span>');
+}
+
+// ── CMD BOOT MESSAGE ──
+function cmdBoot() {
+  var out = document.getElementById('cmd-output');
+
+  if (!out || out.children.length > 0) return;
+  cmdPrint('<span class="cmd-info">ROVEL OS [Version 1.0.0]</span>');
+  cmdPrint('<span class="cmd-dim">(C) 2025 Rovel Floriane S. Lumapas. All rights reserved.</span>');
+  cmdBlank();
+  cmdPrint('<span class="cmd-dim">Type HELP for available commands.</span>');
+  cmdBlank();
+}
+
+// ── INTEGRATE USER EVENTS INTO SCHEDULE ──
+var _origUpdateSchedule = updateSchedule;
+updateSchedule = function() {
+  _origUpdateSchedule();
+  if (typeof renderDayList === 'function' && document.getElementById('sw-big') &&
+      document.getElementById('sw-big').style.display !== 'none') {
+    renderDayList();
+  }
+};
+
+// Patch schedule to include user events
+var _origSchedule = schedule;
+try { Object.defineProperty(window, 'schedule', {
+  configurable: true,
+  get: function() {
+    var base = _origSchedule.slice();
+    userEvents.forEach(function(ev) {
+      base.push({
+        days: [ev.dayNum],
+        start: ev.time,
+        end: padEndTime(ev.time),
+        code: ev.title,
+        room: '📌 Personal',
+        isPersonal: true
+      });
+    });
+    return base;
+  }
+}); } catch(e) { console.warn('schedule patch skipped:', e.message); }
+
+function padEndTime(t) {
+  var p = t.split(':');
+  var h = parseInt(p[0]), m = parseInt(p[1]) + 60;
+  if (m >= 60) { h++; m -= 60; }
+  if (h >= 24) h = 23;
+  return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+}
+
+// ── INIT ──
+var _origOpenWindow = openWindow;
+openWindow = function(id) {
+  _origOpenWindow(id);
+  if (id === 'win-cmd') cmdBoot();
+};
+
+// Load saved notes on startup
+document.addEventListener('DOMContentLoaded', function() {
+  loadStickyNotes();
+});
+
+
+</script>

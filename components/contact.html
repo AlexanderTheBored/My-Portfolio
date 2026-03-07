@@ -1,0 +1,49 @@
+<!-- ===================== CONTACT WINDOW ===================== -->
+<div class="win-window" id="win-contact" style="width:340px; top:70px; left:360px;">
+  <div class="win-titlebar" onmousedown="startDrag(event,'win-contact')">
+    <div class="win-title"><span class="win-title-icon">📧</span> Contact</div>
+    <div class="win-controls">
+      <button class="win-btn" onclick="minimizeWindow('win-contact')">_</button>
+      <button class="win-btn">□</button>
+      <button class="win-btn win-btn-close" onclick="closeWindow('win-contact')">✕</button>
+    </div>
+  </div>
+  <div class="win-menubar">
+    <span class="win-menu-item">File</span>
+    <span class="win-menu-item">Help</span>
+  </div>
+  <div class="win-body">
+    <div class="win-inset" style="text-align:center;padding:16px;margin-bottom:12px;">
+      <div style="font-size:40px;margin-bottom:8px;">📬</div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">LET'S CONNECT</div>
+      <div style="font-family:'VT323',monospace;font-size:18px;color:#333;line-height:1.5;">
+        Open to collaborations, projects, and<br>anything that sounds interesting.<br>
+        <span style="color:#000080;">Built with Node.js + too much caffeine.</span>
+      </div>
+    </div>
+    <div class="win-divider"></div>
+    <h3>► FIND ME AT</h3>
+    <ul style="margin-top:6px;">
+      <li>🐦 @AlexanderTheBored</li>
+      <li>🎓 University of San Carlos · BSIT · 1st Year</li>
+      <li>📍 Cebu, Philippines</li>
+    </ul>
+    <div class="win-divider"></div>
+    <h3>► QUICK FACTS</h3>
+    <ul style="margin-top:6px;">
+      <li>🥉 Sinulog Hackathon 2026 — 3rd Place (₱30,000)</li>
+      <li>🏛️ Led a 400+ member student org for 3 years</li>
+      <li>✍️ Creative Writer's Guild Lead Creative</li>
+      <li>📖 Currently writing fanfic and shipping code</li>
+    </ul>
+    <div class="win-divider"></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
+      <button class="win95-btn primary" onclick="alert('Add your email here!')">📧 Email Me</button>
+      <button class="win95-btn" onclick="closeWindow('win-contact')">Cancel</button>
+    </div>
+  </div>
+  <div class="win-statusbar">
+    <span>rovel.lumapas · BSIT @ USC</span>
+  </div>
+  <div class="win-resize" onmousedown="startResize(event,'win-contact')"></div>
+</div>

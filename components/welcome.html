@@ -1,0 +1,26 @@
+<!-- ===================== WELCOME WINDOW ===================== -->
+<div class="win-window open" id="welcome-win" style="width:360px; top:calc(50vh - 160px); left:calc(50vw - 180px); z-index:9999;">
+  <div class="win-titlebar" onmousedown="startDrag(event,'welcome-win')">
+    <div class="win-title"><span>🖥️</span> Welcome to ROVEL OS v1.0</div>
+    <div class="win-controls">
+      <button class="win-btn win-btn-close" onclick="dismissWelcome()">✕</button>
+    </div>
+  </div>
+  <div class="win-body" style="text-align:center;padding:16px;">
+    <span style="font-size:48px;margin-bottom:12px;display:block;">🖥️</span>
+    <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#000080;margin-bottom:10px;">Welcome!</div>
+    <p style="font-family:'VT323',monospace;font-size:18px;margin-bottom:8px;">You are now viewing the portfolio of<br><strong>Rovel Floriane S. Lumapas</strong><br>BSIT · 1st Year · University of San Carlos</p>
+    <p style="font-family:'VT323',monospace;font-size:16px;color:#000080;margin-bottom:6px;line-height:1.4;">Ships code, leads teams, writes stories,<br>and placed 3rd at a hackathon.</p>
+    <p style="font-family:'VT323',monospace;font-size:14px;color:#666;margin-bottom:14px;">Double-click desktop icons or use Start to explore.</p>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      <button class="win95-btn primary" onclick="dismissWelcome()">OK &nbsp; ►</button>
+      <button class="win95-btn" onclick="dismissWelcome();openWindow('win-about')">View About</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function dismissWelcome() {
+  closeWindow('welcome-win');
+}
+</script>

@@ -1,0 +1,1024 @@
+  <!-- ═══ MUSIC PLAYER WINDOW ═══ -->
+
+  <div class="win-window" id="win-music" style="width:340px;top:80px;left:440px;">
+
+    <div class="win-titlebar" onmousedown="startDrag(event,'win-music')">
+
+      <div class="win-title">
+
+        <span class="win-title-icon">🎵</span>
+
+        <span id="mp-title-bar">ROVEL MEDIA PLAYER</span>
+
+      </div>
+
+      <div class="win-controls">
+
+        <button class="win-btn" onclick="minimizeWindow('win-music')">_</button>
+
+        <button class="win-btn">□</button>
+
+        <button class="win-btn win-btn-close" onclick="closeWindow('win-music')">✕</button>
+
+      </div>
+
+    </div>
+
+    <div class="win-menubar">
+
+      <span class="win-menu-item" onclick="mpReload()">File</span>
+
+      <span class="win-menu-item" onclick="mpToggleLoop()">Options</span>
+
+      <span class="win-menu-item" onclick="mpHelp()">Help</span>
+
+    </div>
+
+
+
+    <!-- Art zone + playlist panel -->
+
+    <div style="padding:6px 8px 0;">
+
+      <div class="mp-art-zone" id="mp-art-zone">
+
+        <!-- CD disc — spins as a unit -->
+
+        <div class="mp-cd-disc" id="mp-cd-disc">
+
+          <div class="mp-art-placeholder" id="mp-art-placeholder">
+
+            <div class="mp-art-icon" id="mp-art-icon">💿</div>
+
+            <div class="mp-art-hint" id="mp-art-hint">LOADING...</div>
+
+          </div>
+
+          <img id="mp-art-img" style="display:none" alt="cover"/>
+
+        </div>
+
+        <!-- Center hole overlay — does NOT spin -->
+
+        <div class="mp-cd-hole"></div>
+
+        <!-- Playlist overlay panel -->
+
+        <div class="mp-playlist-panel" id="mp-playlist-panel">
+
+          <div class="mp-playlist-header">
+
+            <span>📋 PLAYLIST</span>
+
+            <span class="mp-playlist-close" onclick="mpTogglePlaylist()">✕</span>
+
+          </div>
+
+          <div id="mp-playlist-list"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- VU meter -->
+
+    <div style="padding:4px 8px 0;">
+
+      <div class="mp-vu" id="mp-vu"></div>
+
+    </div>
+
+
+
+    <!-- Track info -->
+
+    <div class="mp-info">
+
+      <div class="mp-track-title-wrap" id="mp-track-title-wrap">
+
+        <span class="mp-track-title" id="mp-track-title">NO TRACKS LOADED</span>
+
+      </div>
+
+      <span class="mp-track-artist" id="mp-track-artist">—</span>
+
+      <span class="mp-track-album"  id="mp-track-album"></span>
+
+    </div>
+
+
+
+    <!-- Seek bar -->
+
+    <div class="mp-seek-wrap">
+
+      <div class="mp-time-row">
+
+        <span id="mp-time-cur">0:00</span>
+
+        <span id="mp-time-dur">0:00</span>
+
+      </div>
+
+      <div class="mp-seek-outer" id="mp-seek-outer">
+
+        <div class="mp-seek-fill" id="mp-seek-fill" style="width:0%"></div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Controls -->
+
+    <div class="mp-controls">
+
+      <button class="mp-btn" onclick="mpPrev()"      title="Previous">⏮</button>
+
+      <button class="mp-btn" onclick="mpSkip(-10)"   title="Back 10s">◀◀</button>
+
+      <button class="mp-btn mp-btn-play" id="mp-play-btn" onclick="mpTogglePlay()">▶ PLAY</button>
+
+      <button class="mp-btn" onclick="mpSkip(10)"    title="Fwd 10s">▶▶</button>
+
+      <button class="mp-btn" onclick="mpNext()"      title="Next">⏭</button>
+
+    </div>
+
+
+
+    <!-- Volume + Loop/Shuffle -->
+
+    <div class="mp-vol-row">
+
+      <span class="mp-vol-label">VOL</span>
+
+      <input type="range" class="mp-vol-slider" id="mp-vol-slider" min="0" max="100" value="80" oninput="mpSetVol(this.value)">
+
+      <span class="mp-vol-pct" id="mp-vol-pct">80%</span>
+
+      <button class="mp-btn" id="mp-loop-btn"    onclick="mpToggleLoop()"    title="Loop"   style="margin-left:4px;">🔁</button>
+
+      <button class="mp-btn" id="mp-shuffle-btn" onclick="mpToggleShuffle()" title="Shuffle">🔀</button>
+
+    </div>
+
+
+
+    <!-- Track counter + playlist toggle -->
+
+    <div class="mp-bottom-row">
+
+      <span class="mp-track-counter" id="mp-track-counter">0 / 0</span>
+
+      <button class="mp-btn" onclick="mpTogglePlaylist()" title="Playlist">📋 PLAYLIST</button>
+
+    </div>
+
+
+
+    <div class="win-statusbar">
+
+      <span id="mp-status">Loading...</span>
+
+      <span id="mp-format">—</span>
+
+    </div>
+
+    <div class="win-resize" onmousedown="startResize(event,'win-music')"></div>
+
+  </div>
+
+  <audio id="mp-audio"></audio>
+
+
+
+<audio id="mp-audio"></audio>
+
+<script>
+// ══════════════════════════════════════════════════════
+
+//  MUSIC PLAYER  —  reads from /music/music.json
+
+// ══════════════════════════════════════════════════════
+
+var MP = {
+
+  audio      : null,
+
+  tracks     : [],       // full library from JSON
+
+  queue      : [],       // play order (indices into tracks)
+
+  queuePos   : 0,        // current position in queue
+
+  playing    : false,
+
+  loop       : false,
+
+  shuffle    : false,
+
+  vuBars     : [],
+
+  vuRaf      : null,
+
+  seekDrag   : false,
+
+};
+
+
+
+// ── Boot: fetch library then init player ──────────────
+
+(function mpBoot() {
+
+  MP.audio = document.getElementById('mp-audio');
+
+  if (!MP.audio) return;
+
+
+
+  // Build VU bars
+
+  var vuEl = document.getElementById('mp-vu');
+
+  if (vuEl) {
+
+    for (var i = 0; i < 16; i++) {
+
+      var b = document.createElement('div');
+
+      b.className = 'mp-vu-bar';
+
+      b.style.height = '2px';
+
+      vuEl.appendChild(b);
+
+      MP.vuBars.push(b);
+
+    }
+
+  }
+
+  mpIdleVU();
+
+
+
+  // Wire audio events
+
+  MP.audio.addEventListener('play',         mpOnPlay);
+
+  MP.audio.addEventListener('pause',        mpOnPause);
+
+  MP.audio.addEventListener('ended',        mpOnEnded);
+
+  MP.audio.addEventListener('timeupdate',   mpOnTimeUpdate);
+
+  MP.audio.addEventListener('loadedmetadata', mpOnMeta);
+
+  MP.audio.addEventListener('error',        mpOnError);
+
+
+
+  // Seek drag
+
+  var so = document.getElementById('mp-seek-outer');
+
+  if (so) {
+
+    so.addEventListener('mousedown', function(e) { MP.seekDrag = true; mpDoSeek(e); e.stopPropagation(); });
+
+  }
+
+  document.addEventListener('mousemove', function(e) { if (MP.seekDrag) mpDoSeek(e); });
+
+  document.addEventListener('mouseup',   function()  { MP.seekDrag = false; });
+
+
+
+  // Drag & drop audio onto window
+
+  var win = document.getElementById('win-music');
+
+  if (win) {
+
+    win.addEventListener('dragover', function(e) { e.preventDefault(); });
+
+    win.addEventListener('drop', function(e) {
+
+      e.preventDefault();
+
+      var f = e.dataTransfer.files[0];
+
+      if (f && f.type.startsWith('audio/')) mpLoadDropped(f);
+
+    });
+
+  }
+
+
+
+  // Fetch JSON library
+
+  mpFetchLibrary();
+
+})();
+
+
+
+// ── Library loading ───────────────────────────────────
+
+function mpFetchLibrary() {
+
+  mpSetStatus('Loading library...');
+
+  fetch('music/music.json')
+
+    .then(function(r) {
+
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+
+      return r.json();
+
+    })
+
+    .then(function(data) {
+
+      // Support both { tracks: [...] } and plain array
+
+      MP.tracks = Array.isArray(data) ? data : (data.tracks || []);
+
+      if (MP.tracks.length === 0) throw new Error('No tracks found in music.json');
+
+      mpBuildQueue();
+
+      mpLoadTrack(MP.queue[0], false);
+
+      mpBuildPlaylist();
+
+      mpSetStatus('Ready  ·  ' + MP.tracks.length + ' tracks');
+
+      mpSetHint('');
+
+    })
+
+    .catch(function(err) {
+
+      console.warn('music.json:', err);
+
+      mpSetStatus('No library · drop a file to play');
+
+      mpSetHint('ADD music/music.json\nTO YOUR REPO');
+
+      document.getElementById('mp-track-title').textContent  = 'NO LIBRARY';
+
+      document.getElementById('mp-track-artist').textContent = 'See README.txt';
+
+    });
+
+}
+
+
+
+function mpReload() { mpFetchLibrary(); }
+
+
+
+function mpBuildQueue() {
+
+  MP.queue = MP.tracks.map(function(_, i) { return i; });
+
+  if (MP.shuffle) mpShuffleQueue();
+
+  MP.queuePos = 0;
+
+}
+
+
+
+function mpShuffleQueue() {
+
+  for (var i = MP.queue.length - 1; i > 0; i--) {
+
+    var j = Math.floor(Math.random() * (i + 1));
+
+    var t = MP.queue[i]; MP.queue[i] = MP.queue[j]; MP.queue[j] = t;
+
+  }
+
+}
+
+
+
+// ── Track loading ─────────────────────────────────────
+
+function mpLoadTrack(trackIdx, autoplay) {
+
+  var t = MP.tracks[trackIdx];
+
+  if (!t) return;
+
+
+
+  // Audio src
+
+  var rawFile = t.file || t.filename || '';
+
+  var src = (rawFile.startsWith('http') || rawFile.indexOf('/') !== -1)
+
+    ? rawFile : 'music/tracks/' + rawFile;
+
+  MP.audio.src = src;
+
+  MP.audio.volume = (document.getElementById('mp-vol-slider') || {value:80}).value / 100;
+
+  MP.audio.loop   = MP.loop;
+
+
+
+  // Art — images go inside .mp-cd-disc
+
+  var artImg = document.getElementById('mp-art-img');
+
+  var artPh  = document.getElementById('mp-art-placeholder');
+
+  if (t.cover) {
+
+    var coverSrc = (t.cover.startsWith('http') || t.cover.indexOf('/') !== -1)
+
+      ? t.cover : ('music/covers/' + t.cover);
+
+    artImg.onerror = function() {
+
+      artImg.style.display = 'none';
+
+      if (artPh) artPh.style.display = '';
+
+      artImg.onerror = null;
+
+    };
+
+    artImg.src = coverSrc;
+
+    artImg.style.display = 'block';
+
+    if (artPh) artPh.style.display = 'none';
+
+  } else {
+
+    if (artImg) artImg.style.display = 'none';
+
+    if (artPh)  artPh.style.display  = '';
+
+  }
+
+
+
+  // Title: prefer explicit title, else sanitize filename
+
+  var displayTitle = t.title ? t.title : mpSanitizeName(t.filename || '');
+
+  if (!displayTitle) displayTitle = 'Track ' + (trackIdx + 1);
+
+  var ext = rawFile.split('.').pop().split('?')[0].toUpperCase();
+
+
+
+  mpSetTitle(displayTitle.toUpperCase());
+
+  document.getElementById('mp-track-artist').textContent = t.artist || 'Unknown Artist';
+
+  document.getElementById('mp-track-album').textContent  = t.album  ? '[ ' + t.album + ' ]' : '';
+
+  document.getElementById('mp-title-bar').textContent    = displayTitle.toUpperCase().substring(0, 24);
+
+  document.getElementById('mp-format').textContent       = ext || '—';
+
+
+
+  var pos = MP.queue.indexOf(trackIdx);
+
+  if (pos !== -1) MP.queuePos = pos;
+
+  mpUpdateCounter();
+
+  mpHighlightPlaylist(trackIdx);
+
+
+
+  if (autoplay !== false) {
+
+    var p = MP.audio.play();
+
+    if (p && p.catch) p.catch(function(e) {
+
+      console.warn('[Music Player] Autoplay blocked:', e.message);
+
+      mpSetStatus('Click \u25b6 PLAY to start');
+
+    });
+
+  }
+
+}
+
+
+
+// Set title with marquee scroll if it overflows
+
+function mpSetTitle(text) {
+
+  var el   = document.getElementById('mp-track-title');
+
+  var wrap = document.getElementById('mp-track-title-wrap');
+
+  if (!el || !wrap) return;
+
+  el.textContent = text;
+
+  el.classList.remove('mp-scroll');
+
+  el.style.removeProperty('--mp-scroll-dist');
+
+  // Check overflow on next frame after paint
+
+  requestAnimationFrame(function() {
+
+    var overflow = el.scrollWidth - wrap.clientWidth;
+
+    if (overflow > 4) {
+
+      el.style.setProperty('--mp-scroll-dist', '-' + (overflow + 16) + 'px');
+
+      el.classList.add('mp-scroll');
+
+    }
+
+  });
+
+}
+
+
+
+function mpLoadDropped(file) {
+
+  var name = mpSanitizeName(file.name) || file.name.replace(/\.[^.]+$/, '');
+
+  var ext  = file.name.split('.').pop().toUpperCase();
+
+  MP.audio.src = URL.createObjectURL(file);
+
+  MP.audio.volume = (document.getElementById('mp-vol-slider') || {value:80}).value / 100;
+
+  mpSetTitle(name.toUpperCase());
+
+  document.getElementById('mp-track-artist').textContent = 'Dropped file';
+
+  document.getElementById('mp-track-album').textContent  = '';
+
+  document.getElementById('mp-title-bar').textContent    = name.toUpperCase().substring(0, 24);
+
+  document.getElementById('mp-format').textContent       = ext;
+
+  MP.audio.play().catch(function(){});
+
+}
+
+
+
+// ── Transport ─────────────────────────────────────────
+
+function mpTogglePlay() {
+
+  if (!MP.audio.src) return;
+
+  MP.playing ? MP.audio.pause() : MP.audio.play();
+
+}
+
+
+
+function mpNext() {
+
+  if (!MP.queue.length) return;
+
+  MP.queuePos = (MP.queuePos + 1) % MP.queue.length;
+
+  mpLoadTrack(MP.queue[MP.queuePos], true);
+
+}
+
+
+
+function mpPrev() {
+
+  if (!MP.queue.length) return;
+
+  // If >3 seconds in, restart. Otherwise go to previous.
+
+  if (MP.audio.currentTime > 3) {
+
+    MP.audio.currentTime = 0;
+
+    return;
+
+  }
+
+  MP.queuePos = (MP.queuePos - 1 + MP.queue.length) % MP.queue.length;
+
+  mpLoadTrack(MP.queue[MP.queuePos], true);
+
+}
+
+
+
+function mpSkip(sec) {
+
+  if (!MP.audio) return;
+
+  MP.audio.currentTime = Math.max(0, Math.min(MP.audio.duration || 0, MP.audio.currentTime + sec));
+
+}
+
+
+
+function mpToggleLoop() {
+
+  MP.loop = !MP.loop;
+
+  MP.audio.loop = MP.loop;
+
+  document.getElementById('mp-loop-btn').classList.toggle('mp-on', MP.loop);
+
+}
+
+
+
+function mpToggleShuffle() {
+
+  MP.shuffle = !MP.shuffle;
+
+  document.getElementById('mp-shuffle-btn').classList.toggle('mp-on', MP.shuffle);
+
+  // Rebuild queue keeping current track first
+
+  var curIdx = MP.queue[MP.queuePos];
+
+  mpBuildQueue();
+
+  // Put current track at front
+
+  var pos = MP.queue.indexOf(curIdx);
+
+  if (pos !== -1) MP.queuePos = pos;
+
+}
+
+
+
+function mpSetVol(v) {
+
+  if (MP.audio) MP.audio.volume = v / 100;
+
+  document.getElementById('mp-vol-pct').textContent = v + '%';
+
+}
+
+
+
+function mpDoSeek(e) {
+
+  var o = document.getElementById('mp-seek-outer');
+
+  if (!o || !MP.audio || !MP.audio.duration) return;
+
+  var r = o.getBoundingClientRect();
+
+  MP.audio.currentTime = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * MP.audio.duration;
+
+}
+
+
+
+// ── Audio event handlers ──────────────────────────────
+
+function mpOnPlay() {
+
+  MP.playing = true;
+
+  document.getElementById('mp-play-btn').textContent = '⏸ PAUSE';
+
+  document.getElementById('mp-art-zone').classList.add('mp-playing');
+
+  document.getElementById('mp-art-zone').classList.remove('mp-paused');
+
+  mpSetStatus('Playing');
+
+  mpStartVU();
+
+}
+
+
+
+function mpOnPause() {
+
+  MP.playing = false;
+
+  document.getElementById('mp-play-btn').textContent = '▶ PLAY';
+
+  document.getElementById('mp-art-zone').classList.remove('mp-playing');
+
+  document.getElementById('mp-art-zone').classList.add('mp-paused');
+
+  mpSetStatus('Paused');
+
+  mpIdleVU();
+
+}
+
+
+
+function mpOnEnded() {
+
+  MP.playing = false;
+
+  document.getElementById('mp-art-zone').classList.remove('mp-playing','mp-paused');
+
+  mpIdleVU();
+
+  // Auto-play next
+
+  if (!MP.loop) mpNext();
+
+}
+
+
+
+function mpOnTimeUpdate() {
+
+  var pct = MP.audio.duration ? (MP.audio.currentTime / MP.audio.duration) * 100 : 0;
+
+  document.getElementById('mp-seek-fill').style.width = pct + '%';
+
+  document.getElementById('mp-time-cur').textContent  = mpFmt(MP.audio.currentTime);
+
+}
+
+
+
+function mpOnMeta() {
+
+  document.getElementById('mp-time-dur').textContent = mpFmt(MP.audio.duration);
+
+}
+
+
+
+function mpOnError() {
+
+  mpSetStatus('Error loading track');
+
+  mpIdleVU();
+
+}
+
+
+
+// ── Playlist panel ────────────────────────────────────
+
+function mpTogglePlaylist() {
+
+  document.getElementById('mp-playlist-panel').classList.toggle('open');
+
+}
+
+
+
+function mpBuildPlaylist() {
+
+  var list = document.getElementById('mp-playlist-list');
+
+  if (!list) return;
+
+  list.innerHTML = MP.tracks.map(function(t, i) {
+
+    return '<div class="mp-playlist-item" id="mp-pl-' + i + '" onclick="mpPlayFromList(' + i + ')">' +
+
+      '<span class="mp-pl-num">' + (i + 1) + '</span>' +
+
+      '<div class="mp-pl-info">' +
+
+        '<span class="mp-pl-title">' + escHtml((t.title || t.filename || '—').toUpperCase()) + '</span>' +
+
+        '<span class="mp-pl-artist">' + escHtml(t.artist || 'Unknown') + '</span>' +
+
+      '</div>' +
+
+      (t.duration ? '<span class="mp-pl-dur">' + t.duration + '</span>' : '') +
+
+    '</div>';
+
+  }).join('');
+
+}
+
+
+
+function mpPlayFromList(trackIdx) {
+
+  var pos = MP.queue.indexOf(trackIdx);
+
+  if (pos !== -1) MP.queuePos = pos;
+
+  else { MP.queue.unshift(trackIdx); MP.queuePos = 0; }
+
+  mpLoadTrack(trackIdx, true);
+
+}
+
+
+
+function mpHighlightPlaylist(trackIdx) {
+
+  document.querySelectorAll('.mp-playlist-item').forEach(function(el) {
+
+    el.classList.remove('mp-active-track');
+
+  });
+
+  var active = document.getElementById('mp-pl-' + trackIdx);
+
+  if (active) {
+
+    active.classList.add('mp-active-track');
+
+    active.scrollIntoView({ block:'nearest' });
+
+  }
+
+}
+
+
+
+function mpUpdateCounter() {
+
+  var cur = MP.queue[MP.queuePos];
+
+  document.getElementById('mp-track-counter').textContent =
+
+    (typeof cur !== 'undefined' ? (cur + 1) : '?') + ' / ' + MP.tracks.length;
+
+}
+
+
+
+// ── VU meter ──────────────────────────────────────────
+
+function mpStartVU() {
+
+  if (MP.vuRaf) cancelAnimationFrame(MP.vuRaf);
+
+  function frame() {
+
+    if (!MP.playing) return;
+
+    var t = performance.now() * 0.003;
+
+    MP.vuBars.forEach(function(bar, i) {
+
+      var wave = (Math.sin(t * (0.65 + i * 0.22) + i * 0.9) + 1) / 2;
+
+      var spike = Math.random() > 0.9 ? Math.random() * 12 : 0;
+
+      bar.style.height = Math.max(2, Math.round(wave * 22 + spike)) + 'px';
+
+    });
+
+    MP.vuRaf = requestAnimationFrame(frame);
+
+  }
+
+  MP.vuRaf = requestAnimationFrame(frame);
+
+}
+
+
+
+function mpIdleVU() {
+
+  if (MP.vuRaf) { cancelAnimationFrame(MP.vuRaf); MP.vuRaf = null; }
+
+  var t = 0;
+
+  function idle() {
+
+    if (MP.playing) return;
+
+    t++;
+
+    MP.vuBars.forEach(function(bar, i) {
+
+      bar.style.height = Math.round(2 + Math.abs(Math.sin(t * 0.035 + i * 0.55)) * 4) + 'px';
+
+    });
+
+    MP.vuRaf = requestAnimationFrame(idle);
+
+  }
+
+  idle();
+
+}
+
+
+
+// ── Helpers ───────────────────────────────────────────
+
+function mpFmt(s) {
+
+  if (!s || isNaN(s) || !isFinite(s)) return '0:00';
+
+  return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+
+}
+
+
+
+function mpSetStatus(msg) { var el = document.getElementById('mp-status'); if (el) el.textContent = msg; }
+
+
+
+function mpSetHint(txt) {
+
+  var el = document.getElementById('mp-art-hint');
+
+  if (el) el.textContent = txt || 'CLICK TO SET COVER\nOR LOAD AUDIO BELOW';
+
+}
+
+
+
+function mpHelp() {
+
+  alert(
+
+    'ROVEL MEDIA PLAYER\n\n' +
+
+    'Reads from: music/music.json\n\n' +
+
+    'Folder layout:\n' +
+
+    '  music/\n' +
+
+    '    music.json\n' +
+
+    '    covers/  (album art)\n' +
+
+    '    tracks/  (audio files)\n\n' +
+
+    'music.json format:\n' +
+
+    '{\n' +
+
+    '  "tracks": [\n' +
+
+    '    {\n' +
+
+    '      "title": "Song Name",\n' +
+
+    '      "artist": "Artist",\n' +
+
+    '      "album": "Album",\n' +
+
+    '      "filename": "song.mp3",\n' +
+
+    '      "cover": "song.jpg",\n' +
+
+    '      "duration": "3:45"\n' +
+
+    '    }\n' +
+
+    '  ]\n' +
+
+    '}\n\n' +
+
+    'You can also drag & drop audio files directly onto the player.'
+
+  );
+
+}
+
+// ══════════════════════════════════════════════════════
+
+//  END MUSIC PLAYER
+
+// ══════════════════════════════════════════════════════
+
+
+
+</script>

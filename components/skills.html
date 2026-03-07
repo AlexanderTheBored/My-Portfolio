@@ -1,0 +1,48 @@
+<!-- ===================== SKILLS WINDOW ===================== -->
+<div class="win-window" id="win-weekly" style="width:460px; top:80px; left:250px;">
+  <div class="win-titlebar" onmousedown="startDrag(event,'win-weekly')">
+    <div class="win-title"><span class="win-title-icon">⚡</span> Skills</div>
+    <div class="win-controls">
+      <button class="win-btn" onclick="minimizeWindow('win-weekly')">_</button>
+      <button class="win-btn">□</button>
+      <button class="win-btn win-btn-close" onclick="closeWindow('win-weekly')">✕</button>
+    </div>
+  </div>
+  <div class="win-body" style="max-height:400px;">
+    <div id="tab-skills">
+      <h3 style="margin-bottom:10px;">► TECHNICAL SKILLS</h3>
+      <div class="skill-row"><label>JavaScript</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div></div><span class="skill-level">specialty</span></div>
+      <div class="skill-row"><label>HTML5</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">proficient</span></div>
+      <div class="skill-row"><label>CSS3</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">proficient</span></div>
+      <div class="skill-row"><label>C</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">learning</span></div>
+      <div class="skill-row"><label>Blender</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">3D modelling</span></div>
+      <div class="skill-row"><label>Node.js</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">growing</span></div>
+
+      <div class="win-divider"></div>
+      <h3 style="margin-bottom:10px;">► SOFT SKILLS</h3>
+      <div class="skill-row"><label>Creative Writing</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+      <div class="skill-row"><label>Leadership</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+      <div class="skill-row"><label>Organization</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div></div><span class="skill-level">mastered</span></div>
+      <div class="skill-row"><label>Public Speaking</label><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div></div><span class="skill-level">strong</span></div>
+
+      <div class="win-divider"></div>
+      <h3 style="margin-bottom:10px;">► TOOLS & PLATFORMS</h3>
+      <div>
+        <span class="tag">VS Code</span><span class="tag">Git</span><span class="tag">GitHub</span>
+        <span class="tag">Figma</span><span class="tag">Blender</span><span class="tag">Node.js</span>
+        <span class="tag">Chrome DevTools</span>
+      </div>
+
+      <div class="win-divider"></div>
+      <h3 style="margin-bottom:10px;">► COURSEWORK AREAS</h3>
+      <div>
+        <span class="tag">ERDs</span><span class="tag">BPMN</span><span class="tag">Networking</span>
+        <span class="tag">Algorithms</span><span class="tag">Databases</span><span class="tag">Cybersecurity (learning)</span>
+      </div>
+    </div>
+  </div>
+  <div class="win-statusbar">
+    <span id="weekly-status"></span>
+  </div>
+  <div class="win-resize" onmousedown="startResize(event,'win-weekly')"></div>
+</div>
