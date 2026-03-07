@@ -1,10 +1,10 @@
 <!-- ===================== ABOUT WINDOW ===================== -->
-<div class="win-window" id="win-about" style="width:420px; top:60px; left:100px;">
+<div class="win-window" id="win-about" style="width:760px; top:60px; left:100px;">
   <div class="win-titlebar" onmousedown="startDrag(event,'win-about')">
     <div class="win-title"><span class="win-title-icon">🗂️</span> About Me</div>
     <div class="win-controls">
       <button class="win-btn" onclick="minimizeWindow('win-about')">_</button>
-      <button class="win-btn" id="about-expand-btn" onclick="toggleAboutMode()" title="Expand">⊡</button>
+      <button class="win-btn" id="about-expand-btn" onclick="toggleAboutMode()" title="Compact">⊠</button>
       <button class="win-btn win-btn-close" onclick="closeWindow('win-about')">✕</button>
     </div>
   </div>
@@ -15,51 +15,60 @@
   </div>
 
   <!-- COMPACT MODE -->
-  <div id="about-compact">
+  <div id="about-compact" style="display:none;">
     <div class="win-body" style="max-height:480px;">
       <div class="about-header">
-        <div class="about-avatar">👤</div>
+        <div class="about-avatar" style="background:none;border:none;">
+          <img src="assets/profile.jpg" alt="Rovel" onclick="openProfileLightbox()" style="width:64px;height:64px;object-fit:cover;object-position:center top;border:3px solid;border-color:var(--win-border-light) var(--win-border-darker) var(--win-border-darker) var(--win-border-light);image-rendering:auto;cursor:pointer;" title="Click to enlarge">
+        </div>
         <div>
           <div class="about-name">ROVEL FLORIANE S. LUMAPAS</div>
-          <div class="about-sub">19 · Feb 1, 2007 · Eldest of 3 · Cebu, PH</div>
+          <div class="about-sub">19 · Cebu, PH</div>
           <div class="about-sub" style="color:#000080;">@AlexanderTheBored</div>
         </div>
       </div>
       <div class="win-inset" style="margin-bottom:10px;">
-        <p>The eyes are the windows to the soul, what do you make of that?</p>
+        <p style="font-size:16px;line-height:1.6;">There's a particular kind of person who treats a portfolio like a confession booth. This isn't that. What you'll find here is the work — and if you look closely enough, the person behind it.</p>
       </div>
+      <div class="win-divider"></div>
+      <h3>► BIO</h3>
+      <ul>
+        <li>Reads more than he sleeps — fiction, technical docs, whatever's open</li>
+        <li>Writes long-form fiction the way other people journal</li>
+        <li>Plays guitar, mostly electric, mostly alone</li>
+        <li>Built a civic mapping platform at 18 and placed 3rd</li>
+        <li>Designs things in code that have no business being this detailed</li>
+      </ul>
       <div class="win-divider"></div>
       <h3>► ACADEMIC</h3>
       <ul>
         <li>SHS — La Salle University Integrated School</li>
         <li>BS Information Technology · University of San Carlos · 1st Year</li>
         <li>Track: Information Management &amp; Web Development</li>
-        <li>Coursework: ERDs, BPMN, HTML/CSS, C, Networking</li>
+        <li>27 units · 2nd Semester AY 2025–2026</li>
       </ul>
       <div class="win-divider"></div>
-      <h3>► INTERESTS</h3>
+      <h3>► GOALS</h3>
       <ul>
-        <li>📖 Avid reader — fiction, tech, and everything between</li>
-        <li>✍️ Creative writer — fanfiction, worldbuilding, storytelling</li>
-        <li>🎸 Guitar player</li>
-        <li>🗺️ Building civic tech (ZoneLens — Sinulog Hackathon 2026, 3rd Place)</li>
-        <li>🎮 Designing interactive experiences in code</li>
+        <li>Complete BSIT with strong academic standing</li>
+        <li>Pursue a Doctorate in Cybersecurity</li>
+        <li>Specialize in ethical hacking &amp; digital security</li>
+        <li>Build technology that helps communities</li>
+        <li>Keep writing — code and prose alike</li>
       </ul>
       <div class="win-divider"></div>
-      <h3>► CAREER GOALS</h3>
+      <h3>► LEADERSHIP &amp; CREATIVE</h3>
       <ul>
-        <li>🎯 Pursue a Doctorate in Cybersecurity</li>
-        <li>🔐 Specialize in digital security &amp; ethical hacking</li>
-        <li>💡 Build tech that matters for communities</li>
-        <li>📝 Keep writing — code and prose alike</li>
+        <li>House of Ben President — led 400+ member org, 3 years</li>
+        <li>House of Ben Ambassador — 3 years</li>
+        <li>Class Secretary — 3 consecutive years</li>
+        <li>Creative Writer's Guild — Lead Creative, 3 years</li>
       </ul>
       <div class="win-divider"></div>
-      <h3>► EXTRACURRICULARS</h3>
+      <h3>► HACKATHONS</h3>
       <ul>
-        <li>Class Secretary — 3 years running</li>
-        <li>House of Ben Ambassador — 3 years running</li>
-        <li>House of Ben President — led 400+ member org for 3 years</li>
-        <li>Creative Writer's Guild — Lead Creative for 3 years</li>
+        <li>Sinulog Hackathon 2026 — ZoneLens, 3rd Place</li>
+        <li>OneHack 3.0 — USC FoodChain, 3rd Place</li>
       </ul>
       <div class="win-divider"></div>
       <h3>► CURRENT STATUS</h3>
@@ -70,10 +79,12 @@
   </div>
 
   <!-- BIG MODE -->
-  <div id="about-big" style="display:none;">
+  <div id="about-big">
     <div style="display:flex;height:420px;">
       <div style="width:200px;min-width:200px;background:#000080;color:#fff;padding:16px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
-        <div style="text-align:center;font-size:48px;line-height:1;margin-bottom:4px;">👤</div>
+        <div style="text-align:center;margin-bottom:4px;">
+          <img src="assets/profile.jpg" alt="Rovel" onclick="openProfileLightbox()" style="width:100px;height:100px;object-fit:cover;object-position:center top;border:3px solid #4466cc;image-rendering:auto;cursor:pointer;" title="Click to enlarge">
+        </div>
         <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-align:center;line-height:2;border-bottom:1px solid #4466cc;padding-bottom:10px;">
           ROVEL F.<br>LUMAPAS
         </div>
@@ -87,11 +98,11 @@
         </div>
         <div style="border-top:1px solid #4466cc;padding-top:10px;font-family:'VT323',monospace;font-size:16px;color:#ffff88;line-height:1.9;">
           <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#aaccff;margin-bottom:4px;">ACHIEVEMENTS</div>
-          <div>🥉 Sinulog Hackathon 2026</div>
-          <div>🥉 OneHack 3.0</div>
-          <div>🏛️ Pres. House of Ben</div>
-          <div>✍️ CWG Lead Creative</div>
-          <div>📋 Class Secretary</div>
+          <div>3rd — Sinulog Hackathon 2026</div>
+          <div>3rd — OneHack 3.0</div>
+          <div>President, House of Ben</div>
+          <div>Lead Creative, CWG</div>
+          <div>Class Secretary, 3 years</div>
         </div>
         <div style="margin-top:auto;font-family:'VT323',monospace;font-size:15px;color:#aaccff;line-height:1.8;">
           <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#fff;margin-bottom:4px;">SEM PROGRESS</div>
@@ -110,30 +121,35 @@
         </div>
         <div class="about-tab-panel" id="about-tab-bio" style="display:block;">
           <div class="win-inset" style="margin:12px 12px 10px;">
-            <p style="font-size:9px;line-height:1.8;">"The eldest child who decided to speak in code." Ships code, leads teams, writes stories — and still placed 3rd at a hackathon. If you want someone who does all of the above, you just met her.</p>
+            <p style="font-size:9px;line-height:1.8;">There's a particular kind of person who treats a portfolio like a confession booth. This isn't that. What you'll find here is the work — and if you look closely enough, the person behind it.</p>
           </div>
           <div style="padding:0 12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
-            <div>📖 &nbsp;Avid reader — fiction, tech, and everything between</div>
-            <div>✍️ &nbsp;Creative writer — fanfiction, worldbuilding, storytelling</div>
-            <div>🎸 &nbsp;Guitar player</div>
-            <div>🗺️ &nbsp;Civic tech builder — ZoneLens, Sinulog 2026</div>
-            <div>🎮 &nbsp;Designs interactive experiences in code</div>
+            <div>Reads more than he sleeps — fiction, technical docs, whatever's open</div>
+            <div>Writes long-form fiction the way other people journal</div>
+            <div>Plays guitar, mostly electric, mostly alone</div>
+            <div>Built a civic mapping platform at 18 and placed 3rd</div>
+            <div>Designs things in code that have no business being this detailed</div>
             <div style="margin-top:10px;color:#000080;font-family:'Press Start 2P',monospace;font-size:7px;">@AlexanderTheBored</div>
           </div>
         </div>
         <div class="about-tab-panel" id="about-tab-academic" style="display:none;">
           <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
             <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► EDUCATION</div>
-            <div>🏫 &nbsp;SHS — La Salle University Integrated School</div>
-            <div>🎓 &nbsp;BS Information Technology</div>
+            <div>SHS — La Salle University Integrated School</div>
+            <div>BS Information Technology</div>
             <div style="padding-left:24px;color:#444;">University of San Carlos · 1st Year</div>
             <div style="padding-left:24px;color:#444;">Track: Info Management &amp; Web Dev</div>
-            <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► COURSEWORK</div>
-            <div style="display:flex;flex-wrap:wrap;gap:4px;">
-              <span class="tag">ERDs</span><span class="tag">BPMN</span><span class="tag">HTML/CSS</span>
-              <span class="tag">C</span><span class="tag">Networking</span><span class="tag">Algorithms</span>
-              <span class="tag">Databases</span><span class="tag">Cybersecurity</span>
-            </div>
+            <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► SUBJECTS THIS SEMESTER</div>
+            <div>GE-FEL TFL — Faith, Ecology &amp; Life</div>
+            <div>TPE 1202 — Theology &amp; Philippine Experience</div>
+            <div>EDM 2 — Ethics &amp; Decision Making</div>
+            <div>CIS 1205 — Computer Programming (C)</div>
+            <div>CIS 2106N — Computer Applications Lab</div>
+            <div>IT 3106 — Web Development</div>
+            <div>CIS 1204 — Data Structures &amp; Algorithms</div>
+            <div>CIS 1201 — Database Management</div>
+            <div>CIS 1202 — Networking Fundamentals</div>
+            <div>NSTP 2 — National Service Training</div>
             <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:6px;">► CURRENT LOAD</div>
             <div>27 units · 2nd Semester AY 2025–2026</div>
           </div>
@@ -141,29 +157,29 @@
         <div class="about-tab-panel" id="about-tab-goals" style="display:none;">
           <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
             <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► SHORT TERM</div>
-            <div>📚 &nbsp;Complete BSIT with strong academic standing</div>
-            <div>🛠️ &nbsp;Ship more open-source civic tech projects</div>
-            <div>🔐 &nbsp;Get into cybersecurity coursework &amp; certs</div>
+            <div>Complete BSIT with strong academic standing</div>
+            <div>Ship more open-source civic tech projects</div>
+            <div>Get into cybersecurity coursework &amp; certs</div>
             <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► LONG TERM</div>
-            <div>🎯 &nbsp;Pursue a Doctorate in Cybersecurity</div>
-            <div>🔓 &nbsp;Specialize in ethical hacking &amp; digital security</div>
-            <div>💡 &nbsp;Build technology that genuinely helps communities</div>
-            <div>📝 &nbsp;Keep writing — code and prose alike</div>
+            <div>Pursue a Doctorate in Cybersecurity</div>
+            <div>Specialize in ethical hacking &amp; digital security</div>
+            <div>Build technology that helps communities</div>
+            <div>Keep writing — code and prose alike</div>
           </div>
         </div>
         <div class="about-tab-panel" id="about-tab-extra" style="display:none;">
           <div style="padding:12px;font-family:'VT323',monospace;font-size:17px;line-height:1.9;color:#000;">
             <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► LEADERSHIP</div>
-            <div>🏛️ &nbsp;<strong>House of Ben President</strong> — 3 consecutive years</div>
+            <div><strong>House of Ben President</strong> — 3 consecutive years</div>
             <div style="padding-left:24px;color:#444;font-size:15px;">Led and managed 400+ member organization</div>
-            <div>🏛️ &nbsp;House of Ben Ambassador — 3 years</div>
-            <div>📋 &nbsp;Class Secretary — 3 consecutive years</div>
+            <div>House of Ben Ambassador — 3 years</div>
+            <div>Class Secretary — 3 consecutive years</div>
             <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► CREATIVE</div>
-            <div>✍️ &nbsp;<strong>Creative Writer's Guild</strong> — Lead Creative, 3 years</div>
+            <div><strong>Creative Writer's Guild</strong> — Lead Creative, 3 years</div>
             <div style="padding-left:24px;color:#444;font-size:15px;">Directed guild creative direction &amp; outputs</div>
             <div style="margin-top:12px;font-family:'Press Start 2P',monospace;font-size:7px;color:#000080;margin-bottom:8px;">► HACKATHONS</div>
-            <div>🥉 &nbsp;Sinulog Hackathon 2026 — ZoneLens, 3rd Place</div>
-            <div>🥉 &nbsp;OneHack 3.0 — USC FoodChain, 3rd · ₱30,000</div>
+            <div>Sinulog Hackathon 2026 — ZoneLens, 3rd Place</div>
+            <div>OneHack 3.0 — USC FoodChain, 3rd Place</div>
           </div>
         </div>
       </div>
@@ -176,8 +192,13 @@
   <div class="win-resize" onmousedown="startResize(event,'win-about')"></div>
 </div>
 
+<div id="profile-lightbox" onclick="closeProfileLightbox()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;cursor:pointer;align-items:center;justify-content:center;">
+  <img src="assets/profile.jpg" alt="Rovel" style="max-width:90vw;max-height:85vh;object-fit:contain;border:4px solid #fff;box-shadow:0 0 40px rgba(0,0,0,0.6);">
+  <div style="position:absolute;top:16px;right:24px;color:#fff;font-family:var(--pixel);font-size:10px;cursor:pointer;">CLOSE [X]</div>
+</div>
+
 <script>
-var aboutBig = false;
+var aboutBig = true;
 function toggleAboutMode() {
   aboutBig = !aboutBig;
   var win = document.getElementById('win-about');
@@ -206,5 +227,15 @@ function switchAboutTab(tab) {
   document.querySelectorAll('.about-tab').forEach(function(btn) {
     btn.classList.toggle('active-tab', btn.getAttribute('onclick').includes("'" + tab + "'"));
   });
+}
+
+function openProfileLightbox() {
+  var lb = document.getElementById('profile-lightbox');
+  if (lb) lb.style.display = 'flex';
+}
+
+function closeProfileLightbox() {
+  var lb = document.getElementById('profile-lightbox');
+  if (lb) lb.style.display = 'none';
 }
 </script>
