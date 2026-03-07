@@ -82,6 +82,8 @@ function runCmd(raw) {
     case 'wx': cmdWx(parts.slice(1)); break;
     case 'exit': closeWindow('win-cmd'); break;
     case 'lloyd': cmdSnake(); break;
+    case 'suzuki': cmdTetris(); break;
+    case 'aike': cmdMinesweeper(); break;
     default:
       cmdPrint('<span class="cmd-error">\'' + escHtml(cmd) + '\' is not recognized as an internal or external command.</span>');
       cmdPrint('<span class="cmd-dim">Type HELP for available commands.</span>');
@@ -444,6 +446,495 @@ function cmdSnake() {
 }
 // ══════════════════════════════════════════════
 //  END SNAKE
+// ══════════════════════════════════════════════
+
+// ══════════════════════════════════════════════
+//  TETRIS  —  triggered by: suzuki
+// ══════════════════════════════════════════════
+function cmdTetris() {
+  cmdPrint('<span style="color:#ff00ff;font-weight:bold">SUZUKI.EXE</span> <span class="cmd-dim">— launching tetris...</span>');
+  cmdBlank();
+  setTimeout(openTetris, 300);
+}
+
+function openTetris() {
+  if (!document.getElementById('win-tetris')) {
+    var COLS = 10, ROWS = 20, CELL = 18;
+    var win = document.createElement('div');
+    win.className = 'win-window';
+    win.id = 'win-tetris';
+    win.style.cssText = 'width:' + (COLS * CELL + 90) + 'px;top:60px;left:200px;';
+    win.innerHTML =
+      '<div class="win-titlebar" onmousedown="startDrag(event,\'win-tetris\')">' +
+        '<div class="win-title"><span class="win-title-icon">🟪</span> SUZUKI.EXE — TETRIS</div>' +
+        '<div class="win-controls">' +
+          '<button class="win-btn" onclick="minimizeWindow(\'win-tetris\')">_</button>' +
+          '<button class="win-btn">□</button>' +
+          '<button class="win-btn win-btn-close" onclick="closeTetris()">✕</button>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:#0a0010;display:flex;align-items:flex-start;padding:8px;gap:8px;">' +
+        '<canvas id="tetris-canvas" width="' + (COLS*CELL) + '" height="' + (ROWS*CELL) + '" style="display:block;background:#0a0010;border:1px solid #440044;"></canvas>' +
+        '<div style="width:72px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:\'Courier New\',monospace;font-size:10px;color:#ff00ff;">' +
+          '<div style="color:#888">NEXT</div>' +
+          '<canvas id="tetris-next" width="60" height="60" style="background:#050008;border:1px solid #440044;"></canvas>' +
+          '<div style="color:#888;margin-top:6px">SCORE</div>' +
+          '<div id="tetris-score" style="color:#fff;font-size:11px">0</div>' +
+          '<div style="color:#888;margin-top:4px">LEVEL</div>' +
+          '<div id="tetris-level" style="color:#fff">1</div>' +
+          '<div style="color:#888;margin-top:4px">LINES</div>' +
+          '<div id="tetris-lines" style="color:#fff">0</div>' +
+          '<div style="color:#444;margin-top:10px;font-size:9px;line-height:1.6;text-align:center">←→ MOVE<br>↑ ROT<br>↓ SOFT<br>SPC HARD</div>' +
+        '</div>' +
+      '</div>';
+    document.getElementById('desktop').appendChild(win);
+  }
+  openWindow('win-tetris');
+  setTimeout(initTetris, 100);
+}
+
+function closeTetris() {
+  stopTetris();
+  closeWindow('win-tetris');
+}
+
+var TET = null;
+
+function stopTetris() {
+  if (TET) {
+    clearInterval(TET.loop);
+    document.removeEventListener('keydown', TET.onKey);
+  }
+  TET = null;
+}
+
+function initTetris() {
+  stopTetris();
+  var canvas = document.getElementById('tetris-canvas');
+  var ncanvas = document.getElementById('tetris-next');
+  if (!canvas || !ncanvas) return;
+
+  var COLS = 10, ROWS = 20, CELL = 18;
+  var ctx  = canvas.getContext('2d');
+  var nctx = ncanvas.getContext('2d');
+
+  var PIECES = [
+    { shape: [[1,1,1,1]],           color: '#00ffff' },
+    { shape: [[1,1],[1,1]],         color: '#ffff00' },
+    { shape: [[0,1,0],[1,1,1]],     color: '#ff00ff' },
+    { shape: [[1,0,0],[1,1,1]],     color: '#ff8800' },
+    { shape: [[0,0,1],[1,1,1]],     color: '#4488ff' },
+    { shape: [[0,1,1],[1,1,0]],     color: '#00ff88' },
+    { shape: [[1,1,0],[0,1,1]],     color: '#ff2244' },
+  ];
+
+  TET = {
+    board: Array.from({length: ROWS}, function(){ return new Array(COLS).fill(0); }),
+    piece: null, next: null,
+    px: 0, py: 0,
+    score: 0, level: 1, lines: 0,
+    alive: true, loop: null,
+    onKey: null
+  };
+
+  function randPiece() {
+    var p = PIECES[Math.floor(Math.random() * PIECES.length)];
+    return { shape: p.shape.map(function(r){ return r.slice(); }), color: p.color };
+  }
+
+  function spawn() {
+    TET.piece = TET.next || randPiece();
+    TET.next  = randPiece();
+    TET.px = Math.floor((COLS - TET.piece.shape[0].length) / 2);
+    TET.py = 0;
+    drawNext();
+    if (!canPlace(TET.piece.shape, TET.px, TET.py)) gameOverTetris();
+  }
+
+  function canPlace(shape, ox, oy) {
+    for (var r = 0; r < shape.length; r++)
+      for (var c = 0; c < shape[r].length; c++) {
+        if (!shape[r][c]) continue;
+        var nx = ox + c, ny = oy + r;
+        if (nx < 0 || nx >= COLS || ny >= ROWS) return false;
+        if (ny >= 0 && TET.board[ny][nx]) return false;
+      }
+    return true;
+  }
+
+  function place() {
+    for (var r = 0; r < TET.piece.shape.length; r++)
+      for (var c = 0; c < TET.piece.shape[r].length; c++)
+        if (TET.piece.shape[r][c] && TET.py + r >= 0)
+          TET.board[TET.py + r][TET.px + c] = TET.piece.color;
+    clearLines();
+    spawn();
+  }
+
+  function clearLines() {
+    var cleared = 0;
+    for (var r = ROWS - 1; r >= 0; r--) {
+      if (TET.board[r].every(function(c){ return c !== 0; })) {
+        TET.board.splice(r, 1);
+        TET.board.unshift(new Array(COLS).fill(0));
+        cleared++; r++;
+      }
+    }
+    if (cleared) {
+      TET.score += [0,100,300,500,800][cleared] * TET.level;
+      TET.lines += cleared;
+      TET.level  = Math.floor(TET.lines / 10) + 1;
+      document.getElementById('tetris-score').textContent = TET.score;
+      document.getElementById('tetris-level').textContent = TET.level;
+      document.getElementById('tetris-lines').textContent = TET.lines;
+      restartTetrisLoop();
+    }
+  }
+
+  function rotate(shape) {
+    var rows = shape.length, cols = shape[0].length;
+    var res = Array.from({length: cols}, function(){ return new Array(rows).fill(0); });
+    for (var r = 0; r < rows; r++)
+      for (var c = 0; c < cols; c++)
+        res[c][rows - 1 - r] = shape[r][c];
+    return res;
+  }
+
+  function tick() {
+    if (!TET.alive) return;
+    if (canPlace(TET.piece.shape, TET.px, TET.py + 1)) TET.py++;
+    else place();
+    draw();
+  }
+
+  function restartTetrisLoop() {
+    clearInterval(TET.loop);
+    TET.loop = setInterval(tick, Math.max(80, 500 - (TET.level - 1) * 40));
+  }
+
+  function drawCell(context, x, y, color, size) {
+    context.fillStyle = color;
+    context.fillRect(x*size+1, y*size+1, size-2, size-2);
+    context.fillStyle = 'rgba(255,255,255,0.18)';
+    context.fillRect(x*size+1, y*size+1, size-2, 3);
+    context.fillRect(x*size+1, y*size+1, 3, size-2);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0010';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#1a0030'; ctx.lineWidth = 0.5;
+    for (var x = 0; x < COLS; x++) { ctx.beginPath(); ctx.moveTo(x*CELL,0); ctx.lineTo(x*CELL,canvas.height); ctx.stroke(); }
+    for (var y = 0; y < ROWS; y++) { ctx.beginPath(); ctx.moveTo(0,y*CELL); ctx.lineTo(canvas.width,y*CELL); ctx.stroke(); }
+
+    for (var r = 0; r < ROWS; r++)
+      for (var c = 0; c < COLS; c++)
+        if (TET.board[r][c]) drawCell(ctx, c, r, TET.board[r][c], CELL);
+
+    if (TET.piece) {
+      // Ghost
+      var gy = TET.py;
+      while (canPlace(TET.piece.shape, TET.px, gy + 1)) gy++;
+      if (gy !== TET.py) {
+        ctx.globalAlpha = 0.2;
+        for (var gr = 0; gr < TET.piece.shape.length; gr++)
+          for (var gc = 0; gc < TET.piece.shape[gr].length; gc++)
+            if (TET.piece.shape[gr][gc]) drawCell(ctx, TET.px+gc, gy+gr, TET.piece.color, CELL);
+        ctx.globalAlpha = 1;
+      }
+      for (var pr = 0; pr < TET.piece.shape.length; pr++)
+        for (var pc = 0; pc < TET.piece.shape[pr].length; pc++)
+          if (TET.piece.shape[pr][pc]) drawCell(ctx, TET.px+pc, TET.py+pr, TET.piece.color, CELL);
+    }
+  }
+
+  function drawNext() {
+    nctx.fillStyle = '#050008';
+    nctx.fillRect(0, 0, ncanvas.width, ncanvas.height);
+    if (!TET.next) return;
+    var ns = 12, sh = TET.next.shape;
+    var ox = Math.floor((ncanvas.width/ns - sh[0].length) / 2);
+    var oy = Math.floor((ncanvas.height/ns - sh.length) / 2);
+    for (var r = 0; r < sh.length; r++)
+      for (var c = 0; c < sh[r].length; c++)
+        if (sh[r][c]) {
+          nctx.fillStyle = TET.next.color;
+          nctx.fillRect((ox+c)*ns+1, (oy+r)*ns+1, ns-2, ns-2);
+        }
+  }
+
+  function gameOverTetris() {
+    TET.alive = false;
+    clearInterval(TET.loop);
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ff00ff';
+    ctx.font = 'bold 14px "Courier New"';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2 - 12);
+    ctx.font = '10px "Courier New"';
+    ctx.fillStyle = '#aaa';
+    ctx.fillText('SCORE: ' + TET.score, canvas.width/2, canvas.height/2 + 8);
+    ctx.fillStyle = '#ff00ff';
+    ctx.fillText('ENTER to restart', canvas.width/2, canvas.height/2 + 26);
+  }
+
+  TET.onKey = function(e) {
+    if (!TET || !TET.alive) {
+      if (e.key === 'Enter') initTetris();
+      return;
+    }
+    var k = e.key;
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].indexOf(k) !== -1) e.preventDefault();
+    if (k === 'ArrowLeft'  || k === 'a' || k === 'A') { if (canPlace(TET.piece.shape, TET.px-1, TET.py)) TET.px--; }
+    if (k === 'ArrowRight' || k === 'd' || k === 'D') { if (canPlace(TET.piece.shape, TET.px+1, TET.py)) TET.px++; }
+    if (k === 'ArrowDown'  || k === 's' || k === 'S') { if (canPlace(TET.piece.shape, TET.px, TET.py+1)) TET.py++; }
+    if (k === 'ArrowUp'    || k === 'w' || k === 'W') {
+      var rot = rotate(TET.piece.shape);
+      if      (canPlace(rot, TET.px,   TET.py)) TET.piece.shape = rot;
+      else if (canPlace(rot, TET.px-1, TET.py)) { TET.piece.shape = rot; TET.px--; }
+      else if (canPlace(rot, TET.px+1, TET.py)) { TET.piece.shape = rot; TET.px++; }
+    }
+    if (k === ' ') {
+      while (canPlace(TET.piece.shape, TET.px, TET.py+1)) TET.py++;
+      place();
+    }
+    draw();
+  };
+  document.addEventListener('keydown', TET.onKey);
+
+  spawn(); draw(); restartTetrisLoop();
+}
+// ══════════════════════════════════════════════
+//  END TETRIS
+// ══════════════════════════════════════════════
+
+// ══════════════════════════════════════════════
+//  MINESWEEPER  —  triggered by: aike
+// ══════════════════════════════════════════════
+function cmdMinesweeper() {
+  cmdPrint('<span style="color:#ffcc00;font-weight:bold">AIKE.EXE</span> <span class="cmd-dim">— launching minesweeper...</span>');
+  cmdBlank();
+  setTimeout(openMinesweeper, 300);
+}
+
+function openMinesweeper() {
+  var COLS = 16, ROWS = 16, CELL = 18, MINES_COUNT = 40;
+  if (!document.getElementById('win-minesweeper')) {
+    var win = document.createElement('div');
+    win.className = 'win-window';
+    win.id = 'win-minesweeper';
+    win.style.cssText = 'width:' + (COLS*CELL + 20) + 'px;top:80px;left:180px;';
+    win.innerHTML =
+      '<div class="win-titlebar" onmousedown="startDrag(event,\'win-minesweeper\')">' +
+        '<div class="win-title"><span class="win-title-icon">💣</span> AIKE.EXE — MINESWEEPER</div>' +
+        '<div class="win-controls">' +
+          '<button class="win-btn" onclick="minimizeWindow(\'win-minesweeper\')">_</button>' +
+          '<button class="win-btn">□</button>' +
+          '<button class="win-btn win-btn-close" onclick="closeMinesweeper()">✕</button>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:#111;padding:6px 8px;">' +
+        '<div style="background:#1a1a1a;border:1px solid #ffcc00;padding:4px 8px;display:flex;justify-content:space-between;align-items:center;font-family:\'Courier New\',monospace;font-size:11px;color:#ffcc00;margin-bottom:6px;">' +
+          '<span>💣 <span id="ms-mines">' + MINES_COUNT + '</span></span>' +
+          '<span id="ms-face" style="cursor:pointer;font-size:15px;user-select:none" title="New game">🙂</span>' +
+          '<span>⏱ <span id="ms-time">0</span>s</span>' +
+        '</div>' +
+        '<canvas id="ms-canvas" width="' + (COLS*CELL) + '" height="' + (ROWS*CELL) + '" style="display:block;background:#111;cursor:pointer;"></canvas>' +
+        '<div style="font-family:\'Courier New\',monospace;font-size:9px;color:#444;text-align:right;padding-top:4px;">LEFT: reveal &nbsp; RIGHT: flag &nbsp; R: restart</div>' +
+      '</div>';
+    document.getElementById('desktop').appendChild(win);
+  }
+  openWindow('win-minesweeper');
+  setTimeout(initMinesweeper, 100);
+}
+
+function closeMinesweeper() {
+  stopMinesweeper();
+  closeWindow('win-minesweeper');
+}
+
+var MS = null;
+
+function stopMinesweeper() {
+  if (MS) {
+    clearInterval(MS.timerInterval);
+    var c = document.getElementById('ms-canvas');
+    if (c) {
+      c.removeEventListener('click', MS.onLeft);
+      c.removeEventListener('contextmenu', MS.onRight);
+    }
+    document.removeEventListener('keydown', MS.onKey);
+    var face = document.getElementById('ms-face');
+    if (face) face.removeEventListener('click', MS.onReset);
+  }
+  MS = null;
+}
+
+function initMinesweeper() {
+  stopMinesweeper();
+  var canvas = document.getElementById('ms-canvas');
+  if (!canvas) return;
+
+  var COLS = 16, ROWS = 16, CELL = 18, MINES_COUNT = 40;
+  var ctx = canvas.getContext('2d');
+  var NUM_COLORS = ['','#4488ff','#228822','#cc2222','#000088','#882222','#228888','#222222','#666666'];
+
+  MS = {
+    board:    Array.from({length:ROWS}, function(){ return new Array(COLS).fill(0); }),
+    revealed: Array.from({length:ROWS}, function(){ return new Array(COLS).fill(false); }),
+    flagged:  Array.from({length:ROWS}, function(){ return new Array(COLS).fill(false); }),
+    remaining: ROWS * COLS - MINES_COUNT,
+    started: false, over: false, won: false,
+    elapsed: 0, timerInterval: null,
+    onLeft: null, onRight: null, onKey: null, onReset: null
+  };
+
+  function initBoard(safeR, safeC) {
+    MS.board    = Array.from({length:ROWS}, function(){ return new Array(COLS).fill(0); });
+    MS.revealed = Array.from({length:ROWS}, function(){ return new Array(COLS).fill(false); });
+    MS.flagged  = Array.from({length:ROWS}, function(){ return new Array(COLS).fill(false); });
+    MS.remaining = ROWS * COLS - MINES_COUNT;
+    var placed = 0;
+    while (placed < MINES_COUNT) {
+      var r = Math.floor(Math.random() * ROWS);
+      var c = Math.floor(Math.random() * COLS);
+      if (MS.board[r][c] === -1) continue;
+      if (Math.abs(r - safeR) <= 1 && Math.abs(c - safeC) <= 1) continue;
+      MS.board[r][c] = -1; placed++;
+    }
+    for (var rr = 0; rr < ROWS; rr++)
+      for (var cc = 0; cc < COLS; cc++) {
+        if (MS.board[rr][cc] === -1) continue;
+        var n = 0;
+        for (var dr = -1; dr <= 1; dr++)
+          for (var dc = -1; dc <= 1; dc++) {
+            var nr = rr+dr, nc = cc+dc;
+            if (nr>=0 && nr<ROWS && nc>=0 && nc<COLS && MS.board[nr][nc]===-1) n++;
+          }
+        MS.board[rr][cc] = n;
+      }
+  }
+
+  function reveal(r, c) {
+    if (r<0||r>=ROWS||c<0||c>=COLS||MS.revealed[r][c]||MS.flagged[r][c]) return;
+    MS.revealed[r][c] = true;
+    MS.remaining--;
+    if (MS.board[r][c] === 0)
+      for (var dr = -1; dr <= 1; dr++)
+        for (var dc = -1; dc <= 1; dc++) reveal(r+dr, c+dc);
+  }
+
+  function checkWin() {
+    if (MS.remaining === 0) {
+      MS.won = true; MS.over = true;
+      clearInterval(MS.timerInterval);
+      var ff = document.getElementById('ms-face'); if (ff) ff.textContent = '😎';
+      draw();
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var x = c*CELL, y = r*CELL;
+        if (MS.revealed[r][c]) {
+          ctx.fillStyle = (r+c)%2===0 ? '#c8b87e' : '#b5a068';
+          ctx.fillRect(x, y, CELL, CELL);
+          var val = MS.board[r][c];
+          if (val === -1) {
+            ctx.fillStyle = MS.over && !MS.won ? '#ff3333' : '#c8b87e';
+            ctx.fillRect(x, y, CELL, CELL);
+            ctx.font = (CELL-3)+'px serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText('💣', x+CELL/2, y+CELL/2);
+          } else if (val > 0) {
+            ctx.fillStyle = NUM_COLORS[val];
+            ctx.font = 'bold '+(CELL-5)+'px "Courier New"';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(val, x+CELL/2, y+CELL/2+1);
+          }
+        } else {
+          ctx.fillStyle = (r+c)%2===0 ? '#2a2a2a' : '#222';
+          ctx.fillRect(x, y, CELL, CELL);
+          ctx.fillStyle = '#444'; ctx.fillRect(x, y, CELL, 1); ctx.fillRect(x, y, 1, CELL);
+          ctx.fillStyle = '#111'; ctx.fillRect(x+CELL-1, y, 1, CELL); ctx.fillRect(x, y+CELL-1, CELL, 1);
+          if (MS.flagged[r][c]) {
+            ctx.font = (CELL-4)+'px serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText('🚩', x+CELL/2, y+CELL/2);
+          }
+          if (MS.over && !MS.won && MS.board[r][c]===-1 && !MS.flagged[r][c]) {
+            ctx.font = (CELL-4)+'px serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText('💣', x+CELL/2, y+CELL/2);
+          }
+        }
+      }
+    }
+    ctx.strokeStyle = 'rgba(255,200,0,0.07)'; ctx.lineWidth = 0.5;
+    for (var cx2 = 0; cx2 <= COLS; cx2++) { ctx.beginPath(); ctx.moveTo(cx2*CELL,0); ctx.lineTo(cx2*CELL,canvas.height); ctx.stroke(); }
+    for (var cy2 = 0; cy2 <= ROWS; cy2++) { ctx.beginPath(); ctx.moveTo(0,cy2*CELL); ctx.lineTo(canvas.width,cy2*CELL); ctx.stroke(); }
+  }
+
+  function getCell(e) {
+    var rect = canvas.getBoundingClientRect();
+    return { c: Math.floor((e.clientX-rect.left)/CELL), r: Math.floor((e.clientY-rect.top)/CELL) };
+  }
+
+  MS.onLeft = function(e) {
+    if (MS.over) return;
+    var pos = getCell(e); var r = pos.r, c = pos.c;
+    if (r<0||r>=ROWS||c<0||c>=COLS||MS.flagged[r][c]||MS.revealed[r][c]) return;
+    if (!MS.started) {
+      MS.started = true;
+      initBoard(r, c);
+      MS.timerInterval = setInterval(function() {
+        MS.elapsed++;
+        var el = document.getElementById('ms-time'); if (el) el.textContent = Math.min(MS.elapsed, 999);
+      }, 1000);
+    }
+    if (MS.board[r][c] === -1) {
+      MS.revealed[r][c] = true; MS.over = true;
+      clearInterval(MS.timerInterval);
+      var ff = document.getElementById('ms-face'); if (ff) ff.textContent = '😵';
+      for (var mr = 0; mr < ROWS; mr++)
+        for (var mc = 0; mc < COLS; mc++)
+          if (MS.board[mr][mc]===-1) MS.revealed[mr][mc] = true;
+      draw(); return;
+    }
+    reveal(r, c); draw(); checkWin();
+  };
+
+  MS.onRight = function(e) {
+    e.preventDefault();
+    if (MS.over) return;
+    var pos = getCell(e); var r = pos.r, c = pos.c;
+    if (r<0||r>=ROWS||c<0||c>=COLS||MS.revealed[r][c]) return;
+    MS.flagged[r][c] = !MS.flagged[r][c];
+    var flagCount = 0;
+    for (var fr = 0; fr < ROWS; fr++) for (var fc = 0; fc < COLS; fc++) if (MS.flagged[fr][fc]) flagCount++;
+    var el = document.getElementById('ms-mines'); if (el) el.textContent = MINES_COUNT - flagCount;
+    draw();
+  };
+
+  MS.onReset = function() { initMinesweeper(); };
+
+  MS.onKey = function(e) {
+    if (e.key === 'r' || e.key === 'R') initMinesweeper();
+  };
+
+  canvas.addEventListener('click', MS.onLeft);
+  canvas.addEventListener('contextmenu', MS.onRight);
+  document.addEventListener('keydown', MS.onKey);
+  var face = document.getElementById('ms-face');
+  if (face) face.addEventListener('click', MS.onReset);
+
+  draw();
+}
+// ══════════════════════════════════════════════
+//  END MINESWEEPER
 // ══════════════════════════════════════════════
 
 function cmdEasterEgg() {
